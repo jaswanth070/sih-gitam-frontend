@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///D:/Jaswanth/Downloads/smart-india-hackathon-app/app/requests/%5Bid%5D/layout.tsx"],"sourcesContent":["import type React from \"react\"\r\nimport type { Metadata } from \"next\"\r\n\r\nexport const metadata: Metadata = {\r\n  title: \"Request Details - SIH Portal\",\r\n  description: \"View and manage request details\",\r\n}\r\n\r\nexport default function RequestDetailsLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode\r\n}) {\r\n  return children\r\n}\r\n"],"names":[],"mappings":";;;;;;AAGO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;AACf;AAEe,SAAS,qBAAqB,EAC3C,QAAQ,EAGT;IACC,OAAO;AACT"}}]
+}
