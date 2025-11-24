@@ -7,23 +7,10 @@
 
 import { useEffect, useRef, useCallback } from "react"
 import { authService } from "@/lib/auth-service"
+import { buildRequestsWsUrl } from "@/lib/ws-url"
 
 // Derive backend origin for WebSocket from NEXT_PUBLIC_REQUESTS_SERVICE_URL if provided.
 // Fallback to current window.location.origin (same host/port as frontend) if not set.
-function getBackendWsOrigin(): string | null {
-  const envBase = process.env.NEXT_PUBLIC_REQUESTS_SERVICE_URL
-  if (envBase) {
-    try {
-      const u = new URL(envBase)
-      return u.origin // strip path (/api)
-    } catch (_) {
-      // ignore malformed; fallback below
-    }
-  }
-  // Explicit backend fallback instead of frontend origin
-  return 'http://127.0.0.1:8001'
-}
-
 export interface WSMessage {
   event: "request_created" | "request_updated" | "state_transition"
   request?: any
@@ -48,14 +35,7 @@ export function useRequestsWS(onEvent: (message: WSMessage) => void) {
     const token = authService.getAccessToken()
     if (!token) return null
 
-    const origin = getBackendWsOrigin()
-    if (!origin) return null
-
-    const secure = origin.startsWith("https://")
-    const wsProtocol = secure ? "wss" : "ws"
-    // Convert origin (http[s]://host[:port]) to ws(s)://host[:port]
-    const hostPort = origin.replace(/^https?:\/\//, "")
-    return `${wsProtocol}://${hostPort}/ws/requests/?token=${token}`
+    return buildRequestsWsUrl(token)
   }, [])
 
   const connect = useCallback(() => {

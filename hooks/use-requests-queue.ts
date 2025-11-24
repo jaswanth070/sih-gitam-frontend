@@ -11,6 +11,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { requestsService, type RequestData, type QueueSnapshotParams } from '@/lib/requests-service'
 import { authService } from '@/lib/auth-service'
+import { buildRequestsWsUrl } from '@/lib/ws-url'
 
 export interface QueueEventMessage {
   event: 'request_created' | 'request_updated' | 'state_transition'
@@ -165,20 +166,8 @@ export function useRequestsQueue(options: UseRequestsQueueOptions = {}): Request
   const connectWs = useCallback(() => {
     const jwt = token || authService.getAccessToken()
     if (!jwt) return
-    // Derive backend origin from env NEXT_PUBLIC_REQUESTS_SERVICE_URL if provided
-    let backendOrigin = ''
-    const envBase = process.env.NEXT_PUBLIC_REQUESTS_SERVICE_URL
-    if (envBase) {
-      try { backendOrigin = new URL(envBase).origin } catch {}
-    }
-    // Fallback: explicit backend port 8001 if env not set
-    if (!backendOrigin) {
-      backendOrigin = 'http://127.0.0.1:8001'
-    }
-    const secure = backendOrigin.startsWith('https://')
-    const proto = secure ? 'wss' : 'ws'
-    const host = backendOrigin.replace(/^https?:\/\//, '')
-    const url = `${proto}://${host}/ws/requests/?token=${encodeURIComponent(jwt)}`
+    const url = buildRequestsWsUrl(jwt)
+    if (!url) return
     try {
       wsRef.current = new WebSocket(url)
       wsRef.current.onopen = () => {

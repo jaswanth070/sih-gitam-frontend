@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/confirm-team/page": "/confirm-team",
+  "/dashboard/page": "/dashboard",
+  "/help/page": "/help",
+  "/login/page": "/login",
+  "/page": "/",
+  "/poc/teams/[id]/page": "/poc/teams/[id]",
+  "/queue/page": "/queue",
+  "/requests/[id]/page": "/requests/[id]",
+  "/requests/new/page": "/requests/new",
+  "/requests/page": "/requests"
+}

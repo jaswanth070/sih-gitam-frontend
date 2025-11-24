@@ -1,0 +1,3 @@
+- [ ] Investigate Docker build copy error
+- [ ] Update Dockerfile to copy source files correctly
+- [ ] Provide guidance on rebuilding image
