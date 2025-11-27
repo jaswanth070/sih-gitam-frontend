@@ -1,18 +1,32 @@
 const DEFAULT_REQUESTS_SERVICE_URL = "http://127.0.0.1:8001"
+const FALLBACK_REQUESTS_BASE_URL = `${DEFAULT_REQUESTS_SERVICE_URL}/api`
 
 /**
  * Build the requests service REST base URL, preferring env and falling back to localhost.
  */
 export function buildRequestsBaseUrl(): string {
   const envUrl = process.env.NEXT_PUBLIC_REQUESTS_SERVICE_URL
-  if (!envUrl) return `${DEFAULT_REQUESTS_SERVICE_URL}/api`
+  if (!envUrl) return FALLBACK_REQUESTS_BASE_URL
+
+  if (envUrl.startsWith("/")) {
+    const trimmed = envUrl.replace(/\/+$/, "")
+    if (!trimmed) return "/api"
+    return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`
+  }
 
   try {
-    // Ensure trailing slash removed for consistency
-    return new URL(envUrl).toString().replace(/\/$/, "")
+    const url = new URL(envUrl)
+    let pathname = url.pathname.replace(/\/+$/, "")
+    if (!pathname) {
+      pathname = "/api"
+    } else if (!pathname.endsWith("/api")) {
+      pathname = `${pathname}/api`
+    }
+    url.pathname = pathname
+    return `${url.origin}${url.pathname}`
   } catch (err) {
     console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using default", err)
-    return `${DEFAULT_REQUESTS_SERVICE_URL}/api`
+    return FALLBACK_REQUESTS_BASE_URL
   }
 }
 

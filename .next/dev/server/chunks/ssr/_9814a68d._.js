@@ -546,11 +546,38 @@ function FeedbackModal({ open, type, title, message, onClose, autoClose = true, 
  * Handles all authentication-related API calls with secure token management
  */ __turbopack_context__.s([
     "authService",
-    ()=>authService
+    ()=>authService,
+    "buildAuthBaseUrl",
+    ()=>buildAuthBaseUrl
 ]);
 const ACCESS_TOKEN_KEY = "sih_access_token";
 const REFRESH_TOKEN_KEY = "sih_refresh_token";
-const BASE_URL = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/api") || "http://127.0.0.1:8000/api";
+const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api";
+function appendApiSegment(url) {
+    let pathname = url.pathname.replace(/\/+$/, "");
+    if (!pathname) {
+        pathname = "/auth/api";
+    } else if (pathname.endsWith("/api")) {
+    // no-op, already pointing to /api
+    } else {
+        pathname = `${pathname}/api`;
+    }
+    url.pathname = pathname;
+}
+function buildAuthBaseUrl() {
+    const raw = ("TURBOPACK compile-time value", "http://34.47.236.182/auth/api/");
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    try {
+        const url = new URL(raw);
+        appendApiSegment(url);
+        return `${url.origin}${url.pathname}`;
+    } catch (err) {
+        console.warn("[auth-service] invalid NEXT_PUBLIC_AUTH_SERVICE_URL, using default", err);
+        return FALLBACK_AUTH_BASE_URL;
+    }
+}
+const BASE_URL = buildAuthBaseUrl();
 class AuthService {
     accessTokenKey = ACCESS_TOKEN_KEY;
     refreshTokenKey = REFRESH_TOKEN_KEY;

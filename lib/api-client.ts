@@ -3,9 +3,9 @@
  * Used for POC document uploads and other API calls
  */
 
-import { authService } from "./auth-service"
+import { authService, buildAuthBaseUrl } from "./auth-service"
 
-const BASE_URL = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL || "http://127.0.0.1:8000/api"
+const BASE_URL = buildAuthBaseUrl()
 const ACCESS_TOKEN_KEY = "sih_access_token"
 
 export async function apiCall<T>(endpoint: string, options: RequestInit = {}): Promise<T> {

@@ -7,25 +7,40 @@
  * Handles all authentication-related API calls with secure token management
  */ __turbopack_context__.s([
     "authService",
-    ()=>authService
+    ()=>authService,
+    "buildAuthBaseUrl",
+    ()=>buildAuthBaseUrl
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/compiled/buffer/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 const ACCESS_TOKEN_KEY = "sih_access_token";
 const REFRESH_TOKEN_KEY = "sih_refresh_token";
-function normaliseAuthBaseUrl() {
+const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api";
+function appendApiSegment(url) {
+    let pathname = url.pathname.replace(/\/+$/, "");
+    if (!pathname) {
+        pathname = "/auth/api";
+    } else if (pathname.endsWith("/api")) {
+    // no-op, already pointing to /api
+    } else {
+        pathname = `${pathname}/api`;
+    }
+    url.pathname = pathname;
+}
+function buildAuthBaseUrl() {
     const raw = ("TURBOPACK compile-time value", "http://34.47.236.182/auth/api/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     try {
         const url = new URL(raw);
-        return url.toString().replace(/\/$/, "");
+        appendApiSegment(url);
+        return `${url.origin}${url.pathname}`;
     } catch (err) {
         console.warn("[auth-service] invalid NEXT_PUBLIC_AUTH_SERVICE_URL, using default", err);
-        return "http://127.0.0.1:8000/auth/api";
+        return FALLBACK_AUTH_BASE_URL;
     }
 }
-const BASE_URL = normaliseAuthBaseUrl();
+const BASE_URL = buildAuthBaseUrl();
 class AuthService {
     accessTokenKey = ACCESS_TOKEN_KEY;
     refreshTokenKey = REFRESH_TOKEN_KEY;
@@ -234,6 +249,72 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
+"[project]/lib/ws-url.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "buildRequestsBaseUrl",
+    ()=>buildRequestsBaseUrl,
+    "buildRequestsWsUrl",
+    ()=>buildRequestsWsUrl
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
+const DEFAULT_REQUESTS_SERVICE_URL = "http://127.0.0.1:8001";
+const FALLBACK_REQUESTS_BASE_URL = `${DEFAULT_REQUESTS_SERVICE_URL}/api`;
+function buildRequestsBaseUrl() {
+    const envUrl = ("TURBOPACK compile-time value", "http://34.47.236.182/api");
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    if (envUrl.startsWith("/")) {
+        const trimmed = envUrl.replace(/\/+$/, "");
+        if (!trimmed) return "/api";
+        return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+    }
+    try {
+        const url = new URL(envUrl);
+        let pathname = url.pathname.replace(/\/+$/, "");
+        if (!pathname) {
+            pathname = "/api";
+        } else if (!pathname.endsWith("/api")) {
+            pathname = `${pathname}/api`;
+        }
+        url.pathname = pathname;
+        return `${url.origin}${url.pathname}`;
+    } catch (err) {
+        console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using default", err);
+        return FALLBACK_REQUESTS_BASE_URL;
+    }
+}
+function buildRequestsWsUrl(token) {
+    const explicitWs = ("TURBOPACK compile-time value", "ws://34.47.236.182/ws/requests");
+    if ("TURBOPACK compile-time truthy", 1) {
+        try {
+            const wsUrl = new URL(explicitWs);
+            wsUrl.searchParams.set("token", token);
+            return wsUrl.toString();
+        } catch (err) {
+            console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
+        }
+    }
+    const baseRestUrl = ("TURBOPACK compile-time value", "http://34.47.236.182/api");
+    let origin = "";
+    if ("TURBOPACK compile-time truthy", 1) {
+        try {
+            origin = new URL(baseRestUrl).origin;
+        } catch (err) {
+            console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, falling back", err);
+        }
+    }
+    if (!origin) origin = DEFAULT_REQUESTS_SERVICE_URL;
+    const secure = origin.startsWith("https://");
+    const protocol = secure ? "wss" : "ws";
+    const host = origin.replace(/^https?:\/\//, "");
+    return `${protocol}://${host}/ws/requests/?token=${encodeURIComponent(token)}`;
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
 "[project]/lib/requests-service.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
@@ -244,10 +325,11 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     "requestsService",
     ()=>requestsService
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/ws-url.ts [app-client] (ecmascript)");
 ;
-const BASE_URL = ("TURBOPACK compile-time value", "http://34.47.236.182/api") || "http://127.0.0.1:8001/api";
+;
+const BASE_URL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["buildRequestsBaseUrl"])();
 const ACCESS_TOKEN_KEY = "sih_access_token";
 async function apiCall(endpoint, options = {}) {
     const url = `${BASE_URL}${endpoint}`;
@@ -3181,4 +3263,4 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }),
 ]);
 
-//# sourceMappingURL=_ea80514e._.js.map
+//# sourceMappingURL=_000607a9._.js.map

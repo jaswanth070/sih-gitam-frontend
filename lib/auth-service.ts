@@ -5,7 +5,35 @@
 
 const ACCESS_TOKEN_KEY = "sih_access_token"
 const REFRESH_TOKEN_KEY = "sih_refresh_token"
-const BASE_URL = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL || "http://127.0.0.1:8000/api"
+const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api"
+
+function appendApiSegment(url: URL): void {
+  let pathname = url.pathname.replace(/\/+$/, "")
+  if (!pathname) {
+    pathname = "/auth/api"
+  } else if (pathname.endsWith("/api")) {
+    // no-op, already pointing to /api
+  } else {
+    pathname = `${pathname}/api`
+  }
+  url.pathname = pathname
+}
+
+export function buildAuthBaseUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL
+  if (!raw) return FALLBACK_AUTH_BASE_URL
+
+  try {
+    const url = new URL(raw)
+    appendApiSegment(url)
+    return `${url.origin}${url.pathname}`
+  } catch (err) {
+    console.warn("[auth-service] invalid NEXT_PUBLIC_AUTH_SERVICE_URL, using default", err)
+    return FALLBACK_AUTH_BASE_URL
+  }
+}
+
+const BASE_URL = buildAuthBaseUrl()
 
 export interface LoginRequest {
   email: string

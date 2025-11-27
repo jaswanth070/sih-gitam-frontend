@@ -4,8 +4,9 @@
  */
 
 import { authService } from "./auth-service"
+import { buildRequestsBaseUrl } from "./ws-url"
 
-const BASE_URL = process.env.NEXT_PUBLIC_REQUESTS_SERVICE_URL || "http://127.0.0.1:8001/api"
+const BASE_URL = buildRequestsBaseUrl()
 const ACCESS_TOKEN_KEY = "sih_access_token"
 
 export interface BOMItem {
