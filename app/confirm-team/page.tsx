@@ -52,30 +52,24 @@ export default function ConfirmTeamPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header with Logos */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <Image
-                src="/images/image.png"
-                alt="Smart India Hackathon"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
-              />
-              <Image
-                src="/images/gitam-logo-20-282-29.png"
-                alt="GITAM"
-                width={60}
-                height={40}
-                className="h-10 w-auto"
-              />
-            </div>
-            <h1 className="text-2xl font-bold" style={{ color: "#002449" }}>
-              Team Confirmation
-            </h1>
+      {/* Header with brand strip */}
+      <header className="bg-white border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="flex items-center gap-6">
+            <Image
+              src="/sih_banner.png"
+              alt="Smart India Hackathon banner"
+              width={320}
+              height={90}
+              className="h-20 w-auto"
+              priority
+            />
+            <div className="h-16 w-px bg-gray-300" aria-hidden="true" />
+            <Image src="/gitam_logo.png" alt="GITAM" width={240} height={90} className="h-16 w-auto" />
           </div>
+          <h1 className="text-3xl font-bold text-center md:text-right" style={{ color: "#002449" }}>
+            Team Confirmation
+          </h1>
         </div>
       </header>
 

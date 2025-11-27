@@ -7,11 +7,39 @@ module.exports = [
  * Handles all authentication-related API calls with secure token management
  */ __turbopack_context__.s([
     "authService",
-    ()=>authService
+    ()=>authService,
+    "buildAuthBaseUrl",
+    ()=>buildAuthBaseUrl
 ]);
 const ACCESS_TOKEN_KEY = "sih_access_token";
 const REFRESH_TOKEN_KEY = "sih_refresh_token";
-const BASE_URL = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL || "http://127.0.0.1:8000/api";
+const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api";
+function normalizeAuthPath(pathname) {
+    let normalized = pathname.replace(/\/+$/, "");
+    if (!normalized) return "/auth/api";
+    if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+    if (normalized.endsWith("/auth/api")) return normalized;
+    if (normalized.endsWith("/auth")) return `${normalized}/api`;
+    if (normalized.endsWith("/api")) return normalized;
+    return `${normalized}/auth/api`;
+}
+function buildAuthBaseUrl() {
+    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    if (raw.startsWith("/")) {
+        return normalizeAuthPath(raw);
+    }
+    try {
+        const url = new URL(raw);
+        url.pathname = normalizeAuthPath(url.pathname);
+        return `${url.origin}${url.pathname}`;
+    } catch (err) {
+        console.warn("[auth-service] invalid NEXT_PUBLIC_AUTH_SERVICE_URL, using default", err);
+        return FALLBACK_AUTH_BASE_URL;
+    }
+}
+const BASE_URL = buildAuthBaseUrl();
 class AuthService {
     accessTokenKey = ACCESS_TOKEN_KEY;
     refreshTokenKey = REFRESH_TOKEN_KEY;
@@ -283,61 +311,63 @@ function ConfirmTeamPage() {
         className: "min-h-screen bg-white",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-                className: "bg-white border-b border-gray-200 sticky top-0 z-40",
+                className: "bg-white border-b border-gray-200",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "max-w-6xl mx-auto px-4 py-4",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center justify-between gap-4",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center gap-4",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                        src: "/images/image.png",
-                                        alt: "Smart India Hackathon",
-                                        width: 120,
-                                        height: 40,
-                                        className: "h-10 w-auto"
-                                    }, void 0, false, {
-                                        fileName: "[project]/app/confirm-team/page.tsx",
-                                        lineNumber: 60,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                        src: "/images/gitam-logo-20-282-29.png",
-                                        alt: "GITAM",
-                                        width: 60,
-                                        height: 40,
-                                        className: "h-10 w-auto"
-                                    }, void 0, false, {
-                                        fileName: "[project]/app/confirm-team/page.tsx",
-                                        lineNumber: 67,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/app/confirm-team/page.tsx",
-                                lineNumber: 59,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                className: "text-2xl font-bold",
-                                style: {
-                                    color: "#002449"
-                                },
-                                children: "Team Confirmation"
-                            }, void 0, false, {
-                                fileName: "[project]/app/confirm-team/page.tsx",
-                                lineNumber: 75,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/app/confirm-team/page.tsx",
-                        lineNumber: 58,
-                        columnNumber: 11
-                    }, this)
-                }, void 0, false, {
+                    className: "max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-6",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                    src: "/sih_banner.png",
+                                    alt: "Smart India Hackathon banner",
+                                    width: 320,
+                                    height: 90,
+                                    className: "h-20 w-auto",
+                                    priority: true
+                                }, void 0, false, {
+                                    fileName: "[project]/app/confirm-team/page.tsx",
+                                    lineNumber: 59,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "h-16 w-px bg-gray-300",
+                                    "aria-hidden": "true"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/confirm-team/page.tsx",
+                                    lineNumber: 67,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                    src: "/gitam_logo.png",
+                                    alt: "GITAM",
+                                    width: 240,
+                                    height: 90,
+                                    className: "h-16 w-auto"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/confirm-team/page.tsx",
+                                    lineNumber: 68,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/confirm-team/page.tsx",
+                            lineNumber: 58,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                            className: "text-3xl font-bold text-center md:text-right",
+                            style: {
+                                color: "#002449"
+                            },
+                            children: "Team Confirmation"
+                        }, void 0, false, {
+                            fileName: "[project]/app/confirm-team/page.tsx",
+                            lineNumber: 70,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
                     fileName: "[project]/app/confirm-team/page.tsx",
                     lineNumber: 57,
                     columnNumber: 9
@@ -363,7 +393,7 @@ function ConfirmTeamPage() {
                                     children: "Confirm Team Details"
                                 }, void 0, false, {
                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                    lineNumber: 85,
+                                    lineNumber: 79,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -371,13 +401,13 @@ function ConfirmTeamPage() {
                                     children: "Please verify your team information before proceeding to the dashboard"
                                 }, void 0, false, {
                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 82,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/confirm-team/page.tsx",
-                            lineNumber: 84,
+                            lineNumber: 78,
                             columnNumber: 11
                         }, this),
                         error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -387,12 +417,12 @@ function ConfirmTeamPage() {
                                 children: error
                             }, void 0, false, {
                                 fileName: "[project]/app/confirm-team/page.tsx",
-                                lineNumber: 93,
+                                lineNumber: 87,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/confirm-team/page.tsx",
-                            lineNumber: 92,
+                            lineNumber: 86,
                             columnNumber: 13
                         }, this),
                         team && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -408,7 +438,7 @@ function ConfirmTeamPage() {
                                             children: "Team Information"
                                         }, void 0, false, {
                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                            lineNumber: 101,
+                                            lineNumber: 95,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -422,7 +452,7 @@ function ConfirmTeamPage() {
                                                             children: "Team Name"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 107,
+                                                            lineNumber: 101,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -430,13 +460,13 @@ function ConfirmTeamPage() {
                                                             children: team.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 108,
+                                                            lineNumber: 102,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                                    lineNumber: 106,
+                                                    lineNumber: 100,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -447,7 +477,7 @@ function ConfirmTeamPage() {
                                                             children: "Institution"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 112,
+                                                            lineNumber: 106,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -455,13 +485,13 @@ function ConfirmTeamPage() {
                                                             children: team.institution
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 113,
+                                                            lineNumber: 107,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                                    lineNumber: 111,
+                                                    lineNumber: 105,
                                                     columnNumber: 19
                                                 }, this),
                                                 team.problem_statement && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -472,7 +502,7 @@ function ConfirmTeamPage() {
                                                             children: "Problem Statement"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 118,
+                                                            lineNumber: 112,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -480,7 +510,7 @@ function ConfirmTeamPage() {
                                                             children: team.problem_statement.title
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 119,
+                                                            lineNumber: 113,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -494,13 +524,13 @@ function ConfirmTeamPage() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 120,
+                                                            lineNumber: 114,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                                    lineNumber: 117,
+                                                    lineNumber: 111,
                                                     columnNumber: 21
                                                 }, this),
                                                 team.faculty_mentor && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -511,7 +541,7 @@ function ConfirmTeamPage() {
                                                             children: "Faculty Mentor"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 128,
+                                                            lineNumber: 122,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -519,25 +549,25 @@ function ConfirmTeamPage() {
                                                             children: team.faculty_mentor.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 129,
+                                                            lineNumber: 123,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                                    lineNumber: 127,
+                                                    lineNumber: 121,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                            lineNumber: 105,
+                                            lineNumber: 99,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                    lineNumber: 100,
+                                    lineNumber: 94,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -555,7 +585,7 @@ function ConfirmTeamPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                            lineNumber: 137,
+                                            lineNumber: 131,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -568,7 +598,7 @@ function ConfirmTeamPage() {
                                                             children: member.user.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 147,
+                                                            lineNumber: 141,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -576,7 +606,7 @@ function ConfirmTeamPage() {
                                                             children: member.user.email
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 148,
+                                                            lineNumber: 142,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -587,24 +617,24 @@ function ConfirmTeamPage() {
                                                             children: member.role
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                                            lineNumber: 149,
+                                                            lineNumber: 143,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, idx, true, {
                                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                                    lineNumber: 143,
+                                                    lineNumber: 137,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/app/confirm-team/page.tsx",
-                                            lineNumber: 141,
+                                            lineNumber: 135,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                    lineNumber: 136,
+                                    lineNumber: 130,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -622,12 +652,12 @@ function ConfirmTeamPage() {
                                                     children: "Please review all information above carefully. Once confirmed, you will be redirected to your dashboard."
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                                    lineNumber: 161,
+                                                    lineNumber: 155,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/confirm-team/page.tsx",
-                                                lineNumber: 160,
+                                                lineNumber: 154,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -645,7 +675,7 @@ function ConfirmTeamPage() {
                                                         children: confirming ? "Confirming..." : "Confirm & Continue"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/confirm-team/page.tsx",
-                                                        lineNumber: 168,
+                                                        lineNumber: 162,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -654,24 +684,24 @@ function ConfirmTeamPage() {
                                                         children: "Cancel"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/confirm-team/page.tsx",
-                                                        lineNumber: 178,
+                                                        lineNumber: 172,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/confirm-team/page.tsx",
-                                                lineNumber: 167,
+                                                lineNumber: 161,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/confirm-team/page.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 153,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/confirm-team/page.tsx",
-                                    lineNumber: 158,
+                                    lineNumber: 152,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -679,12 +709,12 @@ function ConfirmTeamPage() {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/confirm-team/page.tsx",
-                    lineNumber: 83,
+                    lineNumber: 77,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/confirm-team/page.tsx",
-                lineNumber: 82,
+                lineNumber: 76,
                 columnNumber: 7
             }, this)
         ]

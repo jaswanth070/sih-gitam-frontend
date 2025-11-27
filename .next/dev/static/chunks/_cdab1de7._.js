@@ -167,13 +167,41 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
  * Handles all authentication-related API calls with secure token management
  */ __turbopack_context__.s([
     "authService",
-    ()=>authService
+    ()=>authService,
+    "buildAuthBaseUrl",
+    ()=>buildAuthBaseUrl
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/compiled/buffer/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 const ACCESS_TOKEN_KEY = "sih_access_token";
 const REFRESH_TOKEN_KEY = "sih_refresh_token";
-const BASE_URL = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/api") || "http://127.0.0.1:8000/api";
+const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api";
+function normalizeAuthPath(pathname) {
+    let normalized = pathname.replace(/\/+$/, "");
+    if (!normalized) return "/auth/api";
+    if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+    if (normalized.endsWith("/auth/api")) return normalized;
+    if (normalized.endsWith("/auth")) return `${normalized}/api`;
+    if (normalized.endsWith("/api")) return normalized;
+    return `${normalized}/auth/api`;
+}
+function buildAuthBaseUrl() {
+    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    if (raw.startsWith("/")) {
+        return normalizeAuthPath(raw);
+    }
+    try {
+        const url = new URL(raw);
+        url.pathname = normalizeAuthPath(url.pathname);
+        return `${url.origin}${url.pathname}`;
+    } catch (err) {
+        console.warn("[auth-service] invalid NEXT_PUBLIC_AUTH_SERVICE_URL, using default", err);
+        return FALLBACK_AUTH_BASE_URL;
+    }
+}
+const BASE_URL = buildAuthBaseUrl();
 class AuthService {
     accessTokenKey = ACCESS_TOKEN_KEY;
     refreshTokenKey = REFRESH_TOKEN_KEY;

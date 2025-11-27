@@ -7,25 +7,27 @@ const ACCESS_TOKEN_KEY = "sih_access_token"
 const REFRESH_TOKEN_KEY = "sih_refresh_token"
 const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api"
 
-function appendApiSegment(url: URL): void {
-  let pathname = url.pathname.replace(/\/+$/, "")
-  if (!pathname) {
-    pathname = "/auth/api"
-  } else if (pathname.endsWith("/api")) {
-    // no-op, already pointing to /api
-  } else {
-    pathname = `${pathname}/api`
-  }
-  url.pathname = pathname
+function normalizeAuthPath(pathname: string): string {
+  let normalized = pathname.replace(/\/+$/, "")
+  if (!normalized) return "/auth/api"
+  if (!normalized.startsWith("/")) normalized = `/${normalized}`
+  if (normalized.endsWith("/auth/api")) return normalized
+  if (normalized.endsWith("/auth")) return `${normalized}/api`
+  if (normalized.endsWith("/api")) return normalized
+  return `${normalized}/auth/api`
 }
 
 export function buildAuthBaseUrl(): string {
   const raw = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL
   if (!raw) return FALLBACK_AUTH_BASE_URL
 
+  if (raw.startsWith("/")) {
+    return normalizeAuthPath(raw)
+  }
+
   try {
     const url = new URL(raw)
-    appendApiSegment(url)
+    url.pathname = normalizeAuthPath(url.pathname)
     return `${url.origin}${url.pathname}`
   } catch (err) {
     console.warn("[auth-service] invalid NEXT_PUBLIC_AUTH_SERVICE_URL, using default", err)

@@ -26,7 +26,7 @@ function normalizeAuthPath(pathname) {
     return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/");
+    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -250,38 +250,267 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
-"[project]/hooks/use-mobile.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"[project]/lib/ws-url.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
 __turbopack_context__.s([
-    "useIsMobile",
-    ()=>useIsMobile
+    "buildRequestsBaseUrl",
+    ()=>buildRequestsBaseUrl,
+    "buildRequestsWsUrl",
+    ()=>buildRequestsWsUrl
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
-var _s = __turbopack_context__.k.signature();
-;
-const MOBILE_BREAKPOINT = 768;
-function useIsMobile() {
-    _s();
-    const [isMobile, setIsMobile] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](undefined);
-    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"]({
-        "useIsMobile.useEffect": ()=>{
-            const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
-            const onChange = {
-                "useIsMobile.useEffect.onChange": ()=>{
-                    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-                }
-            }["useIsMobile.useEffect.onChange"];
-            mql.addEventListener('change', onChange);
-            setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-            return ({
-                "useIsMobile.useEffect": ()=>mql.removeEventListener('change', onChange)
-            })["useIsMobile.useEffect"];
-        }
-    }["useIsMobile.useEffect"], []);
-    return !!isMobile;
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
+const DEFAULT_REQUESTS_SERVICE_URL = "http://127.0.0.1:8001";
+const FALLBACK_REQUESTS_BASE_URL = `${DEFAULT_REQUESTS_SERVICE_URL}/requests/api`;
+function normalizeRequestsPath(pathname) {
+    let normalized = pathname.replace(/\/+$/, "");
+    if (!normalized) return "/requests/api";
+    if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+    if (normalized.endsWith("/requests/api")) return normalized;
+    if (normalized.endsWith("/requests")) return `${normalized}/api`;
+    if (normalized.endsWith("/api")) return normalized.replace(/\/api$/, "/requests/api");
+    return `${normalized}/requests/api`;
 }
-_s(useIsMobile, "D6B2cPXNCaIbeOx+abFr1uxLRM0=");
+function deriveRequestsPrefix(pathname) {
+    const fullPath = normalizeRequestsPath(pathname);
+    if (fullPath === "/requests/api") return "/requests";
+    return fullPath.replace(/\/api$/, "") || "/requests";
+}
+function buildRequestsBaseUrl() {
+    const envUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    if (envUrl.startsWith("/")) {
+        return normalizeRequestsPath(envUrl);
+    }
+    try {
+        const url = new URL(envUrl);
+        url.pathname = normalizeRequestsPath(url.pathname);
+        return `${url.origin}${url.pathname}`;
+    } catch (err) {
+        console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using default", err);
+        return FALLBACK_REQUESTS_BASE_URL;
+    }
+}
+function buildRequestsWsUrl(token) {
+    const explicitWs = ("TURBOPACK compile-time value", "wss://sih.jaswanthmadiya.tech/ws/requests");
+    if ("TURBOPACK compile-time truthy", 1) {
+        try {
+            const wsUrl = new URL(explicitWs);
+            wsUrl.searchParams.set("token", token);
+            return wsUrl.toString();
+        } catch (err) {
+            console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
+        }
+    }
+    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
+    let origin = "";
+    let prefixPath = "/requests";
+    if ("TURBOPACK compile-time truthy", 1) {
+        if (baseRestUrl.startsWith("http")) {
+            try {
+                const url = new URL(baseRestUrl);
+                origin = url.origin;
+                prefixPath = deriveRequestsPrefix(url.pathname);
+            } catch (err) {
+                console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using defaults", err);
+            }
+        } else {
+            prefixPath = deriveRequestsPrefix(baseRestUrl);
+        }
+    }
+    if (!origin) origin = DEFAULT_REQUESTS_SERVICE_URL;
+    const secure = origin.startsWith("https://");
+    const protocol = secure ? "wss" : "ws";
+    const host = origin.replace(/^https?:\/\//, "");
+    let wsPath = `${prefixPath}/ws/requests/`;
+    wsPath = wsPath.replace(/\/+/g, "/");
+    if (!wsPath.startsWith("/")) wsPath = `/${wsPath}`;
+    return `${protocol}://${host}${wsPath}?token=${encodeURIComponent(token)}`;
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/lib/requests-service.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Requests Service API Client
+ * Handles all communication with the Requests microservice
+ */ __turbopack_context__.s([
+    "requestsService",
+    ()=>requestsService
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/ws-url.ts [app-client] (ecmascript)");
+;
+;
+const BASE_URL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["buildRequestsBaseUrl"])();
+const ACCESS_TOKEN_KEY = "sih_access_token";
+async function apiCall(endpoint, options = {}) {
+    const url = `${BASE_URL}${endpoint}`;
+    const headers = new Headers(options.headers || {});
+    const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+    if (accessToken && !headers.has("Authorization")) {
+        headers.set("Authorization", `Bearer ${accessToken}`);
+    }
+    let response = await fetch(url, {
+        ...options,
+        headers
+    });
+    if (response.status === 401) {
+        const refreshToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getRefreshToken();
+        if (refreshToken) {
+            try {
+                const refreshResponse = await fetch(`${BASE_URL}/token/refresh/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        refresh: refreshToken
+                    })
+                });
+                if (refreshResponse.ok) {
+                    const { access } = await refreshResponse.json();
+                    localStorage.setItem(ACCESS_TOKEN_KEY, access);
+                    headers.set("Authorization", `Bearer ${access}`);
+                    response = await fetch(url, {
+                        ...options,
+                        headers
+                    });
+                }
+            } catch (error) {
+                __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].clearTokens();
+                window.location.href = "/login";
+            }
+        }
+    }
+    if (!response.ok) {
+        const error = await response.json().catch(()=>({}));
+        throw new Error(error.detail || error.message || `API Error: ${response.status}`);
+    }
+    return response.json();
+}
+const requestsService = {
+    // List requests with filters
+    async listRequests (params) {
+        const queryParams = new URLSearchParams();
+        if (params?.category) queryParams.append("category", params.category);
+        if (params?.status) queryParams.append("status", params.status);
+        if (params?.fab_type) queryParams.append("fab_type", params.fab_type);
+        if (params?.team_id) queryParams.append("team_id", params.team_id);
+        if (params?.search) queryParams.append("search", params.search);
+        if (params?.ordering) queryParams.append("ordering", params.ordering);
+        if (params?.page) queryParams.append("page", params.page.toString());
+        const endpoint = `/requests/?${queryParams.toString()}`;
+        return apiCall(endpoint);
+    },
+    // Get queue snapshot
+    async getQueueSnapshot (includePositions = true) {
+        const endpoint = `/requests/queue/?include_positions=${includePositions}`;
+        return apiCall(endpoint);
+    },
+    // Filtered queue snapshot (canonical ordering, optional positions, pagination)
+    async getFilteredQueueSnapshot (params) {
+        const qp = new URLSearchParams();
+        if (params.category) qp.append("category", params.category);
+        if (params.status) qp.append("status", params.status);
+        if (params.fab_type) qp.append("fab_type", params.fab_type);
+        if (params.include_positions !== undefined) qp.append("include_positions", params.include_positions ? "true" : "false");
+        if (params.page) qp.append("page", params.page.toString());
+        if (params.page_size) qp.append("page_size", params.page_size.toString());
+        const endpoint = `/requests/queue/?${qp.toString()}`;
+        return apiCall(endpoint);
+    },
+    // Get single request
+    async getRequest (id) {
+        return apiCall(`/requests/${id}/`);
+    },
+    // Create BOM request
+    async createBOMRequest (teamId, notes, items) {
+        return apiCall("/requests/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                team_id: teamId,
+                category: "BOM",
+                notes,
+                bom_items: items
+            })
+        });
+    },
+    // Create Additional request
+    async createAdditionalRequest (teamId, notes, items) {
+        return apiCall("/requests/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                team_id: teamId,
+                category: "ADDITIONAL",
+                notes,
+                additional_items: items
+            })
+        });
+    },
+    // Create Fabrication request with file
+    async createFabricationRequest (teamId, notes, fabDetails, file) {
+        const formData = new FormData();
+        formData.append("team_id", teamId);
+        formData.append("category", "FABRICATION");
+        formData.append("notes", notes);
+        formData.append("fabrication", JSON.stringify(fabDetails));
+        if (file) {
+            formData.append("file", file);
+        }
+        const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+        const headers = new Headers();
+        if (accessToken) {
+            headers.set("Authorization", `Bearer ${accessToken}`);
+        }
+        const response = await fetch(`${BASE_URL}/requests/`, {
+            method: "POST",
+            headers,
+            body: formData
+        });
+        if (!response.ok) {
+            const error = await response.json().catch(()=>({}));
+            throw new Error(error.detail || error.message || `API Error: ${response.status}`);
+        }
+        return response.json();
+    },
+    // Change request status
+    async changeRequestStatus (id, toStatus, note) {
+        return apiCall(`/requests/${id}/change_status/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                to_status: toStatus,
+                note: note || ""
+            })
+        });
+    },
+    // List all requests for a specific team via dedicated endpoint
+    async listTeamRequests (teamId, params) {
+        const qp = new URLSearchParams();
+        if (params?.category) qp.append("category", params.category);
+        if (params?.status) qp.append("status", params.status);
+        if (params?.fab_type) qp.append("fab_type", params.fab_type);
+        if (params?.search) qp.append("search", params.search);
+        if (params?.ordering) qp.append("ordering", params.ordering);
+        if (params?.page) qp.append("page", params.page.toString());
+        if (params?.page_size) qp.append("page_size", params.page_size.toString());
+        const endpoint = `/teams/${teamId}/requests/${qp.toString() ? `?${qp.toString()}` : ""}`;
+        return apiCall(endpoint);
+    }
+};
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -322,6 +551,384 @@ function formatRequestTitle(r) {
     }
     return `${r.category} #${r.id}`;
 }
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/hooks/use-requests-queue.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useRequestsQueue",
+    ()=>useRequestsQueue
+]);
+// Comprehensive Requests Queue hook implementing:
+// 1. Initial canonical snapshot fetch (REST) with optional positions
+// 2. WebSocket subscription with resilient exponential backoff
+// 3. Upsert + ordering (FCFS oldest-first) using Map for O(1) access
+// 4. State transition handling (remove if filtered out)
+// 5. Re-sync on reconnect & periodic interval
+// 6. Placeholder comments for future optimistic create support
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/requests-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/ws-url.ts [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+function useRequestsQueue(options = {}) {
+    _s();
+    const { category, status, fab_type, pageSize = 50, activeOnly = false, resyncIntervalMs = 300000, token, dropUnfilteredEvents = true } = options;
+    const [requests, setRequests] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [live, setLive] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [recentlyChangedIds, setRecentlyChangedIds] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const highlightTimeoutsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(new Map());
+    // Internal store (Map) for O(1) upsert
+    const storeRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])({
+        byId: new Map(),
+        list: []
+    });
+    const wsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const backoffRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(1000);
+    const reconnectingRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
+    const intervalRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const closedRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
+    const applyList = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[applyList]": (list)=>{
+            storeRef.current.byId.clear();
+            list.forEach({
+                "useRequestsQueue.useCallback[applyList]": (r)=>storeRef.current.byId.set(r.id, r)
+            }["useRequestsQueue.useCallback[applyList]"]);
+            storeRef.current.list = list;
+            setRequests(list);
+        }
+    }["useRequestsQueue.useCallback[applyList]"], []);
+    const computeOrdered = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[computeOrdered]": (arr)=>{
+            const ordered = [
+                ...arr
+            ].sort({
+                "useRequestsQueue.useCallback[computeOrdered].ordered": (a, b)=>new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+            }["useRequestsQueue.useCallback[computeOrdered].ordered"]);
+            return ordered.map({
+                "useRequestsQueue.useCallback[computeOrdered]": (r, idx)=>({
+                        ...r,
+                        position: r.position ?? idx + 1
+                    })
+            }["useRequestsQueue.useCallback[computeOrdered]"]);
+        }
+    }["useRequestsQueue.useCallback[computeOrdered]"], []);
+    const snapshotFetch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[snapshotFetch]": async ()=>{
+            try {
+                setLoading(true);
+                setError('');
+                const params = {
+                    include_positions: true,
+                    page: 1,
+                    page_size: pageSize,
+                    category,
+                    status,
+                    fab_type
+                };
+                const snap = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].getFilteredQueueSnapshot(params);
+                // Filter active-only if enabled
+                const filtered = activeOnly ? snap.results.filter({
+                    "useRequestsQueue.useCallback[snapshotFetch]": (r)=>![
+                            'Issued',
+                            'Cannot be Processed'
+                        ].includes(r.status)
+                }["useRequestsQueue.useCallback[snapshotFetch]"]) : snap.results;
+                applyList(computeOrdered(filtered));
+            } catch (err) {
+                console.error('[queue-hook] snapshot error', err);
+                setError(err instanceof Error ? err.message : 'Snapshot fetch failed');
+            } finally{
+                setLoading(false);
+            }
+        }
+    }["useRequestsQueue.useCallback[snapshotFetch]"], [
+        applyList,
+        computeOrdered,
+        category,
+        status,
+        fab_type,
+        pageSize,
+        activeOnly
+    ]);
+    const upsert = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[upsert]": (req)=>{
+            const store = storeRef.current;
+            store.byId.set(req.id, req);
+            const idx = store.list.findIndex({
+                "useRequestsQueue.useCallback[upsert].idx": (r)=>r.id === req.id
+            }["useRequestsQueue.useCallback[upsert].idx"]);
+            if (idx >= 0) {
+                store.list[idx] = req;
+            } else {
+                // Insert preserving created_at ascending
+                const pos = store.list.findIndex({
+                    "useRequestsQueue.useCallback[upsert].pos": (r)=>new Date(r.created_at) > new Date(req.created_at)
+                }["useRequestsQueue.useCallback[upsert].pos"]);
+                if (pos === -1) store.list.push(req);
+                else store.list.splice(pos, 0, req);
+            }
+            // Active-only filtering
+            let list = store.list;
+            if (activeOnly) list = list.filter({
+                "useRequestsQueue.useCallback[upsert]": (r)=>![
+                        'Issued',
+                        'Cannot be Processed'
+                    ].includes(r.status)
+            }["useRequestsQueue.useCallback[upsert]"]);
+            const ordered = computeOrdered(list);
+            setRequests(ordered);
+        }
+    }["useRequestsQueue.useCallback[upsert]"], [
+        activeOnly,
+        computeOrdered
+    ]);
+    const applyTransition = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[applyTransition]": (id, to)=>{
+            const store = storeRef.current;
+            const existing = store.byId.get(id);
+            if (!existing) return;
+            const updated = {
+                ...existing,
+                status: to
+            };
+            store.byId.set(id, updated);
+            const idx = store.list.findIndex({
+                "useRequestsQueue.useCallback[applyTransition].idx": (r)=>r.id === id
+            }["useRequestsQueue.useCallback[applyTransition].idx"]);
+            if (idx >= 0) store.list[idx] = updated;
+            // Remove if activeOnly and becomes terminal
+            let list = store.list;
+            if (activeOnly && [
+                'Issued',
+                'Cannot be Processed'
+            ].includes(updated.status)) {
+                list = list.filter({
+                    "useRequestsQueue.useCallback[applyTransition]": (r)=>r.id !== id
+                }["useRequestsQueue.useCallback[applyTransition]"]);
+                store.list = list;
+            }
+            const ordered = computeOrdered(list);
+            setRequests(ordered);
+        }
+    }["useRequestsQueue.useCallback[applyTransition]"], [
+        activeOnly,
+        computeOrdered
+    ]);
+    const registerHighlight = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[registerHighlight]": (id)=>{
+            setRecentlyChangedIds({
+                "useRequestsQueue.useCallback[registerHighlight]": (prev)=>prev.includes(id) ? prev : [
+                        ...prev,
+                        id
+                    ]
+            }["useRequestsQueue.useCallback[registerHighlight]"]);
+            // Clear existing timeout if re-triggered
+            const existing = highlightTimeoutsRef.current.get(id);
+            if (existing) clearTimeout(existing);
+            const to = setTimeout({
+                "useRequestsQueue.useCallback[registerHighlight].to": ()=>{
+                    setRecentlyChangedIds({
+                        "useRequestsQueue.useCallback[registerHighlight].to": (prev)=>prev.filter({
+                                "useRequestsQueue.useCallback[registerHighlight].to": (x)=>x !== id
+                            }["useRequestsQueue.useCallback[registerHighlight].to"])
+                    }["useRequestsQueue.useCallback[registerHighlight].to"]);
+                    highlightTimeoutsRef.current.delete(id);
+                }
+            }["useRequestsQueue.useCallback[registerHighlight].to"], 2000);
+            highlightTimeoutsRef.current.set(id, to);
+        }
+    }["useRequestsQueue.useCallback[registerHighlight]"], []);
+    const handleMessage = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[handleMessage]": (msg)=>{
+            if (msg.event === 'request_created' || msg.event === 'request_updated') {
+                if (msg.request) {
+                    // Optionally drop events that do not match active filters
+                    if (dropUnfilteredEvents) {
+                        if (category && msg.request.category !== category) return;
+                        if (status && msg.request.status !== status) return;
+                        if (fab_type && msg.request.fabrication?.fab_type !== fab_type) return;
+                    }
+                    upsert(msg.request);
+                    registerHighlight(msg.request.id);
+                }
+            } else if (msg.event === 'state_transition' && msg.request_id) {
+                applyTransition(msg.request_id, msg.to || '');
+                registerHighlight(msg.request_id);
+            }
+        }
+    }["useRequestsQueue.useCallback[handleMessage]"], [
+        upsert,
+        applyTransition,
+        category,
+        status,
+        fab_type,
+        dropUnfilteredEvents,
+        registerHighlight
+    ]);
+    const connectWs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[connectWs]": ()=>{
+            const jwt = token || __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+            if (!jwt) return;
+            const url = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["buildRequestsWsUrl"])(jwt);
+            if (!url) return;
+            try {
+                wsRef.current = new WebSocket(url);
+                wsRef.current.onopen = ({
+                    "useRequestsQueue.useCallback[connectWs]": ()=>{
+                        setLive(true);
+                        backoffRef.current = 1000;
+                        if (reconnectingRef.current) {
+                            snapshotFetch(); // resync after reconnect
+                            reconnectingRef.current = false;
+                        }
+                    }
+                })["useRequestsQueue.useCallback[connectWs]"];
+                wsRef.current.onmessage = ({
+                    "useRequestsQueue.useCallback[connectWs]": (ev)=>{
+                        try {
+                            const data = JSON.parse(ev.data);
+                            handleMessage(data);
+                        } catch (e) {
+                            console.error('[queue-hook] parse error', e);
+                        }
+                    }
+                })["useRequestsQueue.useCallback[connectWs]"];
+                wsRef.current.onclose = ({
+                    "useRequestsQueue.useCallback[connectWs]": ()=>{
+                        setLive(false);
+                        if (closedRef.current) return;
+                        reconnectingRef.current = true;
+                        const delay = backoffRef.current;
+                        setTimeout({
+                            "useRequestsQueue.useCallback[connectWs]": ()=>{
+                                backoffRef.current = Math.min(backoffRef.current * 1.5, 30000);
+                                connectWs();
+                            }
+                        }["useRequestsQueue.useCallback[connectWs]"], delay);
+                    }
+                })["useRequestsQueue.useCallback[connectWs]"];
+                wsRef.current.onerror = ({
+                    "useRequestsQueue.useCallback[connectWs]": (err)=>{
+                        console.error('[queue-hook] ws error', err);
+                    }
+                })["useRequestsQueue.useCallback[connectWs]"];
+            } catch (err) {
+                console.error('[queue-hook] ws connect error', err);
+            }
+        }
+    }["useRequestsQueue.useCallback[connectWs]"], [
+        handleMessage,
+        snapshotFetch
+    ]);
+    const refresh = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[refresh]": async ()=>{
+            await snapshotFetch();
+        }
+    }["useRequestsQueue.useCallback[refresh]"], [
+        snapshotFetch
+    ]);
+    const forceReconnect = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useRequestsQueue.useCallback[forceReconnect]": ()=>{
+            if (wsRef.current) {
+                wsRef.current.close();
+            } else {
+                connectWs();
+            }
+        }
+    }["useRequestsQueue.useCallback[forceReconnect]"], [
+        connectWs
+    ]);
+    // Init
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "useRequestsQueue.useEffect": ()=>{
+            closedRef.current = false;
+            snapshotFetch().then({
+                "useRequestsQueue.useEffect": ()=>connectWs()
+            }["useRequestsQueue.useEffect"]);
+            // periodic resync
+            intervalRef.current = setInterval({
+                "useRequestsQueue.useEffect": ()=>{
+                    if (!closedRef.current) snapshotFetch();
+                }
+            }["useRequestsQueue.useEffect"], resyncIntervalMs);
+            return ({
+                "useRequestsQueue.useEffect": ()=>{
+                    closedRef.current = true;
+                    if (intervalRef.current) clearInterval(intervalRef.current);
+                    wsRef.current?.close();
+                }
+            })["useRequestsQueue.useEffect"];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+    }["useRequestsQueue.useEffect"], [
+        category,
+        status,
+        fab_type,
+        pageSize,
+        activeOnly
+    ]);
+    // NOTE: For future optimistic create support:
+    // Provide a function optimisticCreate(payload) that inserts temp entry with id `temp-<ts>`
+    // then replaces or removes based on POST result.
+    return {
+        requests,
+        live,
+        loading,
+        error,
+        refresh,
+        upsertById: upsert,
+        forceReconnect,
+        recentlyChangedIds
+    };
+}
+_s(useRequestsQueue, "hF/qNxNSBdQC1J1SNirdBDuxomA=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/hooks/use-mobile.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useIsMobile",
+    ()=>useIsMobile
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+;
+const MOBILE_BREAKPOINT = 768;
+function useIsMobile() {
+    _s();
+    const [isMobile, setIsMobile] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](undefined);
+    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"]({
+        "useIsMobile.useEffect": ()=>{
+            const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+            const onChange = {
+                "useIsMobile.useEffect.onChange": ()=>{
+                    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+                }
+            }["useIsMobile.useEffect.onChange"];
+            mql.addEventListener('change', onChange);
+            setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+            return ({
+                "useIsMobile.useEffect": ()=>mql.removeEventListener('change', onChange)
+            })["useIsMobile.useEffect"];
+        }
+    }["useIsMobile.useEffect"], []);
+    return !!isMobile;
+}
+_s(useIsMobile, "D6B2cPXNCaIbeOx+abFr1uxLRM0=");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -2197,6 +2804,859 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
+"[project]/components/requests/request-progress.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "RequestProgress",
+    ()=>RequestProgress
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+"use client";
+;
+;
+const steps = [
+    "Submitted",
+    "Processing",
+    "Issued"
+];
+function RequestProgress({ status }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "flex items-center gap-2",
+        "aria-label": "Request status progress",
+        children: steps.map((step, idx)=>{
+            const currentIndex = steps.indexOf(status);
+            const done = currentIndex >= idx;
+            const active = currentIndex === idx;
+            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].Fragment, {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: `flex flex-col items-center text-[10px] font-medium ${done ? "text-[#002449]" : "text-gray-400"}`,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: `h-2.5 w-2.5 rounded-full ${done ? active ? "bg-[#f75700]" : "bg-[#002449]" : "bg-gray-300"}`
+                            }, void 0, false, {
+                                fileName: "[project]/components/requests/request-progress.tsx",
+                                lineNumber: 22,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "mt-1 tracking-wide",
+                                children: step
+                            }, void 0, false, {
+                                fileName: "[project]/components/requests/request-progress.tsx",
+                                lineNumber: 25,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/requests/request-progress.tsx",
+                        lineNumber: 19,
+                        columnNumber: 13
+                    }, this),
+                    idx < steps.length - 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: `h-px w-6 ${currentIndex > idx ? "bg-[#002449]" : "bg-gray-300"}`,
+                        "aria-hidden": "true"
+                    }, void 0, false, {
+                        fileName: "[project]/components/requests/request-progress.tsx",
+                        lineNumber: 28,
+                        columnNumber: 15
+                    }, this)
+                ]
+            }, step, true, {
+                fileName: "[project]/components/requests/request-progress.tsx",
+                lineNumber: 18,
+                columnNumber: 11
+            }, this);
+        })
+    }, void 0, false, {
+        fileName: "[project]/components/requests/request-progress.tsx",
+        lineNumber: 12,
+        columnNumber: 5
+    }, this);
+}
+_c = RequestProgress;
+var _c;
+__turbopack_context__.k.register(_c, "RequestProgress");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/app/queue/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>QueuePage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/requests-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/utils.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$hooks$2f$use$2d$requests$2d$queue$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/hooks/use-requests-queue.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$dashboard$2d$shell$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/navigation/dashboard-shell.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$requests$2f$request$2d$progress$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/requests/request-progress.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function QueuePage() {
+    _s();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const user = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getCurrentUser();
+    // Filters
+    const [categoryFilter, setCategoryFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [statusFilter, setStatusFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [fabTypeFilter, setFabTypeFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [searchFilter, setSearchFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    // Check authentication and authorization
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "QueuePage.useEffect": ()=>{
+            const token = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+            if (!token) {
+                router.push("/login");
+                return;
+            }
+            // Verify user is POC or admin
+            const user = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getCurrentUser();
+            if (!user || !user.is_poc && !user.is_admin) {
+                router.push("/dashboard");
+            }
+        }
+    }["QueuePage.useEffect"], [
+        router
+    ]);
+    // Hook: snapshot + websocket live queue
+    const token = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+    const { requests, live, loading, error: hookError, refresh, forceReconnect, recentlyChangedIds } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$hooks$2f$use$2d$requests$2d$queue$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRequestsQueue"])({
+        token,
+        pageSize: 50,
+        activeOnly: false,
+        resyncIntervalMs: 300000
+    });
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "QueuePage.useEffect": ()=>{
+            if (hookError) setError(hookError);
+        }
+    }["QueuePage.useEffect"], [
+        hookError
+    ]);
+    const [loadingIds, setLoadingIds] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const handleStatusChange = async (requestId, newStatus)=>{
+        setLoadingIds((ids)=>ids.includes(requestId) ? ids : [
+                ...ids,
+                requestId
+            ]);
+        try {
+            await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].changeRequestStatus(requestId, newStatus);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Failed to change status");
+        } finally{
+            setLoadingIds((ids)=>ids.filter((id)=>id !== requestId));
+        }
+    };
+    const filteredRequests = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "QueuePage.useMemo[filteredRequests]": ()=>{
+            const base = requests.filter({
+                "QueuePage.useMemo[filteredRequests].base": (req)=>{
+                    if (categoryFilter && req.category !== categoryFilter) return false;
+                    if (statusFilter && req.status !== statusFilter) return false;
+                    if (fabTypeFilter && req.fabrication?.fab_type !== fabTypeFilter) return false;
+                    if (searchFilter) {
+                        const haystack = (req.notes || '') + ' ' + req.bom_items.map({
+                            "QueuePage.useMemo[filteredRequests].base": (i)=>i.item_name
+                        }["QueuePage.useMemo[filteredRequests].base"]).join(' ') + ' ' + req.additional_items.map({
+                            "QueuePage.useMemo[filteredRequests].base": (i)=>i.item_name
+                        }["QueuePage.useMemo[filteredRequests].base"]).join(' ');
+                        if (!haystack.toLowerCase().includes(searchFilter.toLowerCase())) return false;
+                    }
+                    return true;
+                }
+            }["QueuePage.useMemo[filteredRequests].base"]);
+            if (!statusFilter) {
+                return base.filter({
+                    "QueuePage.useMemo[filteredRequests]": (r)=>r.status !== 'Issued' && r.status !== 'Cannot be Processed'
+                }["QueuePage.useMemo[filteredRequests]"]);
+            }
+            return base;
+        }
+    }["QueuePage.useMemo[filteredRequests]"], [
+        requests,
+        categoryFilter,
+        statusFilter,
+        fabTypeFilter,
+        searchFilter
+    ]);
+    const metrics = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "QueuePage.useMemo[metrics]": ()=>({
+                total: filteredRequests.length,
+                submitted: filteredRequests.filter({
+                    "QueuePage.useMemo[metrics]": (r)=>r.status === 'Submitted'
+                }["QueuePage.useMemo[metrics]"]).length,
+                processing: filteredRequests.filter({
+                    "QueuePage.useMemo[metrics]": (r)=>r.status === 'Processing'
+                }["QueuePage.useMemo[metrics]"]).length,
+                issued: filteredRequests.filter({
+                    "QueuePage.useMemo[metrics]": (r)=>r.status === 'Issued'
+                }["QueuePage.useMemo[metrics]"]).length,
+                rejected: filteredRequests.filter({
+                    "QueuePage.useMemo[metrics]": (r)=>r.status === 'Cannot be Processed'
+                }["QueuePage.useMemo[metrics]"]).length
+            })
+    }["QueuePage.useMemo[metrics]"], [
+        filteredRequests
+    ]);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$dashboard$2d$shell$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DashboardShell"], {
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "space-y-8",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "w-full bg-white border border-gray-200 rounded-lg overflow-hidden",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MetricStripItem, {
+                                label: "Total",
+                                value: metrics.total,
+                                color: "#002449"
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 94,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MetricStripItem, {
+                                label: "Submitted",
+                                value: metrics.submitted,
+                                color: "#f75700"
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 95,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MetricStripItem, {
+                                label: "Processing",
+                                value: metrics.processing,
+                                color: "#007367"
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 96,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MetricStripItem, {
+                                label: "Issued",
+                                value: metrics.issued,
+                                color: "#078e31"
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 97,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MetricStripItem, {
+                                label: "Rejected",
+                                value: metrics.rejected,
+                                color: "#6b7280"
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 98,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 93,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/app/queue/page.tsx",
+                    lineNumber: 92,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ConnectionStatus, {
+                    live: live,
+                    onRefresh: refresh,
+                    onReconnect: forceReconnect,
+                    ordering: "FCFS"
+                }, void 0, false, {
+                    fileName: "[project]/app/queue/page.tsx",
+                    lineNumber: 101,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "bg-white border border-gray-200 rounded-lg p-3 flex flex-col gap-3",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap gap-3 items-center",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FilterSegment, {
+                                label: "Category",
+                                value: categoryFilter,
+                                onChange: setCategoryFilter,
+                                options: [
+                                    '',
+                                    'BOM',
+                                    'ADDITIONAL',
+                                    'FABRICATION'
+                                ]
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 110,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FilterSegment, {
+                                label: "Status",
+                                value: statusFilter,
+                                onChange: setStatusFilter,
+                                options: [
+                                    '',
+                                    'Submitted',
+                                    'Processing',
+                                    'Issued',
+                                    'Cannot be Processed'
+                                ]
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 116,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FilterSegment, {
+                                label: "Fab",
+                                value: fabTypeFilter,
+                                onChange: setFabTypeFilter,
+                                options: [
+                                    '',
+                                    '3D',
+                                    'LASER',
+                                    'OTHER'
+                                ]
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 122,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-2 ml-auto w-full sm:w-auto",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        type: "text",
+                                        placeholder: "Search",
+                                        value: searchFilter,
+                                        onChange: (e)=>setSearchFilter(e.target.value),
+                                        className: "px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent w-full sm:w-56"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/queue/page.tsx",
+                                        lineNumber: 129,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: ()=>{
+                                            setCategoryFilter('');
+                                            setStatusFilter('');
+                                            setFabTypeFilter('');
+                                            setSearchFilter('');
+                                        },
+                                        className: "px-3 py-2 text-sm rounded-md border border-gray-300 hover:bg-gray-50",
+                                        children: "Clear"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/queue/page.tsx",
+                                        lineNumber: 136,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 128,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 109,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/app/queue/page.tsx",
+                    lineNumber: 108,
+                    columnNumber: 9
+                }, this),
+                error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "bg-red-50 border border-red-200 rounded-lg p-4 mb-6",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-red-800",
+                        children: error
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 147,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/app/queue/page.tsx",
+                    lineNumber: 146,
+                    columnNumber: 11
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "space-y-3",
+                    children: loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "py-12 text-center text-sm text-gray-600 bg-white border border-gray-200 rounded-lg",
+                        children: "Loading queue..."
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 154,
+                        columnNumber: 13
+                    }, this) : filteredRequests.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "py-12 text-center text-sm text-gray-600 bg-white border border-gray-200 rounded-lg",
+                        children: "No requests match filters."
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 156,
+                        columnNumber: 13
+                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                        className: "space-y-3",
+                        children: filteredRequests.map((r, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(QueueRow, {
+                                    request: r,
+                                    position: idx + 1,
+                                    onAdvance: handleStatusChange,
+                                    canAdvance: !!user && (user.is_poc || user.is_admin),
+                                    highlight: recentlyChangedIds.includes(r.id),
+                                    loading: loadingIds.includes(r.id)
+                                }, void 0, false, {
+                                    fileName: "[project]/app/queue/page.tsx",
+                                    lineNumber: 161,
+                                    columnNumber: 19
+                                }, this)
+                            }, r.id, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 160,
+                                columnNumber: 17
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 158,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/app/queue/page.tsx",
+                    lineNumber: 152,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/app/queue/page.tsx",
+            lineNumber: 90,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/app/queue/page.tsx",
+        lineNumber: 89,
+        columnNumber: 5
+    }, this);
+}
+_s(QueuePage, "OQm5Yy84oz/YXgI9TJ1uCC73ckA=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$hooks$2f$use$2d$requests$2d$queue$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRequestsQueue"]
+    ];
+});
+_c = QueuePage;
+function categoryBadgeColor(category) {
+    if (category === 'BOM') return '#002449';
+    if (category === 'ADDITIONAL') return '#007367';
+    if (category === 'FABRICATION') return '#f75700';
+    return '#6b7280';
+}
+function statusAccent(status) {
+    if (status === 'Submitted') return '#f75700';
+    if (status === 'Processing') return '#007367';
+    if (status === 'Issued') return '#078e31';
+    if (status === 'Cannot be Processed') return '#6b7280';
+    return '#002449';
+}
+function QueueRow({ request, position, onAdvance, canAdvance, highlight = false, loading = false }) {
+    const nextStatus = request.status === 'Submitted' ? 'Processing' : request.status === 'Processing' ? 'Issued' : '';
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: `relative bg-white border border-gray-200 rounded-lg p-4 flex flex-col gap-3 shadow-sm hover:shadow-md transition ${highlight ? 'flash-update' : ''} ${loading ? 'opacity-60 pointer-events-none' : ''}`,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex flex-wrap items-center gap-2",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "inline-flex items-center justify-center w-6 h-6 text-[11px] font-semibold rounded-full bg-gray-100 border border-gray-200 text-gray-600",
+                        children: position
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 212,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "px-2 py-1 text-[11px] font-semibold text-white rounded-md",
+                        style: {
+                            backgroundColor: categoryBadgeColor(request.category)
+                        },
+                        children: request.category
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 213,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$requests$2f$request$2d$progress$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RequestProgress"], {
+                        status: request.status
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 214,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "px-2 py-1 text-[11px] font-semibold rounded-md",
+                        style: {
+                            backgroundColor: statusAccent(request.status),
+                            color: '#fff'
+                        },
+                        children: request.status
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 215,
+                        columnNumber: 9
+                    }, this),
+                    request.team_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "ml-auto inline-flex items-center gap-1 px-3 py-1 text-[11px] font-semibold rounded-full bg-[#002449] text-white",
+                        children: request.team_name
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 217,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 211,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                className: "text-sm font-semibold text-gray-900 line-clamp-2",
+                children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatRequestTitle"])(request)
+            }, void 0, false, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 222,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex flex-wrap gap-4 text-[11px] text-gray-600",
+                children: [
+                    (request.bom_items?.length || 0) > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "BOM: ",
+                            request.bom_items.length
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 224,
+                        columnNumber: 50
+                    }, this),
+                    (request.additional_items?.length || 0) > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "Additional: ",
+                            request.additional_items.length
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 225,
+                        columnNumber: 57
+                    }, this),
+                    request.fabrication && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "Fab: ",
+                            request.fabrication.fab_type,
+                            " • ",
+                            request.fabrication.name
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 226,
+                        columnNumber: 33
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "Created: ",
+                            new Date(request.created_at).toLocaleTimeString()
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 227,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "Updated: ",
+                            new Date(request.updated_at).toLocaleTimeString()
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 228,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 223,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex flex-wrap gap-2",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                        href: `/requests/${request.id}`,
+                        className: "px-3 py-1.5 text-[11px] font-medium rounded-md border border-gray-300 hover:bg-gray-50",
+                        children: "View"
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 231,
+                        columnNumber: 9
+                    }, this),
+                    canAdvance && nextStatus && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>onAdvance(request.id, nextStatus),
+                        className: "px-3 py-1.5 text-[11px] font-medium rounded-md text-white",
+                        style: {
+                            backgroundColor: nextStatus === 'Processing' ? '#007367' : '#078e31'
+                        },
+                        children: nextStatus === 'Processing' ? 'Accept' : 'Issue'
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 236,
+                        columnNumber: 11
+                    }, this),
+                    canAdvance && request.status !== 'Issued' && request.status !== 'Cannot be Processed' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>onAdvance(request.id, 'Cannot be Processed'),
+                        className: "px-3 py-1.5 text-[11px] font-medium rounded-md text-white bg-[#f75700]",
+                        children: "Reject"
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 243,
+                        columnNumber: 11
+                    }, this),
+                    loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-gray-800 text-white",
+                        children: "Updating..."
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 249,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 230,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/queue/page.tsx",
+        lineNumber: 210,
+        columnNumber: 5
+    }, this);
+}
+_c1 = QueueRow;
+function MetricCard({ label, value, color }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "rounded-lg border border-gray-200 bg-white p-3 flex flex-col",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: "text-[10px] uppercase tracking-wide font-medium text-gray-500",
+                children: label
+            }, void 0, false, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 259,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: "text-xl font-bold",
+                style: {
+                    color
+                },
+                children: value
+            }, void 0, false, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 260,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/queue/page.tsx",
+        lineNumber: 258,
+        columnNumber: 5
+    }, this);
+}
+_c2 = MetricCard;
+function MetricPill() {
+    return null;
+}
+_c3 = MetricPill;
+function MetricStripItem({ label, value, color }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "flex items-center justify-between gap-2 px-4 py-2 text-sm border-r last:border-r-0 border-gray-200",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: "text-[11px] font-medium text-gray-500 uppercase tracking-wide",
+                children: label
+            }, void 0, false, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 269,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: "text-base font-semibold",
+                style: {
+                    color
+                },
+                children: value
+            }, void 0, false, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 270,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/queue/page.tsx",
+        lineNumber: 268,
+        columnNumber: 5
+    }, this);
+}
+_c4 = MetricStripItem;
+function FilterSegment({ label, options, value, onChange }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "flex flex-col gap-1",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: "text-[10px] uppercase tracking-wide font-semibold text-gray-500",
+                children: label
+            }, void 0, false, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 278,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex flex-wrap gap-1",
+                children: options.map((opt)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>onChange(opt),
+                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("px-2 py-1 text-[11px] rounded-md border transition-colors", value === opt ? "bg-accent text-white border-accent" : "bg-white hover:bg-gray-50 text-gray-600 border-gray-300"),
+                        type: "button",
+                        children: opt === '' ? 'All' : opt
+                    }, opt || 'all', false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 281,
+                        columnNumber: 11
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 279,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/queue/page.tsx",
+        lineNumber: 277,
+        columnNumber: 5
+    }, this);
+}
+_c5 = FilterSegment;
+function ConnectionStatus({ live, ordering, onRefresh, onReconnect }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "flex flex-wrap gap-3 items-center bg-white border border-gray-200 rounded-lg p-3",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex items-center gap-2",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: `inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium ${live ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: `inline-block w-2 h-2 rounded-full ${live ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`
+                            }, void 0, false, {
+                                fileName: "[project]/app/queue/page.tsx",
+                                lineNumber: 303,
+                                columnNumber: 11
+                            }, this),
+                            live ? 'Live' : 'Disconnected'
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 302,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium bg-gray-50 border border-gray-200",
+                        children: [
+                            "Ordering: ",
+                            ordering
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 306,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 301,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex items-center gap-2 ml-auto",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: onRefresh,
+                        className: "px-3 py-1.5 text-[11px] font-medium rounded-md border border-gray-300 hover:bg-gray-50",
+                        children: "Refresh"
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 309,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: onReconnect,
+                        className: "px-3 py-1.5 text-[11px] font-medium rounded-md border border-gray-300 hover:bg-gray-50",
+                        children: "Reconnect"
+                    }, void 0, false, {
+                        fileName: "[project]/app/queue/page.tsx",
+                        lineNumber: 313,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/queue/page.tsx",
+                lineNumber: 308,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/queue/page.tsx",
+        lineNumber: 300,
+        columnNumber: 5
+    }, this);
+}
+_c6 = ConnectionStatus;
+var _c, _c1, _c2, _c3, _c4, _c5, _c6;
+__turbopack_context__.k.register(_c, "QueuePage");
+__turbopack_context__.k.register(_c1, "QueueRow");
+__turbopack_context__.k.register(_c2, "MetricCard");
+__turbopack_context__.k.register(_c3, "MetricPill");
+__turbopack_context__.k.register(_c4, "MetricStripItem");
+__turbopack_context__.k.register(_c5, "FilterSegment");
+__turbopack_context__.k.register(_c6, "ConnectionStatus");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
 ]);
 
-//# sourceMappingURL=_3d14555c._.js.map
+//# sourceMappingURL=_9801e9d5._.js.map

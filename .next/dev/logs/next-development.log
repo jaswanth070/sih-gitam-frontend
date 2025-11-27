@@ -1,7 +1,7 @@
-[00:00:01.955] Server  LOG      ✓ Ready in 1359ms
-[00:00:07.756] Server  LOG      ○ Compiling / ...
-[00:00:10.428] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:10.739] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:00:01.524] Server  LOG      ✓ Ready in 993ms
+[00:00:05.436] Server  LOG      ○ Compiling / ...
+[00:00:07.505] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:07.913] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -37,60 +37,20 @@ https://react.dev/link/hydration-mismatch
           ...
       ...
 
-[00:00:10.848] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:10.848] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
-[00:00:10.848] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
-[00:00:10.848] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763965284279}
-[00:00:10.848] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763965284279}
-[00:00:23.934] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763965297367}
-[00:01:06.112] Server  LOG        Reload env: .env.local
-[00:01:06.557] Server  LOG      ✓ Compiled in 335ms
-[00:01:07.446] Server  LOG        Reload env: .env.local
-[00:01:07.792] Server  LOG      ✓ Compiled in 315ms
-[00:01:19.334] Server  LOG      ✓ Compiled in 301ms
-[00:01:23.514] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:01:23.514] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:01:23.514] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:01:23.514] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:01:33.833] Server  LOG      ✓ Compiled in 262ms
-[00:03:26.996] Server  LOG      ✓ Compiled in 274ms
-[00:04:20.650] Server  LOG      ✓ Compiled in 281ms
-[00:05:41.930] Server  LOG      ✓ Compiled in 274ms
-[00:05:55.066] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:55.066] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:05:55.066] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
-[00:05:55.066] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[00:05:55.066] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763965628218}
-[00:05:55.066] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763965628218}
-[00:06:17.379] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:06:17.379] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:06:17.379] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:06:17.379] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:06:27.379] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:06:27.379] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:06:27.379] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:06:27.379] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
+[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
+[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236339537}
+[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236339537}
+[00:00:14.407] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:14.534] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:14.534] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/confirm-team","route":"/confirm-team"}
+[00:00:14.534] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236346049}
+[00:00:18.567] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:18.692] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:18.692] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/confirm-team","route":"/confirm-team"}
+[00:00:18.692] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236350213}
+[00:00:34.035] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:34.466] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:34.466] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/confirm-team","route":"/confirm-team"}
+[00:00:34.466] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236365987}

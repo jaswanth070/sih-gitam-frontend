@@ -16,24 +16,25 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 const ACCESS_TOKEN_KEY = "sih_access_token";
 const REFRESH_TOKEN_KEY = "sih_refresh_token";
 const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api";
-function appendApiSegment(url) {
-    let pathname = url.pathname.replace(/\/+$/, "");
-    if (!pathname) {
-        pathname = "/auth/api";
-    } else if (pathname.endsWith("/api")) {
-    // no-op, already pointing to /api
-    } else {
-        pathname = `${pathname}/api`;
-    }
-    url.pathname = pathname;
+function normalizeAuthPath(pathname) {
+    let normalized = pathname.replace(/\/+$/, "");
+    if (!normalized) return "/auth/api";
+    if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+    if (normalized.endsWith("/auth/api")) return normalized;
+    if (normalized.endsWith("/auth")) return `${normalized}/api`;
+    if (normalized.endsWith("/api")) return normalized;
+    return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "http://34.47.236.182/auth/api/");
+    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
+    if (raw.startsWith("/")) {
+        return normalizeAuthPath(raw);
+    }
     try {
         const url = new URL(raw);
-        appendApiSegment(url);
+        url.pathname = normalizeAuthPath(url.pathname);
         return `${url.origin}${url.pathname}`;
     } catch (err) {
         console.warn("[auth-service] invalid NEXT_PUBLIC_AUTH_SERVICE_URL, using default", err);
@@ -260,25 +261,31 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 const DEFAULT_REQUESTS_SERVICE_URL = "http://127.0.0.1:8001";
-const FALLBACK_REQUESTS_BASE_URL = `${DEFAULT_REQUESTS_SERVICE_URL}/api`;
+const FALLBACK_REQUESTS_BASE_URL = `${DEFAULT_REQUESTS_SERVICE_URL}/requests/api`;
+function normalizeRequestsPath(pathname) {
+    let normalized = pathname.replace(/\/+$/, "");
+    if (!normalized) return "/requests/api";
+    if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+    if (normalized.endsWith("/requests/api")) return normalized;
+    if (normalized.endsWith("/requests")) return `${normalized}/api`;
+    if (normalized.endsWith("/api")) return normalized.replace(/\/api$/, "/requests/api");
+    return `${normalized}/requests/api`;
+}
+function deriveRequestsPrefix(pathname) {
+    const fullPath = normalizeRequestsPath(pathname);
+    if (fullPath === "/requests/api") return "/requests";
+    return fullPath.replace(/\/api$/, "") || "/requests";
+}
 function buildRequestsBaseUrl() {
-    const envUrl = ("TURBOPACK compile-time value", "http://34.47.236.182/api");
+    const envUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (envUrl.startsWith("/")) {
-        const trimmed = envUrl.replace(/\/+$/, "");
-        if (!trimmed) return "/api";
-        return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+        return normalizeRequestsPath(envUrl);
     }
     try {
         const url = new URL(envUrl);
-        let pathname = url.pathname.replace(/\/+$/, "");
-        if (!pathname) {
-            pathname = "/api";
-        } else if (!pathname.endsWith("/api")) {
-            pathname = `${pathname}/api`;
-        }
-        url.pathname = pathname;
+        url.pathname = normalizeRequestsPath(url.pathname);
         return `${url.origin}${url.pathname}`;
     } catch (err) {
         console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using default", err);
@@ -286,7 +293,7 @@ function buildRequestsBaseUrl() {
     }
 }
 function buildRequestsWsUrl(token) {
-    const explicitWs = ("TURBOPACK compile-time value", "ws://34.47.236.182/ws/requests");
+    const explicitWs = ("TURBOPACK compile-time value", "wss://sih.jaswanthmadiya.tech/ws/requests");
     if ("TURBOPACK compile-time truthy", 1) {
         try {
             const wsUrl = new URL(explicitWs);
@@ -296,20 +303,30 @@ function buildRequestsWsUrl(token) {
             console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
         }
     }
-    const baseRestUrl = ("TURBOPACK compile-time value", "http://34.47.236.182/api");
+    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
     let origin = "";
+    let prefixPath = "/requests";
     if ("TURBOPACK compile-time truthy", 1) {
-        try {
-            origin = new URL(baseRestUrl).origin;
-        } catch (err) {
-            console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, falling back", err);
+        if (baseRestUrl.startsWith("http")) {
+            try {
+                const url = new URL(baseRestUrl);
+                origin = url.origin;
+                prefixPath = deriveRequestsPrefix(url.pathname);
+            } catch (err) {
+                console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using defaults", err);
+            }
+        } else {
+            prefixPath = deriveRequestsPrefix(baseRestUrl);
         }
     }
     if (!origin) origin = DEFAULT_REQUESTS_SERVICE_URL;
     const secure = origin.startsWith("https://");
     const protocol = secure ? "wss" : "ws";
     const host = origin.replace(/^https?:\/\//, "");
-    return `${protocol}://${host}/ws/requests/?token=${encodeURIComponent(token)}`;
+    let wsPath = `${prefixPath}/ws/requests/`;
+    wsPath = wsPath.replace(/\/+/g, "/");
+    if (!wsPath.startsWith("/")) wsPath = `/${wsPath}`;
+    return `${protocol}://${host}${wsPath}?token=${encodeURIComponent(token)}`;
 }
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);

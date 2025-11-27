@@ -250,6 +250,271 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
+"[project]/lib/ws-url.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "buildRequestsBaseUrl",
+    ()=>buildRequestsBaseUrl,
+    "buildRequestsWsUrl",
+    ()=>buildRequestsWsUrl
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
+const DEFAULT_REQUESTS_SERVICE_URL = "http://127.0.0.1:8001";
+const FALLBACK_REQUESTS_BASE_URL = `${DEFAULT_REQUESTS_SERVICE_URL}/requests/api`;
+function normalizeRequestsPath(pathname) {
+    let normalized = pathname.replace(/\/+$/, "");
+    if (!normalized) return "/requests/api";
+    if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+    if (normalized.endsWith("/requests/api")) return normalized;
+    if (normalized.endsWith("/requests")) return `${normalized}/api`;
+    if (normalized.endsWith("/api")) return normalized.replace(/\/api$/, "/requests/api");
+    return `${normalized}/requests/api`;
+}
+function deriveRequestsPrefix(pathname) {
+    const fullPath = normalizeRequestsPath(pathname);
+    if (fullPath === "/requests/api") return "/requests";
+    return fullPath.replace(/\/api$/, "") || "/requests";
+}
+function buildRequestsBaseUrl() {
+    const envUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    if (envUrl.startsWith("/")) {
+        return normalizeRequestsPath(envUrl);
+    }
+    try {
+        const url = new URL(envUrl);
+        url.pathname = normalizeRequestsPath(url.pathname);
+        return `${url.origin}${url.pathname}`;
+    } catch (err) {
+        console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using default", err);
+        return FALLBACK_REQUESTS_BASE_URL;
+    }
+}
+function buildRequestsWsUrl(token) {
+    const explicitWs = ("TURBOPACK compile-time value", "ws://127.0.0.1:8001/requests/ws/requests");
+    if ("TURBOPACK compile-time truthy", 1) {
+        try {
+            const wsUrl = new URL(explicitWs);
+            wsUrl.searchParams.set("token", token);
+            return wsUrl.toString();
+        } catch (err) {
+            console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
+        }
+    }
+    const baseRestUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    let origin = "";
+    let prefixPath = "/requests";
+    if ("TURBOPACK compile-time truthy", 1) {
+        if (baseRestUrl.startsWith("http")) {
+            try {
+                const url = new URL(baseRestUrl);
+                origin = url.origin;
+                prefixPath = deriveRequestsPrefix(url.pathname);
+            } catch (err) {
+                console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_SERVICE_URL, using defaults", err);
+            }
+        } else {
+            prefixPath = deriveRequestsPrefix(baseRestUrl);
+        }
+    }
+    if (!origin) origin = DEFAULT_REQUESTS_SERVICE_URL;
+    const secure = origin.startsWith("https://");
+    const protocol = secure ? "wss" : "ws";
+    const host = origin.replace(/^https?:\/\//, "");
+    let wsPath = `${prefixPath}/ws/requests/`;
+    wsPath = wsPath.replace(/\/+/g, "/");
+    if (!wsPath.startsWith("/")) wsPath = `/${wsPath}`;
+    return `${protocol}://${host}${wsPath}?token=${encodeURIComponent(token)}`;
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/lib/requests-service.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Requests Service API Client
+ * Handles all communication with the Requests microservice
+ */ __turbopack_context__.s([
+    "requestsService",
+    ()=>requestsService
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/ws-url.ts [app-client] (ecmascript)");
+;
+;
+const BASE_URL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["buildRequestsBaseUrl"])();
+const ACCESS_TOKEN_KEY = "sih_access_token";
+async function apiCall(endpoint, options = {}) {
+    const url = `${BASE_URL}${endpoint}`;
+    const headers = new Headers(options.headers || {});
+    const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+    if (accessToken && !headers.has("Authorization")) {
+        headers.set("Authorization", `Bearer ${accessToken}`);
+    }
+    let response = await fetch(url, {
+        ...options,
+        headers
+    });
+    if (response.status === 401) {
+        const refreshToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getRefreshToken();
+        if (refreshToken) {
+            try {
+                const refreshResponse = await fetch(`${BASE_URL}/token/refresh/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        refresh: refreshToken
+                    })
+                });
+                if (refreshResponse.ok) {
+                    const { access } = await refreshResponse.json();
+                    localStorage.setItem(ACCESS_TOKEN_KEY, access);
+                    headers.set("Authorization", `Bearer ${access}`);
+                    response = await fetch(url, {
+                        ...options,
+                        headers
+                    });
+                }
+            } catch (error) {
+                __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].clearTokens();
+                window.location.href = "/login";
+            }
+        }
+    }
+    if (!response.ok) {
+        const error = await response.json().catch(()=>({}));
+        throw new Error(error.detail || error.message || `API Error: ${response.status}`);
+    }
+    return response.json();
+}
+const requestsService = {
+    // List requests with filters
+    async listRequests (params) {
+        const queryParams = new URLSearchParams();
+        if (params?.category) queryParams.append("category", params.category);
+        if (params?.status) queryParams.append("status", params.status);
+        if (params?.fab_type) queryParams.append("fab_type", params.fab_type);
+        if (params?.team_id) queryParams.append("team_id", params.team_id);
+        if (params?.search) queryParams.append("search", params.search);
+        if (params?.ordering) queryParams.append("ordering", params.ordering);
+        if (params?.page) queryParams.append("page", params.page.toString());
+        const endpoint = `/requests/?${queryParams.toString()}`;
+        return apiCall(endpoint);
+    },
+    // Get queue snapshot
+    async getQueueSnapshot (includePositions = true) {
+        const endpoint = `/requests/queue/?include_positions=${includePositions}`;
+        return apiCall(endpoint);
+    },
+    // Filtered queue snapshot (canonical ordering, optional positions, pagination)
+    async getFilteredQueueSnapshot (params) {
+        const qp = new URLSearchParams();
+        if (params.category) qp.append("category", params.category);
+        if (params.status) qp.append("status", params.status);
+        if (params.fab_type) qp.append("fab_type", params.fab_type);
+        if (params.include_positions !== undefined) qp.append("include_positions", params.include_positions ? "true" : "false");
+        if (params.page) qp.append("page", params.page.toString());
+        if (params.page_size) qp.append("page_size", params.page_size.toString());
+        const endpoint = `/requests/queue/?${qp.toString()}`;
+        return apiCall(endpoint);
+    },
+    // Get single request
+    async getRequest (id) {
+        return apiCall(`/requests/${id}/`);
+    },
+    // Create BOM request
+    async createBOMRequest (teamId, notes, items) {
+        return apiCall("/requests/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                team_id: teamId,
+                category: "BOM",
+                notes,
+                bom_items: items
+            })
+        });
+    },
+    // Create Additional request
+    async createAdditionalRequest (teamId, notes, items) {
+        return apiCall("/requests/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                team_id: teamId,
+                category: "ADDITIONAL",
+                notes,
+                additional_items: items
+            })
+        });
+    },
+    // Create Fabrication request with file
+    async createFabricationRequest (teamId, notes, fabDetails, file) {
+        const formData = new FormData();
+        formData.append("team_id", teamId);
+        formData.append("category", "FABRICATION");
+        formData.append("notes", notes);
+        formData.append("fabrication", JSON.stringify(fabDetails));
+        if (file) {
+            formData.append("file", file);
+        }
+        const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+        const headers = new Headers();
+        if (accessToken) {
+            headers.set("Authorization", `Bearer ${accessToken}`);
+        }
+        const response = await fetch(`${BASE_URL}/requests/`, {
+            method: "POST",
+            headers,
+            body: formData
+        });
+        if (!response.ok) {
+            const error = await response.json().catch(()=>({}));
+            throw new Error(error.detail || error.message || `API Error: ${response.status}`);
+        }
+        return response.json();
+    },
+    // Change request status
+    async changeRequestStatus (id, toStatus, note) {
+        return apiCall(`/requests/${id}/change_status/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                to_status: toStatus,
+                note: note || ""
+            })
+        });
+    },
+    // List all requests for a specific team via dedicated endpoint
+    async listTeamRequests (teamId, params) {
+        const qp = new URLSearchParams();
+        if (params?.category) qp.append("category", params.category);
+        if (params?.status) qp.append("status", params.status);
+        if (params?.fab_type) qp.append("fab_type", params.fab_type);
+        if (params?.search) qp.append("search", params.search);
+        if (params?.ordering) qp.append("ordering", params.ordering);
+        if (params?.page) qp.append("page", params.page.toString());
+        if (params?.page_size) qp.append("page_size", params.page_size.toString());
+        const endpoint = `/teams/${teamId}/requests/${qp.toString() ? `?${qp.toString()}` : ""}`;
+        return apiCall(endpoint);
+    }
+};
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
 "[project]/hooks/use-mobile.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
@@ -2197,6 +2462,1145 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
+"[project]/app/requests/new/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>NewRequestPage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/requests-service.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$dashboard$2d$shell$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/navigation/dashboard-shell.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/check.js [app-client] (ecmascript) <export default as Check>");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+function NewRequestPage() {
+    _s();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const [requestType, setRequestType] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [userTeams, setUserTeams] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [selectedTeam, setSelectedTeam] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [notes, setNotes] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [step, setStep] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0) // 0=type,1=details,2=items/fabrication,3=review
+    ;
+    // BOM/Additional state
+    const [items, setItems] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [newItemName, setNewItemName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [newItemQuantity, setNewItemQuantity] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("1");
+    // Fabrication state
+    const [fabType, setFabType] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("3D");
+    const [fabName, setFabName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [selectedFile, setSelectedFile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const draftKey = "request_wizard_draft_v1";
+    const user = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getCurrentUser();
+    // Initial mount: auth check + draft restore (runs once)
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "NewRequestPage.useEffect": ()=>{
+            const token = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
+            if (!token) {
+                router.push("/login");
+                return;
+            }
+            // Restrict POC from creating requests
+            if (user?.is_poc && !user?.is_admin) {
+                router.replace("/dashboard");
+                return;
+            }
+            if (user?.team_ids?.length) {
+                setUserTeams(user.team_ids);
+                setSelectedTeam(user.team_ids[0]);
+            }
+            try {
+                const raw = localStorage.getItem(draftKey);
+                if (raw) {
+                    const d = JSON.parse(raw);
+                    if (d.requestType) setRequestType(d.requestType);
+                    if (d.notes) setNotes(d.notes);
+                    if (Array.isArray(d.items)) setItems(d.items);
+                    if (d.fabType) setFabType(d.fabType);
+                    if (d.fabName) setFabName(d.fabName);
+                    if (typeof d.step === "number") setStep(d.step);
+                    if (d.selectedTeam) setSelectedTeam(d.selectedTeam);
+                }
+            } catch  {}
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+    }["NewRequestPage.useEffect"], []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "NewRequestPage.useEffect": ()=>{
+            const draft = {
+                requestType,
+                notes,
+                items,
+                fabType,
+                fabName,
+                step,
+                selectedTeam
+            };
+            try {
+                localStorage.setItem(draftKey, JSON.stringify(draft));
+            } catch  {}
+        }
+    }["NewRequestPage.useEffect"], [
+        requestType,
+        notes,
+        items,
+        fabType,
+        fabName,
+        step,
+        selectedTeam
+    ]);
+    const addItem = ()=>{
+        if (!newItemName.trim()) return;
+        setItems([
+            ...items,
+            {
+                item_name: newItemName,
+                quantity: Number.parseInt(newItemQuantity) || 1
+            }
+        ]);
+        setNewItemName("");
+        setNewItemQuantity("1");
+    };
+    const removeItem = (index)=>{
+        setItems(items.filter((_, i)=>i !== index));
+    };
+    // Simple per-step validation
+    const canAdvance = ()=>{
+        if (step === 0) return requestType !== null;
+        if (step === 1) return !!selectedTeam && notes.trim().length >= 5;
+        if (step === 2) {
+            if (requestType === "BOM" || requestType === "ADDITIONAL") return items.length > 0;
+            if (requestType === "FABRICATION") {
+                if (!fabName.trim()) return false;
+                if (fabType === "3D" && !selectedFile) return false;
+                return true;
+            }
+        }
+        return true;
+    };
+    const validationMessage = ()=>{
+        if (step === 0 && !requestType) return "Select a request type";
+        if (step === 1) {
+            if (!selectedTeam) return "Select a team";
+            if (notes.trim().length < 5) return "Minimum 5 characters";
+        }
+        if (step === 2) {
+            if ((requestType === "BOM" || requestType === "ADDITIONAL") && items.length === 0) return "Add at least one item";
+            if (requestType === "FABRICATION") {
+                if (!fabName.trim()) return "Enter model name";
+                if (fabType === "3D" && !selectedFile) return "Upload STL/OBJ file";
+            }
+        }
+        return "";
+    };
+    const nextStep = ()=>{
+        if (!canAdvance()) return;
+        setError("");
+        setStep((s)=>Math.min(3, s + 1));
+    };
+    const prevStep = ()=>setStep((s)=>Math.max(0, s - 1));
+    const resetWizard = ()=>{
+        setRequestType(null);
+        setNotes("");
+        setItems([]);
+        setFabName("");
+        setSelectedFile(null);
+        setStep(0);
+        try {
+            localStorage.removeItem(draftKey);
+        } catch  {}
+    };
+    const handleSubmit = async ()=>{
+        try {
+            setLoading(true);
+            setError("");
+            if (!selectedTeam) {
+                setError("Please select a team");
+                return;
+            }
+            if (!notes.trim()) {
+                setError("Please enter a description");
+                return;
+            }
+            let result;
+            if (requestType === "BOM") {
+                if (items.length === 0) {
+                    setError("Please add at least one item");
+                    return;
+                }
+                result = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].createBOMRequest(selectedTeam, notes, items);
+            } else if (requestType === "ADDITIONAL") {
+                if (items.length === 0) {
+                    setError("Please add at least one item");
+                    return;
+                }
+                result = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].createAdditionalRequest(selectedTeam, notes, items);
+            } else if (requestType === "FABRICATION") {
+                if (!fabName.trim()) {
+                    setError("Please enter fabrication name");
+                    return;
+                }
+                if (fabType === "3D" && !selectedFile) {
+                    setError("Please upload a file for 3D fabrication");
+                    return;
+                }
+                const fabDetails = {
+                    fab_type: fabType,
+                    name: fabName
+                };
+                result = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].createFabricationRequest(selectedTeam, notes, fabDetails, selectedFile || undefined);
+            }
+            if (result) {
+                router.push(`/requests/${result.id}`);
+            }
+        } catch (err) {
+            console.error("[v0] Error submitting request:", err);
+            setError(err instanceof Error ? err.message : "Failed to submit request");
+        } finally{
+            setLoading(false);
+        }
+    };
+    if (user?.is_poc && !user?.is_admin) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$dashboard$2d$shell$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DashboardShell"], {
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "max-w-xl mx-auto py-16",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-2xl font-bold mb-2",
+                        style: {
+                            color: "#002449"
+                        },
+                        children: "Not Allowed"
+                    }, void 0, false, {
+                        fileName: "[project]/app/requests/new/page.tsx",
+                        lineNumber: 191,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-sm text-gray-600 mb-4",
+                        children: "POC users cannot create requests. Please use the Virtual Queue to monitor team activity."
+                    }, void 0, false, {
+                        fileName: "[project]/app/requests/new/page.tsx",
+                        lineNumber: 192,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>router.push('/dashboard'),
+                        className: "px-4 py-2 text-white rounded-md text-sm font-medium",
+                        style: {
+                            backgroundColor: '#f75700'
+                        },
+                        children: "Return to Dashboard"
+                    }, void 0, false, {
+                        fileName: "[project]/app/requests/new/page.tsx",
+                        lineNumber: 193,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/requests/new/page.tsx",
+                lineNumber: 190,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/app/requests/new/page.tsx",
+            lineNumber: 189,
+            columnNumber: 7
+        }, this);
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$dashboard$2d$shell$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DashboardShell"], {
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "max-w-4xl mx-auto",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                    className: "text-3xl font-bold mb-2",
+                    style: {
+                        color: "#002449"
+                    },
+                    children: "New Request"
+                }, void 0, false, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 206,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                    className: "text-gray-600 mb-6",
+                    children: "Multi-step creation for BOM, Additional or Fabrication requests."
+                }, void 0, false, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 207,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex flex-wrap items-center gap-3 mb-8",
+                    children: [
+                        "Type",
+                        "Details",
+                        requestType === "FABRICATION" ? "Fabrication" : "Items",
+                        "Review"
+                    ].map((label, idx)=>{
+                        const active = idx === step;
+                        const done = idx < step;
+                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: `w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border ${active ? "bg-[#f75700] text-white border-[#f75700]" : ""} ${done ? "bg-[#078e31] text-white border-[#078e31]" : ""} ${!active && !done ? "bg-white text-gray-500 border-gray-300" : ""}`,
+                                    children: idx + 1
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 214,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: `text-xs font-medium ${active ? "text-[#f75700]" : "text-gray-600"}`,
+                                    children: label
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 215,
+                                    columnNumber: 17
+                                }, this),
+                                idx < 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "w-8 h-px bg-gray-300"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 216,
+                                    columnNumber: 29
+                                }, this)
+                            ]
+                        }, idx, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 213,
+                            columnNumber: 15
+                        }, this);
+                    })
+                }, void 0, false, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 208,
+                    columnNumber: 9
+                }, this),
+                error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "bg-red-50 border border-red-200 rounded-lg p-4 mb-6",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-red-800 text-sm",
+                        children: error
+                    }, void 0, false, {
+                        fileName: "[project]/app/requests/new/page.tsx",
+                        lineNumber: 223,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 222,
+                    columnNumber: 11
+                }, this),
+                step === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "grid grid-cols-1 md:grid-cols-3 gap-6",
+                            children: [
+                                "BOM",
+                                "ADDITIONAL",
+                                "FABRICATION"
+                            ].map((type)=>{
+                                const isSelected = requestType === type;
+                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>setRequestType(type),
+                                    className: `relative p-6 border-2 rounded-lg transition-all text-left group focus:outline-none focus:ring-2 focus:ring-offset-2 ${isSelected ? "shadow-lg" : "hover:shadow-md"}`,
+                                    style: {
+                                        borderColor: isSelected ? "#f75700" : type === "BOM" ? "#002449" : type === "ADDITIONAL" ? "#007367" : "#f75700",
+                                        backgroundColor: isSelected ? "#fef5f1" : "white"
+                                    },
+                                    children: [
+                                        isSelected && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center bg-[#f75700] text-white",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                                className: "w-4 h-4"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/requests/new/page.tsx",
+                                                lineNumber: 249,
+                                                columnNumber: 25
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 248,
+                                            columnNumber: 23
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                            className: "text-lg font-bold mb-2",
+                                            style: {
+                                                color: isSelected ? "#f75700" : type === "BOM" ? "#002449" : type === "ADDITIONAL" ? "#007367" : "#f75700"
+                                            },
+                                            children: type === "FABRICATION" ? "3D/Laser Fabrication" : type
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 252,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-gray-600 text-sm",
+                                            children: [
+                                                type === "BOM" && "Request Bill of Materials components",
+                                                type === "ADDITIONAL" && "Request additional materials or supplies",
+                                                type === "FABRICATION" && "Submit fabrication files for 3D printing or laser cutting"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 266,
+                                            columnNumber: 21
+                                        }, this)
+                                    ]
+                                }, type, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 232,
+                                    columnNumber: 19
+                                }, this);
+                            })
+                        }, void 0, false, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 228,
+                            columnNumber: 13
+                        }, this),
+                        requestType && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "mt-6 p-4 rounded-lg border bg-[#fef5f1] border-[#f75700] flex items-center gap-3",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                    className: "w-5 h-5 text-[#f75700]"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 277,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-sm",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "font-semibold",
+                                            style: {
+                                                color: "#f75700"
+                                            },
+                                            children: "Selected:"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 279,
+                                            columnNumber: 19
+                                        }, this),
+                                        " ",
+                                        requestType === "FABRICATION" ? "3D/Laser Fabrication" : requestType
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 278,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 276,
+                            columnNumber: 15
+                        }, this)
+                    ]
+                }, void 0, true),
+                step === 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "space-y-6",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                            type: "hidden",
+                            value: selectedTeam,
+                            readOnly: true
+                        }, void 0, false, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 289,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                    className: "block text-sm font-medium text-gray-700 mb-2",
+                                    children: "Description / Notes"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 291,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                    value: notes,
+                                    onChange: (e)=>setNotes(e.target.value),
+                                    placeholder: "Describe what you need (min 5 chars)...",
+                                    className: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 resize-none",
+                                    rows: 4
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 292,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-[11px] mt-1 text-gray-500",
+                                    children: notes.length < 5 ? `Minimum 5 characters (${notes.length})` : "Looks good"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 293,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 290,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 287,
+                    columnNumber: 11
+                }, this),
+                step === 2 && requestType && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "space-y-6",
+                    children: [
+                        (requestType === "BOM" || requestType === "ADDITIONAL") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                    className: "block text-sm font-medium text-gray-700 mb-4",
+                                    children: "Items"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 301,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-3 mb-4",
+                                    children: [
+                                        items.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center gap-3 p-3 bg-gray-50 rounded-lg",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex-1",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "font-medium text-gray-900",
+                                                                children: item.item_name
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/requests/new/page.tsx",
+                                                                lineNumber: 306,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-xs text-gray-600",
+                                                                children: [
+                                                                    "Qty: ",
+                                                                    item.quantity
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/app/requests/new/page.tsx",
+                                                                lineNumber: 307,
+                                                                columnNumber: 25
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/app/requests/new/page.tsx",
+                                                        lineNumber: 305,
+                                                        columnNumber: 23
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        onClick: ()=>removeItem(index),
+                                                        className: "px-3 py-1 text-xs font-semibold text-white rounded-lg",
+                                                        style: {
+                                                            backgroundColor: "#f75700"
+                                                        },
+                                                        children: "Remove"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/app/requests/new/page.tsx",
+                                                        lineNumber: 309,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                ]
+                                            }, index, true, {
+                                                fileName: "[project]/app/requests/new/page.tsx",
+                                                lineNumber: 304,
+                                                columnNumber: 21
+                                            }, this)),
+                                        items.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-gray-500",
+                                            children: "No items added yet."
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 312,
+                                            columnNumber: 42
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 302,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "grid grid-cols-1 md:grid-cols-3 gap-3",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "text",
+                                            placeholder: "Item name",
+                                            value: newItemName,
+                                            onChange: (e)=>setNewItemName(e.target.value),
+                                            className: "px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 315,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "number",
+                                            placeholder: "Qty",
+                                            value: newItemQuantity,
+                                            onChange: (e)=>setNewItemQuantity(e.target.value),
+                                            className: "px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2",
+                                            min: "1"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 316,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: addItem,
+                                            className: "px-4 py-2 text-white font-medium rounded-lg disabled:opacity-50",
+                                            style: {
+                                                backgroundColor: "#078e31"
+                                            },
+                                            disabled: !newItemName.trim(),
+                                            children: "Add Item"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 317,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 314,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 300,
+                            columnNumber: 15
+                        }, this),
+                        requestType === "FABRICATION" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "space-y-6",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            className: "block text-sm font-medium text-gray-700 mb-2",
+                                            children: "Fabrication Type"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 324,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                            value: fabType,
+                                            onChange: (e)=>setFabType(e.target.value),
+                                            className: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                    value: "3D",
+                                                    children: "3D Printing"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/requests/new/page.tsx",
+                                                    lineNumber: 326,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                    value: "LASER",
+                                                    children: "Laser Cutting"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/requests/new/page.tsx",
+                                                    lineNumber: 327,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                    value: "OTHER",
+                                                    children: "Other"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/requests/new/page.tsx",
+                                                    lineNumber: 328,
+                                                    columnNumber: 21
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 325,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 323,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            className: "block text-sm font-medium text-gray-700 mb-2",
+                                            children: "Part / Model Name"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 332,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "text",
+                                            placeholder: "e.g., Chassis, Gear A",
+                                            value: fabName,
+                                            onChange: (e)=>setFabName(e.target.value),
+                                            className: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 333,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 331,
+                                    columnNumber: 17
+                                }, this),
+                                fabType === "3D" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            className: "block text-sm font-medium text-gray-700 mb-2",
+                                            children: "Upload File (STL/OBJ)"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 337,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "file",
+                                            accept: ".stl,.obj",
+                                            onChange: (e)=>setSelectedFile(e.target.files?.[0] || null),
+                                            className: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 338,
+                                            columnNumber: 21
+                                        }, this),
+                                        !selectedFile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-[11px] text-gray-500 mt-1",
+                                            children: "Required for 3D prints."
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 339,
+                                            columnNumber: 39
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 336,
+                                    columnNumber: 19
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 322,
+                            columnNumber: 15
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 298,
+                    columnNumber: 11
+                }, this),
+                step === 3 && requestType && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "space-y-6 bg-white border border-gray-200 rounded-lg p-6",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                            className: "text-xl font-semibold",
+                            style: {
+                                color: "#002449"
+                            },
+                            children: "Review & Submit"
+                        }, void 0, false, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 348,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "grid sm:grid-cols-2 gap-4 text-sm",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-3 rounded-md bg-gray-50",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium mb-1",
+                                            children: "Type"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 350,
+                                            columnNumber: 58
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-gray-700",
+                                            children: requestType
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 350,
+                                            columnNumber: 98
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 350,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-3 rounded-md bg-gray-50",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium mb-1",
+                                            children: "Team"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 351,
+                                            columnNumber: 58
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-gray-700",
+                                            children: selectedTeam || "-"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 351,
+                                            columnNumber: 98
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 351,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-3 rounded-md bg-gray-50 sm:col-span-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium mb-1",
+                                            children: "Notes"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 352,
+                                            columnNumber: 72
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-gray-700 whitespace-pre-line",
+                                            children: notes || "(none)"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 352,
+                                            columnNumber: 113
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 352,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 349,
+                            columnNumber: 13
+                        }, this),
+                        requestType !== "FABRICATION" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "font-medium mb-2",
+                                    children: [
+                                        "Items (",
+                                        items.length,
+                                        ")"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 356,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                    className: "space-y-1 text-xs",
+                                    children: [
+                                        items.map((i, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                className: "flex justify-between bg-gray-50 rounded px-2 py-1",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "truncate max-w-[180px]",
+                                                        title: i.item_name,
+                                                        children: i.item_name
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/app/requests/new/page.tsx",
+                                                        lineNumber: 359,
+                                                        columnNumber: 97
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "font-mono",
+                                                        children: [
+                                                            "x",
+                                                            i.quantity
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/app/requests/new/page.tsx",
+                                                        lineNumber: 359,
+                                                        columnNumber: 178
+                                                    }, this)
+                                                ]
+                                            }, idx, true, {
+                                                fileName: "[project]/app/requests/new/page.tsx",
+                                                lineNumber: 359,
+                                                columnNumber: 21
+                                            }, this)),
+                                        items.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                            className: "text-gray-500",
+                                            children: "No items."
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 361,
+                                            columnNumber: 42
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 357,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 355,
+                            columnNumber: 15
+                        }, this),
+                        requestType === "FABRICATION" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "grid sm:grid-cols-2 gap-4 text-sm",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-3 rounded-md bg-gray-50",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium mb-1",
+                                            children: "Fabrication Type"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 367,
+                                            columnNumber: 60
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-gray-700",
+                                            children: fabType
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 367,
+                                            columnNumber: 112
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 367,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-3 rounded-md bg-gray-50",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium mb-1",
+                                            children: "Model Name"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 368,
+                                            columnNumber: 60
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-gray-700",
+                                            children: fabName || "-"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 368,
+                                            columnNumber: 106
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 368,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-3 rounded-md bg-gray-50 sm:col-span-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium mb-1",
+                                            children: "File"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 369,
+                                            columnNumber: 74
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-gray-700",
+                                            children: selectedFile ? selectedFile.name : "(none)"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/requests/new/page.tsx",
+                                            lineNumber: 369,
+                                            columnNumber: 114
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 369,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 366,
+                            columnNumber: 15
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex flex-wrap gap-3",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: prevStep,
+                                    className: "px-5 py-2 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50",
+                                    children: "Back"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 373,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: handleSubmit,
+                                    disabled: loading,
+                                    className: "px-6 py-2 text-white font-medium rounded-lg transition-opacity",
+                                    style: {
+                                        backgroundColor: "#f75700"
+                                    },
+                                    children: loading ? "Submitting..." : "Submit"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 374,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: resetWizard,
+                                    disabled: loading,
+                                    className: "px-5 py-2 text-gray-600 font-medium rounded-lg border border-gray-300 hover:bg-gray-50",
+                                    children: "Reset"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 375,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 372,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 347,
+                    columnNumber: 11
+                }, this),
+                step < 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "mt-8 flex flex-wrap gap-3",
+                    children: [
+                        step > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: prevStep,
+                            className: "px-5 py-2 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50",
+                            children: "Back"
+                        }, void 0, false, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 381,
+                            columnNumber: 27
+                        }, this),
+                        step === 0 && requestType && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: ()=>setRequestType(null),
+                            className: "px-5 py-2 text-gray-600 font-medium rounded-lg border border-gray-300 hover:bg-gray-50",
+                            children: "Change Type"
+                        }, void 0, false, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 383,
+                            columnNumber: 15
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex flex-col",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: nextStep,
+                                    disabled: !canAdvance(),
+                                    className: "px-6 py-2 text-white font-medium rounded-lg disabled:opacity-50",
+                                    style: {
+                                        backgroundColor: "#f75700"
+                                    },
+                                    children: "Next"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 386,
+                                    columnNumber: 15
+                                }, this),
+                                !canAdvance() && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "text-[11px] mt-1 text-red-600",
+                                    children: validationMessage()
+                                }, void 0, false, {
+                                    fileName: "[project]/app/requests/new/page.tsx",
+                                    lineNumber: 388,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/requests/new/page.tsx",
+                            lineNumber: 385,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/requests/new/page.tsx",
+                    lineNumber: 380,
+                    columnNumber: 11
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/app/requests/new/page.tsx",
+            lineNumber: 205,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/app/requests/new/page.tsx",
+        lineNumber: 204,
+        columnNumber: 5
+    }, this);
+}
+_s(NewRequestPage, "Q9IPu/hTFwPU6+vqwqgQoO/TQs8=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
+_c = NewRequestPage;
+var _c;
+__turbopack_context__.k.register(_c, "NewRequestPage");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
 ]);
 
-//# sourceMappingURL=_3d14555c._.js.map
+//# sourceMappingURL=_ec6a5416._.js.map
