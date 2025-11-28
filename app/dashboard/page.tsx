@@ -1,18 +1,20 @@
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { authService } from "@/lib/auth-service"
 import { getCachedPOCTeams } from "@/lib/dashboard-cache"
 import { TeamLeaderDashboard } from "@/components/dashboard/team-leader-dashboard"
+import { AdminDashboard } from "@/components/dashboard/admin-dashboard"
 import { Users, FileText, AlertCircle, ExternalLink, Layers, Building2, User2 } from "lucide-react"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Button } from "@/components/ui/button"
 
 export default function DashboardPage() {
   const router = useRouter()
-  const [userRole, setUserRole] = useState<"leader" | "poc" | null>(null)
+  const [userRole, setUserRole] = useState<"leader" | "poc" | "admin" | null>(null)
   const [currentUser, setCurrentUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
@@ -26,7 +28,8 @@ export default function DashboardPage() {
       const parts = accessToken.split(".")
       if (parts.length === 3) {
         const decoded = JSON.parse(atob(parts[1]))
-        if (decoded.is_poc) setUserRole("poc")
+        if (decoded.is_admin) setUserRole("admin")
+        else if (decoded.is_poc) setUserRole("poc")
         else setUserRole("leader")
         setCurrentUser(decoded)
       }
@@ -51,6 +54,7 @@ export default function DashboardPage() {
 
   return (
     <DashboardShell>
+    {userRole === "admin" && <AdminDashboard user={currentUser} />}
       {userRole === "leader" && <TeamLeaderDashboard user={currentUser} />}
       {userRole === "poc" && <POCDashboard user={currentUser} />}
       {!userRole && (
@@ -147,15 +151,6 @@ function TeamCard({ team, onView }: { team: any; onView: () => void }) {
     >
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-semibold text-base leading-snug line-clamp-2" style={{color:'#002449'}}>{team.name}</h3>
-        <Button
-          onClick={onView}
-          size="sm"
-          variant="outline"
-          className="shrink-0 gap-1 text-xs"
-          aria-label={`View details for team ${team.name}`}
-        >
-          View <ExternalLink className="w-3 h-3" />
-        </Button>
       </div>
       <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
         <User2 className="w-3 h-3" /> Leader: <span className="font-medium">{leaderName}</span>
@@ -168,6 +163,22 @@ function TeamCard({ team, onView }: { team: any; onView: () => void }) {
           <Layers className="w-3 h-3" /> PS ID: {problemId}
         </span>
       )}
+      <div className="mt-2 flex flex-wrap gap-2">
+        <Button
+          onClick={onView}
+          size="sm"
+          variant="outline"
+          className="shrink-0 gap-1 text-xs"
+          aria-label={`View details for team ${team.name}`}
+        >
+          View <ExternalLink className="w-3 h-3" />
+        </Button>
+        <Button asChild size="sm" className="shrink-0 gap-1 text-xs bg-[#002449] hover:bg-[#001a33] text-white">
+          <Link href={`/poc/document-submission?teamId=${team.id}`} aria-label={`Document submission for team ${team.name}`}>
+            Documents
+          </Link>
+        </Button>
+      </div>
     </Card>
   )
 }

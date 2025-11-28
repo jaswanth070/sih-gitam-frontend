@@ -1,7 +1,7 @@
-[00:00:01.524] Server  LOG      ✓ Ready in 993ms
-[00:00:05.436] Server  LOG      ○ Compiling / ...
-[00:00:07.505] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.913] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:00:18.674] Server  LOG      ✓ Ready in 12.3s
+[00:00:39.761] Server  LOG      ○ Compiling / ...
+[00:00:54.290] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:54.545] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -37,20 +37,380 @@ https://react.dev/link/hydration-mismatch
           ...
       ...
 
-[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
-[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
-[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236339537}
-[00:00:08.025] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236339537}
-[00:00:14.407] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:14.534] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:14.534] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/confirm-team","route":"/confirm-team"}
-[00:00:14.534] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236346049}
-[00:00:18.567] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:18.692] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:18.692] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/confirm-team","route":"/confirm-team"}
-[00:00:18.692] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236350213}
-[00:00:34.035] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:34.466] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:34.466] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/confirm-team","route":"/confirm-team"}
-[00:00:34.466] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764236365987}
+[00:00:54.650] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:54.651] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
+[00:00:54.651] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
+[00:00:54.651] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301620560}
+[00:00:54.651] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301620560}
+[00:01:01.779] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/mandate-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/mandate-form","o":"http://localhost:3000/poc/mandate-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301627690}
+[00:01:07.802] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301633687}
+[00:01:11.200] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301637109}
+[00:01:21.843] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301647744}
+[00:01:22.813] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301648710}
+[00:01:24.488] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301650388}
+[00:01:39.198] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/mandate-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/mandate-form","o":"http://localhost:3000/poc/mandate-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301665085}
+[00:01:57.718] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/travel-allowance color: rgb(120, 120, 120) color: inherit {"dp":"/poc/travel-allowance","o":"http://localhost:3000/poc/travel-allowance","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301683610}
+[00:02:14.577] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764301700482}
+[00:40:00.941] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764303966753}
+[00:40:00.941] Browser ERROR   [v0] WebSocket error: network/connection issue {"type":"error"}
+[00:40:00.941] Browser LOG     [v0] WebSocket closed 1006 
+[00:40:01.202] Browser LOG     [v0] WebSocket connected
+[00:40:01.202] Browser LOG     [v0] WebSocket closed 1005 
+[00:40:01.202] Browser ERROR   [v0] WebSocket error: network/connection issue {"type":"error"}
+[00:40:01.202] Browser LOG     [v0] WebSocket closed 1006 
+[00:40:01.202] Browser ERROR   [v0] WebSocket error: network/connection issue {"type":"error"}
+[00:40:01.202] Browser LOG     [v0] WebSocket closed 1006 
+[00:40:01.372] Browser LOG     [v0] WebSocket connected
+[00:40:01.372] Browser LOG     [v0] WebSocket closed 1005 
+[00:40:01.483] Browser LOG     [v0] WebSocket connected
+[00:40:02.377] Browser LOG     [v0] Attempting to reconnect with backoff: 1000
+[00:40:02.488] Browser LOG     [v0] WebSocket connected
+[00:41:50.647] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304076402}
+[00:41:50.647] Browser LOG     [v0] WebSocket closed 1005 
+[00:41:58.571] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304084475}
+[00:42:01.099] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=857e588a-89c9-45ed-b1ac-117103759279 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=857e588a-89c9-45ed-b1ac-117103759279","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304087000}
+[00:46:07.042] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304332891}
+[00:46:09.081] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=36a66178-842d-4615-aebb-9a0b603aa123 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=36a66178-842d-4615-aebb-9a0b603aa123","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304334985}
+[00:46:16.266] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304342163}
+[00:46:18.335] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304344233}
+[00:46:36.090] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:36.330] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
+      <SidebarHeader>
+      <SidebarContent>
+        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
+          <SidebarMenu>
+            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
+              <SidebarMenuItem>
+                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
+                  <LinkComponent href="/dashboard">
+                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
+                      <SidebarMenuButton asChild={true} isActive={false}>
+                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
+                              <LayoutDashboard>
+                              <span>
++                               POC Dashboard
+-                               Dashboard
+              ...
+              ...
+          ...
+      ...
+
+[00:46:36.330] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:46:36.330] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[00:46:36.330] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[00:46:36.330] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304362191}
+[00:46:36.330] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764304362191}
+[00:59:00.102] Server  LOG      ✓ Compiled in 521ms
+[01:00:20.147] Browser ERROR   ./components/dashboard/admin-dashboard.tsx:419:16
+Parsing ecmascript source code failed
+  417 |                     </TableRow>
+  418 |                   )})
+> 419 |               </TableBody>
+      |                ^^^^^^^^^^^
+  420 |               <TableCaption>Use approve or reject to notify teams instantly.</TableCaption>
+  421 |             </Table>
+  422 |           )}
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./components/dashboard/admin-dashboard.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/dashboard/admin-dashboard.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[01:00:29.139] Browser ERROR   ./components/dashboard/admin-dashboard.tsx:418:16
+Parsing ecmascript source code failed
+  416 |                     </TableRow>
+  417 |                   )})
+> 418 |               </TableBody>
+      |                ^^^^^^^^^^^
+  419 |               <TableCaption>Use approve or reject to notify teams instantly.</TableCaption>
+  420 |             </Table>
+  421 |           )}
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./components/dashboard/admin-dashboard.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/dashboard/admin-dashboard.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[01:00:47.034] Server  LOG      ✓ Compiled in 300ms
+[01:01:49.892] Server  LOG      ✓ Compiled in 305ms
+[01:01:59.667] Server  LOG      ✓ Compiled in 310ms
+[01:02:08.258] Server  LOG      ✓ Compiled in 355ms
+[01:02:09.137] Browser ERROR   uncaughtError: ReferenceError: recentUploads is not defined
+[01:02:14.403] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[01:02:14.687] Server  LOG      ✓ Compiled in 274ms
+[01:02:14.851] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:02:15.138] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
+      <SidebarHeader>
+      <SidebarContent>
+        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
+          <SidebarMenu>
+            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
+              <SidebarMenuItem>
+                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
+                  <LinkComponent href="/dashboard">
+                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
+                      <SidebarMenuButton asChild={true} isActive={false}>
+                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
+                              <LayoutDashboard>
+                              <span>
++                               POC Dashboard
+-                               Dashboard
+              ...
+              ...
+          ...
+      ...
+
+[01:02:15.138] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:02:15.138] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:02:15.138] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:02:15.138] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305300985}
+[01:02:15.138] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305300985}
+[01:02:16.146] Browser ERROR   uncaughtError: ReferenceError: recentUploads is not defined
+[01:02:22.601] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[01:02:22.839] Server  LOG      ✓ Compiled in 275ms
+[01:02:22.975] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:02:24.144] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
+      <SidebarHeader>
+      <SidebarContent>
+        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
+          <SidebarMenu>
+            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
+              <SidebarMenuItem>
+                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
+                  <LinkComponent href="/dashboard">
+                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
+                      <SidebarMenuButton asChild={true} isActive={false}>
+                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
+                              <LayoutDashboard>
+                              <span>
++                               POC Dashboard
+-                               Dashboard
+              ...
+              ...
+          ...
+      ...
+
+[01:02:24.144] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:02:24.144] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:02:24.144] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:02:24.144] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305309104}
+[01:02:24.144] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305309104}
+[01:02:24.144] Browser ERROR   uncaughtError: ReferenceError: recentUploads is not defined
+[01:02:53.081] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[01:02:53.427] Server  LOG      ✓ Compiled in 491ms
+[01:02:53.434] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[01:02:53.547] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:02:54.142] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
+      <SidebarHeader>
+      <SidebarContent>
+        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
+          <SidebarMenu>
+            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
+              <SidebarMenuItem>
+                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
+                  <LinkComponent href="/dashboard">
+                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
+                      <SidebarMenuButton asChild={true} isActive={false}>
+                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
+                              <LayoutDashboard>
+                              <span>
++                               POC Dashboard
+-                               Dashboard
+              ...
+              ...
+          ...
+      ...
+
+[01:02:54.142] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:02:54.142] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:02:54.142] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:02:54.142] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305339662}
+[01:02:54.142] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305339662}
+[01:03:00.244] Server  LOG      ✓ Compiled in 274ms
+[01:03:09.716] Server  LOG      ✓ Compiled in 282ms
+[01:03:16.728] Server  LOG      ✓ Compiled in 265ms
+[01:03:26.788] Server  LOG      ✓ Compiled in 300ms
+[01:04:09.708] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:04:09.708] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
+      <SidebarHeader>
+      <SidebarContent>
+        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
+          <SidebarMenu>
+            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
+              <SidebarMenuItem>
+                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
+                  <LinkComponent href="/dashboard">
+                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
+                      <SidebarMenuButton asChild={true} isActive={false}>
+                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
+                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
+                              <LayoutDashboard>
+                              <span>
++                               POC Dashboard
+-                               Dashboard
+              ...
+              ...
+          ...
+      ...
+
+[01:04:09.708] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:04:09.708] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
+[01:04:09.708] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
+[01:04:09.708] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305415104}
+[01:04:09.708] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305415105}
+[01:04:12.397] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305418266}
+[01:04:21.924] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[01:04:21.924] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:04:21.924] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[01:04:21.924] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:04:30.045] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[01:04:30.045] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:04:30.045] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[01:04:30.045] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:04:31.787] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305437676}
+[01:04:32.147] Browser ERROR   Admin teams load failed {}
+[01:04:32.502] Browser ERROR   Admin teams load failed {}
+[01:04:36.866] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305442771}
+[01:06:12.608] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305538521}
+[01:06:28.936] Server  LOG      ✓ Compiled in 544ms
+[01:07:00.852] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:07:01.039] Browser ERROR   Team document history error {}
+[01:07:01.039] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:07:01.039] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:07:01.039] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305586953}
+[01:07:03.608] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:07:03.788] Browser ERROR   Team document history error {}
+[01:07:03.788] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:07:03.788] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
+[01:07:03.788] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=40bb03e0-bbb0-409f-8e35-b40391f0b038","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305589701}
+[01:07:06.667] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305592575}
+[01:07:27.433] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[01:07:27.433] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:07:27.433] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[01:07:27.433] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:07:29.109] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305614959}
+[01:07:33.800] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=36a66178-842d-4615-aebb-9a0b603aa123 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=36a66178-842d-4615-aebb-9a0b603aa123","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305619696}
+[01:07:39.395] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305625298}
+[01:07:41.272] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=857e588a-89c9-45ed-b1ac-117103759279 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=857e588a-89c9-45ed-b1ac-117103759279","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305627176}
+[01:07:50.828] Browser ERROR   Document download failed {}
+[01:13:43.678] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764305989578}
+[01:19:01.833] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764306307736}
+[01:19:03.931] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764306309836}
+[01:19:07.584] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=857e588a-89c9-45ed-b1ac-117103759279 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=857e588a-89c9-45ed-b1ac-117103759279","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764306313485}
+[01:19:14.939] Browser ERROR   Document download failed {}
+[01:19:17.536] Browser ERROR   Document download failed {}
+[01:19:17.678] Browser ERROR   Document download failed {}
+[01:19:17.852] Browser ERROR   Document download failed {}
+[01:19:18.084] Browser ERROR   Document download failed {}

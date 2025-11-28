@@ -719,6 +719,9 @@ class AuthService {
     async getPOCTeamDetail(teamId) {
         return this.request(`/poc/teams/${teamId}/`);
     }
+    async getAdminTeams() {
+        return this.request("/admin/teams/");
+    }
     async logout() {
         const refreshToken = this.getRefreshToken();
         if (!refreshToken) {

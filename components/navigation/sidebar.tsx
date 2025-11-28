@@ -38,6 +38,9 @@ export function Sidebar() {
       ? [
           { href: "/dashboard", label: "Dashboard", icon: "📊" },
           { href: "/queue", label: "Virtual Queue", icon: "📋" },
+          { href: "/poc/document-submission", label: "Document Submission", icon: "📂" },
+          { href: "/poc/mandate-form", label: "Mandate Form", icon: "🖨️" },
+          { href: "/poc/travel-allowance", label: "Travel Allowance", icon: "✈️" },
         ]
       : [
           { href: "/dashboard", label: "Dashboard", icon: "🏠" },
@@ -65,7 +68,7 @@ export function Sidebar() {
       >
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-xl font-bold" style={{ color: "#002449" }}>
-            SIH Portal
+            SIH | GITAM
           </h2>
           <p className="text-xs mt-1" style={{ color: "#007367" }}>
             {userRole === "poc" ? "POC Dashboard" : "Team Leader Dashboard"}

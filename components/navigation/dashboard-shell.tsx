@@ -19,7 +19,19 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { DashboardNavbar } from "@/components/navigation/dashboard-navbar"
-import { Users, FileText, PlusCircle, LayoutDashboard, ListTodo, Layers, LogOut, Boxes, Network } from "lucide-react"
+import {
+  Users,
+  FileText,
+  PlusCircle,
+  LayoutDashboard,
+  ListTodo,
+  Layers,
+  LogOut,
+  Boxes,
+  Network,
+  FileSignature,
+  Plane,
+} from "lucide-react"
 
 interface DashboardShellProps {
   children: React.ReactNode
@@ -51,6 +63,9 @@ export function DashboardShell({ children }: DashboardShellProps) {
       return [
         { href: "/dashboard", label: "POC Dashboard", icon: <LayoutDashboard /> },
         { href: "/queue", label: "Virtual Queue", icon: <ListTodo /> },
+        { href: "/poc/document-submission", label: "Document Submission", icon: <FileText /> },
+        { href: "/poc/mandate-form", label: "Mandate Form", icon: <FileSignature /> },
+        { href: "/poc/travel-allowance", label: "Travel Allowance", icon: <Plane /> },
       ]
     }
     // leader default

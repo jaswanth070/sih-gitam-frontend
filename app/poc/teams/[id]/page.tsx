@@ -8,6 +8,7 @@ import { requestsService, type RequestData } from "@/lib/requests-service"
 import { useRequestsWS } from "@/hooks/use-requests-ws"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { RequestProgress } from "@/components/requests/request-progress"
+import { Button } from "@/components/ui/button"
 
 export default function POCTeamDetailsPage() {
   const router = useRouter()
@@ -111,6 +112,11 @@ export default function POCTeamDetailsPage() {
                       PS ID: {team.problem_statement.id}
                     </span>
                   )}
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    <Button asChild size="sm" variant="outline" className="gap-1 text-xs border-[#f75700] text-[#f75700] hover:bg-[#f75700]/10">
+                      <Link href={`/poc/document-submission?teamId=${team.id}`}>Document Submission</Link>
+                    </Button>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-4 w-full md:w-auto">
                   {team.faculty_mentor && (

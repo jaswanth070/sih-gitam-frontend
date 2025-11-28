@@ -101,6 +101,10 @@ export interface POCTeam {
   [key: string]: any
 }
 
+export interface AdminTeamSummary extends TeamDetails {
+  status?: string
+}
+
 export interface CurrentUser {
   id?: string
   email?: string
@@ -274,6 +278,10 @@ class AuthService {
 
   async getPOCTeamDetail(teamId: string): Promise<TeamDetails> {
     return this.request(`/poc/teams/${teamId}/`)
+  }
+
+  async getAdminTeams(): Promise<AdminTeamSummary[]> {
+    return this.request("/admin/teams/")
   }
 
   async logout(): Promise<{ detail: string }> {
