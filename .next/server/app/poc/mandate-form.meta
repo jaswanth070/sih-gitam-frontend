@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/poc/layout,_N_T_/poc/mandate-form/layout,_N_T_/poc/mandate-form/page,_N_T_/poc/mandate-form"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/poc/mandate-form/__PAGE__",
+    "/poc/mandate-form",
+    "/poc",
+    "/_index",
+    "/_head"
+  ]
+}

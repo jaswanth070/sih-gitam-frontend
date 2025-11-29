@@ -1,0 +1,18 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/confirm-team/page": "/confirm-team",
+  "/dashboard/page": "/dashboard",
+  "/help/page": "/help",
+  "/login/page": "/login",
+  "/page": "/",
+  "/poc/document-submission/page": "/poc/document-submission",
+  "/poc/mandate-form/page": "/poc/mandate-form",
+  "/poc/teams/[id]/page": "/poc/teams/[id]",
+  "/poc/travel-allowance/page": "/poc/travel-allowance",
+  "/queue/page": "/queue",
+  "/requests/[id]/page": "/requests/[id]",
+  "/requests/new/page": "/requests/new",
+  "/requests/page": "/requests",
+  "/view-documents/page": "/view-documents"
+}

@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/poc/layout,_N_T_/poc/travel-allowance/layout,_N_T_/poc/travel-allowance/page,_N_T_/poc/travel-allowance"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/poc/travel-allowance/__PAGE__",
+    "/poc/travel-allowance",
+    "/poc",
+    "/_index",
+    "/_head"
+  ]
+}

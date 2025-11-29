@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState, Fragment } from "react"
+import { Suspense, useEffect, useMemo, useState, Fragment } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
@@ -211,6 +211,22 @@ function syncAllMembersToPrimary(members: TravelMember[]): TravelMember[] {
 }
 
 export default function TravelAllowanceFormPage() {
+  return (
+    <Suspense
+      fallback={
+        <DashboardShell>
+          <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading travel allowance form...
+          </div>
+        </DashboardShell>
+      }
+    >
+      <TravelAllowanceFormContent />
+    </Suspense>
+  )
+}
+
+function TravelAllowanceFormContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const initialTeamId = searchParams.get("teamId") || ""

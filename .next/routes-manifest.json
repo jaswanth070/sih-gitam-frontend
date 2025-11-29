@@ -1,0 +1,145 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/poc/teams/[id]",
+      "regex": "^/poc/teams/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/poc/teams/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/requests/[id]",
+      "regex": "^/requests/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/requests/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/confirm-team",
+      "regex": "^/confirm\\-team(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/confirm\\-team(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/help",
+      "regex": "^/help(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/help(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/poc/document-submission",
+      "regex": "^/poc/document\\-submission(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/poc/document\\-submission(?:/)?$"
+    },
+    {
+      "page": "/poc/mandate-form",
+      "regex": "^/poc/mandate\\-form(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/poc/mandate\\-form(?:/)?$"
+    },
+    {
+      "page": "/poc/travel-allowance",
+      "regex": "^/poc/travel\\-allowance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/poc/travel\\-allowance(?:/)?$"
+    },
+    {
+      "page": "/queue",
+      "regex": "^/queue(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/queue(?:/)?$"
+    },
+    {
+      "page": "/requests",
+      "regex": "^/requests(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/requests(?:/)?$"
+    },
+    {
+      "page": "/requests/new",
+      "regex": "^/requests/new(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/requests/new(?:/)?$"
+    },
+    {
+      "page": "/view-documents",
+      "regex": "^/view\\-documents(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/view\\-documents(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

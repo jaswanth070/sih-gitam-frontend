@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import UploadDocument from "@/components/documents/upload-document"
@@ -72,7 +72,7 @@ function resolveStatusVariant(status?: string): "default" | "secondary" | "destr
   return "outline"
 }
 
-export default function DocumentSubmissionPage() {
+function DocumentSubmissionContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const teamId = searchParams.get("teamId")
@@ -509,5 +509,22 @@ export default function DocumentSubmissionPage() {
         )}
       </div>
     </DashboardShell>
+  )
+}
+
+export default function DocumentSubmissionPage() {
+  return (
+    <Suspense
+      fallback={(
+        <DashboardShell>
+          <div className="flex h-full items-center justify-center py-20">
+            <Loader2 className="mr-3 h-5 w-5 animate-spin text-[#f75700]" />
+            <span className="text-sm text-muted-foreground">Loading document submission…</span>
+          </div>
+        </DashboardShell>
+      )}
+    >
+      <DocumentSubmissionContent />
+    </Suspense>
   )
 }

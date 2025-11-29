@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/poc/layout,_N_T_/poc/document-submission/layout,_N_T_/poc/document-submission/page,_N_T_/poc/document-submission"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/poc/document-submission/__PAGE__",
+    "/poc/document-submission",
+    "/poc",
+    "/_index",
+    "/_head"
+  ]
+}

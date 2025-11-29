@@ -717,7 +717,7 @@ function normalizeBasePath(pathname) {
     return pathname.replace(/\/+$/, "");
 }
 function buildDocumentsBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/documents/");
+    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {

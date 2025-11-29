@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { Suspense, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { useSearchParams, useRouter } from "next/navigation"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
@@ -80,7 +80,7 @@ function displayChoice(value: string) {
   return value && value.trim().length > 0 ? value : "Yes / No"
 }
 
-export default function MandateFormPage() {
+function MandateFormContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const initialTeamId = searchParams.get("teamId") || ""
@@ -674,5 +674,22 @@ export default function MandateFormPage() {
         }
       `}</style>
     </DashboardShell>
+  )
+}
+
+export default function MandateFormPage() {
+  return (
+    <Suspense
+      fallback={(
+        <DashboardShell>
+          <div className="flex h-full items-center justify-center py-20">
+            <Loader2 className="mr-3 h-5 w-5 animate-spin text-[#f75700]" />
+            <span className="text-sm text-muted-foreground">Loading mandate form…</span>
+          </div>
+        </DashboardShell>
+      )}
+    >
+      <MandateFormContent />
+    </Suspense>
   )
 }
