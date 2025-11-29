@@ -24,7 +24,7 @@ function normalizeAuthPath(pathname) {
     return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
+    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -179,6 +179,10 @@ class AuthService {
     }
     async getPOCTeamDetail(teamId) {
         return this.request(`/poc/teams/${teamId}/`);
+    }
+    async getAdminTeams() {
+        return this.request("/admin/teams/");
+    // return this.request("/poc/teams/")
     }
     async logout() {
         const refreshToken = this.getRefreshToken();

@@ -1,8 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import UploadDocument from "@/components/documents/upload-document"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Card } from "@/components/ui/card"
@@ -22,79 +22,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
-import { authService, type TeamDetails } from "@/lib/auth-service"
-import { Loader2, Users, ShieldCheck, FileCheck2, ScrollText, Banknote, Plane, FileSignature } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
-import type { DocumentType, TeamDocumentHistoryItem, DocumentVersionDetail } from "@/utils/upload"
+import { authService, type POCTeam, type TeamDetails } from "@/lib/auth-service"
+import { getStoredPOCTeams } from "@/lib/session-store"
+import { Loader2, Users, CheckCircle2 } from "lucide-react"
+import type { TeamDocumentHistoryItem, DocumentVersionDetail } from "@/utils/upload"
 import { getTeamDocumentHistory, getDownloadURL } from "@/utils/upload"
-
-interface DocumentSection {
-  id: string
-  title: string
-  icon: LucideIcon
-  description: string
-  requirements: string[]
-  documentType: DocumentType
-  accept?: string
-}
-
-const DOCUMENT_SECTIONS: DocumentSection[] = [
-  {
-    id: "govt-id",
-    title: "Government ID",
-    icon: ShieldCheck,
-    description: "Any one of the approved government-issued IDs for each of the six participants.",
-    requirements: ["Aadhaar", "PAN", "Passport", "Voter ID", "Driving Licence"],
-    documentType: "govt_id",
-    accept: "application/pdf,image/*",
-  },
-  {
-    id: "college-id",
-    title: "College / Institute ID",
-    icon: FileCheck2,
-    description: "Upload the current academic ID card scans for all participants.",
-    requirements: ["Front side", "Back side (if details are present)", "Ensure validity for the current academic year"],
-    documentType: "college_id",
-    accept: "application/pdf,image/*",
-  },
-  {
-    id: "consent-letter",
-    title: "Consent Letter",
-    icon: ScrollText,
-    description: "Institution-issued consent letter authorising participation at the Grand Finale.",
-    requirements: ["Signed on official letterhead", "Includes team name and problem statement ID", "Signed by the competent authority"],
-    documentType: "consent_letter",
-    accept: "application/pdf",
-  },
-  {
-    id: "bank-details",
-    title: "Bank Details",
-    icon: Banknote,
-    description: "Banking details for reimbursements (team leader preferred).",
-    requirements: ["Passbook first page or cancelled cheque", "Account holder PAN", "Bank IFSC and account number clearly visible"],
-    documentType: "bank_details",
-    accept: "application/pdf,image/*",
-  },
-  {
-    id: "travel-allowance",
-    title: "Travel Allowance Claims",
-    icon: Plane,
-    description: "Supporting documents for travel allowance claims.",
-    requirements: ["Travel tickets / boarding passes", "Payment receipts (if applicable)", "Travel dates matching event schedule"],
-    documentType: "travel_allowance",
-    accept: "application/pdf,image/*",
-  },
-  {
-    id: "beneficiary-forms",
-    title: "Beneficiary Forms",
-    icon: FileSignature,
-    description: "Duly filled beneficiary forms with signatures.",
-    requirements: ["Latest template provided by organisers", "Signature of beneficiary and verifier", "Date and contact information"],
-    documentType: "beneficiary_form",
-    accept: "application/pdf",
-  },
-]
+import { DOCUMENT_SECTIONS, isApprovedStatus } from "@/lib/document-metadata"
 
 function orderMembers(team: TeamDetails | null) {
   if (!team?.members) return []
@@ -131,8 +73,14 @@ function resolveStatusVariant(status?: string): "default" | "secondary" | "destr
 }
 
 export default function DocumentSubmissionPage() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const teamId = searchParams.get("teamId")
+  const initialTeamsRef = useRef<POCTeam[]>(getStoredPOCTeams())
+  const [teams, setTeams] = useState<POCTeam[]>(initialTeamsRef.current)
+  const [teamsLoading, setTeamsLoading] = useState(initialTeamsRef.current.length === 0)
+  const [teamsError, setTeamsError] = useState<string | null>(null)
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(teamId)
   const [team, setTeam] = useState<TeamDetails | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -140,14 +88,66 @@ export default function DocumentSubmissionPage() {
   const [documentsLoading, setDocumentsLoading] = useState(false)
   const [documentsError, setDocumentsError] = useState<string | null>(null)
   const [versionDownloadId, setVersionDownloadId] = useState<string | null>(null)
+  const initialTeamsAvailable = useRef(initialTeamsRef.current.length > 0)
   const { toast } = useToast()
+
+  useEffect(() => {
+    let cancelled = false
+    const loadTeams = async () => {
+      const shouldShowLoader = !initialTeamsAvailable.current
+      if (shouldShowLoader) {
+        setTeamsLoading(true)
+      }
+      setTeamsError(null)
+      try {
+        const pocTeams = await authService.getPOCTeams()
+        if (cancelled) return
+        setTeams(pocTeams)
+        setSelectedTeamId((prev) => {
+          if (!prev) return prev
+          return pocTeams.some((team) => String(team.id) === prev) ? prev : null
+        })
+        initialTeamsAvailable.current = pocTeams.length > 0
+      } catch (err) {
+        if (cancelled) return
+        const message = err instanceof Error ? err.message : "Unable to load assigned teams."
+        setTeamsError(message)
+      } finally {
+        if (!cancelled) {
+          setTeamsLoading(false)
+        }
+      }
+    }
+
+    loadTeams()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const timestampFormatter = useMemo(
     () => new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }),
     [],
   )
 
-  const activeTeamId = team?.id ?? (teamId ?? undefined)
+  useEffect(() => {
+    if (teamId && teamId !== selectedTeamId) {
+      setSelectedTeamId(teamId)
+    }
+  }, [teamId, selectedTeamId])
+
+  const handleTeamSelection = useCallback(
+    (nextTeamId: string) => {
+      if (nextTeamId === selectedTeamId) return
+      setSelectedTeamId(nextTeamId)
+      const params = new URLSearchParams(searchParams.toString())
+      params.set("teamId", nextTeamId)
+      router.replace(`?${params.toString()}`, { scroll: false })
+    },
+    [router, searchParams, selectedTeamId],
+  )
+
+  const activeTeamId = selectedTeamId ?? team?.id ?? undefined
 
   const fetchTeamDocuments = useCallback(
     async (targetTeamId: string) => {
@@ -199,15 +199,18 @@ export default function DocumentSubmissionPage() {
 
   useEffect(() => {
     let isMounted = true
-    if (!teamId) {
+    if (!selectedTeamId) {
       setTeam(null)
+      setLoading(false)
+      setError(null)
       return
     }
+
     const fetchTeam = async () => {
       setLoading(true)
       setError(null)
       try {
-        const details = await authService.getPOCTeamDetail(teamId)
+        const details = await authService.getPOCTeamDetail(selectedTeamId)
         if (isMounted) {
           setTeam(details)
         }
@@ -221,11 +224,12 @@ export default function DocumentSubmissionPage() {
         }
       }
     }
+
     fetchTeam()
     return () => {
       isMounted = false
     }
-  }, [teamId])
+  }, [selectedTeamId])
 
   useEffect(() => {
     if (!activeTeamId) {
@@ -242,7 +246,7 @@ export default function DocumentSubmissionPage() {
   return (
     <DashboardShell>
       <div className="space-y-8">
-        <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <header className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ color: "#002449" }}>
               Document Submission
@@ -251,23 +255,50 @@ export default function DocumentSubmissionPage() {
               Upload mandatory documentation for verification ahead of the Grand Finale.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">Back to Dashboard</Link>
-            </Button>
-            {teamId && (
-              <Button asChild variant="secondary" size="sm">
-                <Link href={`/poc/teams/${teamId}`}>View Team Details</Link>
-              </Button>
+          <div className="flex w-full flex-col gap-3 md:w-auto md:items-end">
+            <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+              <div className="w-full min-w-[220px] sm:w-64">
+                <Select
+                  value={selectedTeamId ?? undefined}
+                  onValueChange={handleTeamSelection}
+                  disabled={teamsLoading || teams.length === 0}
+                >
+                  <SelectTrigger className="w-full border border-[#002449]/40 focus:border-[#002449] focus:ring-[#002449]/20">
+                    <SelectValue placeholder={teamsLoading ? "Loading teams..." : "Select a team"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {teams.map((teamOption) => (
+                        <SelectItem key={teamOption.id} value={teamOption.id}>
+                          <div className="flex flex-col">
+                            <span className="font-medium text-sm text-gray-900">{teamOption.name}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+        
+                {selectedTeamId && (
+                  <Button asChild variant="secondary" size="sm">
+                    <Link href={`/poc/teams/${selectedTeamId}`}>View Team Details</Link>
+                  </Button>
+                )}
+              </div>
+            </div>
+            {teamsError && (
+              <p className="text-xs font-medium text-destructive">{teamsError}</p>
             )}
           </div>
         </header>
 
-        {!teamId && (
+        {!selectedTeamId && !teamsLoading && !teamsError && teams.length > 0 && (
           <Card className="p-6 border-dashed border-[#f75700] bg-[#f75700]/5">
             <p className="text-sm text-gray-700">
-              Select a team from the POC dashboard to manage document submissions. Use the “Document Submission” button on a
-              team card to land here with the correct context.
+              Select a team using the dropdown above to manage document submissions. Once chosen, you can upload and review
+              files for that team here.
             </p>
           </Card>
         )}
@@ -351,6 +382,7 @@ export default function DocumentSubmissionPage() {
                     : []
                   const latestVersion = docInfo?.latest_version ?? sortedVersions[0]
                   const latestStatus = docInfo?.latest_status ?? latestVersion?.status
+                  const isApproved = isApprovedStatus(latestStatus)
                   const requiresUpload = docInfo?.requires_upload ?? (!latestVersion && !docInfo?.pending_review)
                   const pendingReview = docInfo?.pending_review ?? false
                   const statusLabel = requiresUpload && !latestVersion ? "Awaiting Upload" : formatStatusLabel(latestStatus)
@@ -359,14 +391,18 @@ export default function DocumentSubmissionPage() {
                     ? timestampFormatter.format(new Date(latestVersion.uploaded_at))
                     : null
                   const rejectionNote = latestVersion?.rejection_reason
+                  const uploadDisabled = isApproved
 
                   return (
                     <AccordionItem key={id} value={id} className="border border-gray-200 rounded-lg">
-                      <AccordionTrigger className="px-4 py-3 text-left">
-                        <div className="flex items-center gap-3">
+                      <AccordionTrigger className="px-4 py-3 text-left items-center">
+                        <div className="flex flex-1 items-center gap-3">
                           <Icon className="w-5 h-5 text-[#f75700]" />
                           <span className="font-semibold text-sm md:text-base text-gray-900">{title}</span>
                         </div>
+                        {isApproved && (
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500" aria-label="Document approved" />
+                        )}
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 space-y-4">
                         <div>
@@ -384,6 +420,8 @@ export default function DocumentSubmissionPage() {
                             label={title}
                             accept={accept}
                             onUploaded={handleUploadComplete}
+                            disabled={uploadDisabled}
+                            disabledReason={isApproved ? "This document is already approved. Uploading a new file is disabled." : undefined}
                           />
                           <div className="space-y-2 text-xs">
                             {documentsLoading ? (
@@ -394,7 +432,9 @@ export default function DocumentSubmissionPage() {
                               <div className="flex flex-wrap items-center gap-2">
                                 <Badge variant={statusVariant}>{statusLabel}</Badge>
                                 {pendingReview && <Badge variant="secondary">Pending Review</Badge>}
-                                {requiresUpload && <span className="text-muted-foreground">Upload required</span>}
+                                {!isApproved && requiresUpload && (
+                                  <span className="text-muted-foreground">Upload required</span>
+                                )}
                                 {uploadedAtLabel && <span className="text-muted-foreground">Last update: {uploadedAtLabel}</span>}
                               </div>
                             )}
@@ -447,7 +487,7 @@ export default function DocumentSubmissionPage() {
                                             {isDownloading ? (
                                               <Loader2 className="h-3.5 w-3.5 animate-spin" />
                                             ) : (
-                                              "Download"
+                                              "View"
                                             )}
                                           </Button>
                                         </TableCell>

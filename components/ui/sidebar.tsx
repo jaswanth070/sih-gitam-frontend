@@ -577,27 +577,27 @@ function SidebarMenuAction({
   )
 }
 
-function SidebarMenuBadge({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="sidebar-menu-badge"
-      data-sidebar="menu-badge"
-      className={cn(
-        'text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none',
-        'peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground',
-        'peer-data-[size=sm]/menu-button:top-1',
-        'peer-data-[size=default]/menu-button:top-1.5',
-        'peer-data-[size=lg]/menu-button:top-2.5',
-        'group-data-[collapsible=icon]:hidden',
-        className,
-      )}
-      {...props}
-    />
-  )
-}
+// function SidebarMenuBadge({
+//   className,
+//   ...props
+// }: React.ComponentProps<'div'>) {
+//   return (
+//     <div
+//       data-slot="sidebar-menu-badge"
+//       data-sidebar="menu-badge"
+//       className={cn(
+//         'text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none',
+//         'peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground',
+//         'peer-data-[size=sm]/menu-button:top-1',
+//         'peer-data-[size=default]/menu-button:top-1.5',
+//         'peer-data-[size=lg]/menu-button:top-2.5',
+//         'group-data-[collapsible=icon]:hidden',
+//         className,
+//       )}
+//       {...props}
+//     />
+//   )
+// }
 
 function SidebarMenuSkeleton({
   className,
@@ -606,9 +606,11 @@ function SidebarMenuSkeleton({
 }: React.ComponentProps<'div'> & {
   showIcon?: boolean
 }) {
-  // Random width between 50 to 90%.
-  const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`
+  // Use a deterministic width during SSR, randomize after hydration.
+  const [width, setWidth] = React.useState('70%')
+
+  React.useEffect(() => {
+    setWidth(`${Math.floor(Math.random() * 40) + 50}%`)
   }, [])
 
   return (
@@ -711,7 +713,6 @@ export {
   SidebarInset,
   SidebarMenu,
   SidebarMenuAction,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSkeleton,

@@ -3,6 +3,19 @@
  * Handles all authentication-related API calls with secure token management
  */
 
+import {
+  clearSessionCache,
+  getStoredAdminTeams,
+  getStoredLeaderTeam,
+  getStoredPOCTeamDetail,
+  getStoredPOCTeams,
+  storeAdminTeams,
+  storeCurrentUser,
+  storeLeaderTeam,
+  storePOCTeamDetail,
+  storePOCTeams,
+} from "./session-store"
+
 const ACCESS_TOKEN_KEY = "sih_access_token"
 const REFRESH_TOKEN_KEY = "sih_refresh_token"
 const FALLBACK_AUTH_BASE_URL = "http://127.0.0.1:8000/auth/api"
@@ -70,28 +83,49 @@ export interface LogoutRequest {
   refresh: string
 }
 
-export interface TeamDetails {
+export interface TeamContact {
   id: string
-  name: string
-  institution: string
-  poc: any
-  faculty_mentor: {
+  name?: string | null
+  email?: string | null
+  phone?: string | null
+  designation?: string | null
+  role?: string | null
+  gender?: string | null
+  first_login?: boolean
+  is_verified_poc?: boolean
+}
+
+export interface TeamMemberSummary {
+  id: string
+  role: string
+  phone?: string | null
+  gender?: string | null
+  user: {
     id: string
+    email: string
     name: string
   }
-  problem_statement: {
-    id: string
-    title: string
-  }
-  members: Array<{
-    id: string
-    role: string
-    user: {
-      id: string
-      email: string
-      name: string
-    }
-  }>
+}
+
+export interface ProblemStatementSummary {
+  id: string
+  title?: string | null
+  description?: string | null
+}
+
+export interface TeamDetails {
+  id: string
+  team_id: string
+  name: string
+  institution: string
+  poc: TeamContact | null
+  faculty_mentor?: TeamContact | null
+  faculty_mentor_1?: TeamContact | null
+  faculty_mentor_2?: TeamContact | null
+  mentors?: TeamContact[]
+  problem_statement?: ProblemStatementSummary | null
+  members: TeamMemberSummary[]
+  [key: string]: any
 }
 
 export interface POCTeam {
@@ -111,6 +145,9 @@ export interface CurrentUser {
   name?: string
   team_ids?: string[]
   role?: string
+  is_admin?: boolean
+  is_poc?: boolean
+  is_leader?: boolean
   [key: string]: any
 }
 
@@ -224,6 +261,11 @@ class AuthService {
     })
 
     this.setTokens(response.access, response.refresh)
+    if (typeof window !== "undefined") {
+      this.initializeUserContext().catch((error: unknown) => {
+        console.warn("[auth-service] Failed to initialize session context", error)
+      })
+    }
     return response
   }
 
@@ -260,8 +302,16 @@ class AuthService {
   }
 
   async getTeamDetails(preview = false): Promise<TeamDetails> {
+    if (!preview) {
+      const cached = getStoredLeaderTeam()
+      if (cached) return cached
+    }
     const endpoint = preview ? "/leader/team/?preview=1" : "/leader/team/"
-    return this.request(endpoint)
+    const data = await this.request<TeamDetails>(endpoint)
+    if (!preview) {
+      storeLeaderTeam(data)
+    }
+    return data
   }
 
   async confirmTeamDetails(): Promise<{ detail: string; next: string }> {
@@ -273,21 +323,35 @@ class AuthService {
   }
 
   async getPOCTeams(): Promise<POCTeam[]> {
-    return this.request("/poc/teams/")
+    const cached = getStoredPOCTeams()
+    if (cached.length) return cached
+    const data = await this.request<POCTeam[]>("/poc/teams/")
+    storePOCTeams(data)
+    return data
   }
 
   async getPOCTeamDetail(teamId: string): Promise<TeamDetails> {
-    return this.request(`/poc/teams/${teamId}/`)
+    const cached = getStoredPOCTeamDetail(teamId)
+    if (cached) return cached
+    const data = await this.request<TeamDetails>(`/poc/teams/${teamId}/`)
+    storePOCTeamDetail(data)
+    return data
   }
 
   async getAdminTeams(): Promise<AdminTeamSummary[]> {
-    return this.request("/admin/teams/")
+    const cached = getStoredAdminTeams()
+    if (cached.length) return cached
+    const data = await this.request<AdminTeamSummary[]>("/admin/teams/")
+    storeAdminTeams(data)
+    return data
+    // return this.request("/poc/teams/")
   }
 
   async logout(): Promise<{ detail: string }> {
     const refreshToken = this.getRefreshToken()
     if (!refreshToken) {
       this.clearTokens()
+      clearSessionCache()
       return { detail: "Logged out" }
     }
 
@@ -298,9 +362,11 @@ class AuthService {
         body: JSON.stringify({ refresh: refreshToken }),
       })
       this.clearTokens()
+      clearSessionCache()
       return response
     } catch (error) {
       this.clearTokens()
+      clearSessionCache()
       return { detail: "Logged out" }
     }
   }
@@ -312,10 +378,62 @@ class AuthService {
         headers: { "Content-Type": "application/json" },
       })
       this.clearTokens()
+      clearSessionCache()
       return response
     } catch (error) {
       this.clearTokens()
+      clearSessionCache()
       return { detail: "Logged out from all devices" }
+    }
+  }
+
+  async initializeUserContext(force = false): Promise<void> {
+    if (typeof window === "undefined") return
+    const user = this.getCurrentUser()
+    if (!user) return
+
+    storeCurrentUser(user)
+
+    if (user.is_admin) {
+      if (!force && getStoredAdminTeams().length) return
+      try {
+        const teams = await this.request<AdminTeamSummary[]>("/admin/teams/")
+        storeAdminTeams(teams)
+      } catch (error: unknown) {
+        console.warn("[auth-service] unable to cache admin teams", error)
+      }
+      return
+    }
+
+    if (user.is_poc) {
+      if (!force && getStoredPOCTeams().length) return
+      try {
+        const teams = await this.request<POCTeam[]>("/poc/teams/")
+        storePOCTeams(teams)
+        await Promise.all(
+          teams.map(async (team) => {
+            const teamKey = String(team.id)
+            if (getStoredPOCTeamDetail(teamKey)) return
+            try {
+              const detail = await this.request<TeamDetails>(`/poc/teams/${teamKey}/`)
+              storePOCTeamDetail(detail)
+            } catch (error: unknown) {
+              console.warn(`[auth-service] unable to cache POC team detail for ${teamKey}`, error)
+            }
+          }),
+        )
+      } catch (error: unknown) {
+        console.warn("[auth-service] unable to cache POC teams", error)
+      }
+      return
+    }
+
+    if (!force && getStoredLeaderTeam()) return
+    try {
+      const team = await this.request<TeamDetails>("/leader/team/")
+      storeLeaderTeam(team)
+    } catch (error: unknown) {
+      console.warn("[auth-service] unable to cache leader team", error)
     }
   }
 }

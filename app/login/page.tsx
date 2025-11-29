@@ -44,6 +44,7 @@ export default function LoginPage() {
 
     try {
       await authService.login({ email, password })
+      await authService.initializeUserContext(true)
       setFeedback({ type: "success", title: "Success", message: "Logged in successfully!" })
       setTimeout(() => router.push("/dashboard"), 1500)
     } catch (err: any) {
@@ -90,6 +91,7 @@ export default function LoginPage() {
 
       // Auto-login with new password
       await authService.autoLogin(email, newPassword)
+      await authService.initializeUserContext(true)
 
       // Redirect to confirmation page instead of showing success
       router.push("/confirm-team")

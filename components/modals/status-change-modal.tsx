@@ -1,98 +1,91 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 
 interface StatusChangeModalProps {
   open: boolean
   currentStatus: string
+  targetStatus: string
   onClose: () => void
-  onConfirm: (newStatus: string, note: string) => void
+  onConfirm: (remarks?: string) => void
   loading?: boolean
+}
+
+const SHOULD_REQUIRE_REMARKS = (currentStatus: string, targetStatus: string) => {
+  if (targetStatus === "Cannot be Processed") return true
+  return currentStatus === "Processing" && targetStatus === "Issued"
 }
 
 export function StatusChangeModal({
   open,
   currentStatus,
+  targetStatus,
   onClose,
   onConfirm,
   loading = false,
 }: StatusChangeModalProps) {
-  const [note, setNote] = useState("")
-  const [selectedStatus, setSelectedStatus] = useState("")
+  const [remarks, setRemarks] = useState("")
 
-  const getNextStatuses = () => {
-    if (currentStatus === "Submitted") {
-      return ["Processing", "Cannot be Processed"]
+  useEffect(() => {
+    if (open) {
+      setRemarks("")
     }
-    if (currentStatus === "Processing") {
-      return ["Issued", "Cannot be Processed"]
-    }
-    return []
-  }
+  }, [open, currentStatus, targetStatus])
 
-  const handleConfirm = () => {
-    if (selectedStatus) {
-      onConfirm(selectedStatus, note)
-      setNote("")
-      setSelectedStatus("")
-    }
-  }
+  const requiresRemarks = useMemo(
+    () => SHOULD_REQUIRE_REMARKS(currentStatus, targetStatus),
+    [currentStatus, targetStatus],
+  )
 
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-        <h2 className="text-lg font-bold mb-4" style={{ color: "#002449" }}>
-          Update Request Status
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl animate-in fade-in slide-in-from-bottom">
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: "#002449" }}>
+          Confirm Status Update
         </h2>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Change from: <span className="font-semibold">{currentStatus}</span>
-          </label>
-          <label className="block text-sm font-medium text-gray-700 mb-2">New Status</label>
-          <select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-            style={{ focusColor: "#002449" }}
-          >
-            <option value="">Select a status</option>
-            {getNextStatuses().map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </select>
+        <div className="mb-4 space-y-2 text-sm">
+          <p className="text-gray-600">
+            You are changing the request from <span className="font-semibold">{currentStatus}</span> to {" "}
+            <span className="font-semibold">{targetStatus}</span>.
+          </p>
+          <p className="text-[11px] uppercase tracking-wide text-gray-500">
+            {requiresRemarks ? "A remark for the team is required before you continue." : "Review the update and confirm when ready."}
+          </p>
         </div>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Note (Optional)</label>
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="Add a note about this status change..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 resize-none"
-            rows={3}
-          />
-        </div>
+        {requiresRemarks && (
+          <div className="mb-5 space-y-2">
+            <label className="text-xs font-semibold uppercase tracking-wide text-gray-600">Remarks for Team (required)</label>
+            <textarea
+              value={remarks}
+              onChange={(event) => setRemarks(event.target.value)}
+              placeholder="Share any guidance or context for the team."
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f75700]/40"
+              rows={3}
+            />
+            <p className="text-[11px] text-gray-500">
+              These remarks are visible to the team on their dashboard and request view.
+            </p>
+          </div>
+        )}
 
         <div className="flex gap-3">
           <button
+            type="button"
             onClick={onClose}
             disabled={loading}
-            className="flex-1 px-4 py-2 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
+            className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>
           <button
-            onClick={handleConfirm}
-            disabled={!selectedStatus || loading}
-            className="flex-1 px-4 py-2 text-white font-medium rounded-lg transition-opacity disabled:opacity-50"
-            style={{ backgroundColor: "#f75700" }}
-            onMouseEnter={(e) => !loading && (e.currentTarget.style.opacity = "0.9")}
-            onMouseLeave={(e) => !loading && (e.currentTarget.style.opacity = "1")}
+            type="button"
+            onClick={() => onConfirm(remarks.trim() || undefined)}
+            disabled={loading}
+            className="flex-1 rounded-lg bg-[#f75700] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#f75700]/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Updating..." : "Confirm"}
           </button>

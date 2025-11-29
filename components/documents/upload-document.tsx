@@ -32,6 +32,7 @@ export interface UploadDocumentProps {
   disabled?: boolean
   accept?: string
   onUploaded?: (payload: UploadDocumentSuccess) => void
+  disabledReason?: string
 }
 
 type UploadStage = "idle" | "ready" | "preparing" | "uploading" | "notifying" | "success" | "error"
@@ -73,6 +74,7 @@ export function UploadDocument({
   disabled = false,
   accept = "application/pdf,image/*",
   onUploaded,
+  disabledReason,
 }: UploadDocumentProps) {
   const { toast } = useToast()
   const [file, setFile] = useState<File | null>(null)
@@ -84,13 +86,46 @@ export function UploadDocument({
   const [isDownloading, setIsDownloading] = useState(false)
 
   const effectiveDisabled = disabled || !teamId
+  const isLocked = effectiveDisabled && !!teamId
 
   const currentMessage = useMemo(() => {
     if (effectiveDisabled) {
-      return "Select a team to enable document uploads."
+      if (!teamId) {
+        return "Select a team to enable document uploads."
+      }
+      return disabledReason ?? "Uploads are locked for this document."
     }
     return STAGE_MESSAGE[stage]
-  }, [effectiveDisabled, stage])
+  }, [disabledReason, effectiveDisabled, stage, teamId])
+
+  const fileInputClasses = useMemo(
+    () =>
+      cn(
+        "sm:max-w-md cursor-pointer border-2 border-dashed border-[#f75700] bg-white/95 shadow-[0_0_0_1px_rgba(247,87,0,0.18)] transition focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/50 file:cursor-pointer file:rounded-md file:border-0 file:bg-[#f75700] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white file:tracking-wide file:uppercase file:transition-colors hover:border-[#d94f00] file:hover:bg-[#d94f00]",
+        file && !effectiveDisabled ? "border-solid border-[#078e31] shadow-[0_0_0_1px_rgba(7,142,49,0.2)]" : null,
+        effectiveDisabled || isUploading
+          ? "cursor-not-allowed border-gray-300 bg-gray-100 shadow-none file:bg-gray-300 file:text-gray-600 hover:border-gray-300"
+          : null,
+      ),
+    [effectiveDisabled, file, isUploading],
+  )
+
+  const badgeLabel = isLocked
+    ? "Approved"
+    : effectiveDisabled && !teamId
+      ? "Select Team"
+      : STAGE_LABEL[stage]
+
+  const badgeVariant: "default" | "secondary" | "destructive" = isLocked
+    ? "default"
+    : effectiveDisabled && !teamId
+      ? "secondary"
+      : STAGE_BADGE_VARIANT[stage]
+
+  const badgeClassName = cn(
+    !isLocked && stage === "success" ? "bg-[#007367] text-white" : null,
+    isLocked ? "bg-emerald-100 text-emerald-700 border border-emerald-200" : null,
+  )
 
   const resetFileInput = useCallback(() => {
     setFile(null)
@@ -200,11 +235,8 @@ export function UploadDocument({
             <Upload className="h-4 w-4" />
             <span className="text-sm font-semibold">{label}</span>
           </div>
-          <Badge
-            variant={STAGE_BADGE_VARIANT[stage]}
-            className={cn(stage === "success" ? "bg-[#007367] text-white" : "")}
-          >
-            {stage === "idle" && effectiveDisabled ? "Select a team" : STAGE_LABEL[stage]}
+          <Badge variant={badgeVariant} className={badgeClassName}>
+            {badgeLabel}
           </Badge>
         </div>
 
@@ -215,7 +247,7 @@ export function UploadDocument({
             accept={accept}
             disabled={effectiveDisabled || isUploading}
             onChange={handleFileChange}
-            className="sm:max-w-md"
+            className={fileInputClasses}
           />
           <div className="flex flex-wrap items-center gap-2">
             <Button

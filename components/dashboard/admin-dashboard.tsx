@@ -289,7 +289,7 @@ export function AdminDashboard({ user }: AdminDashboardProps) {
                   const leader = team.members?.find((member) => member.role?.toLowerCase().includes("leader"))
                   const pocName = team.poc?.name || team.poc?.email || "-"
                   const psLabel = team.problem_statement?.id
-                    ? `${team.problem_statement.id}${team.problem_statement.title ? ` · ${team.problem_statement.title}` : ""}`
+                    ? `${team.problem_statement.id}`
                     : "Not assigned"
 
                   return (

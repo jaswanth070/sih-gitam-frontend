@@ -1,16 +1,15 @@
 import { authService } from "@/lib/auth-service"
+import { buildDocumentsBaseUrl } from "@/lib/documents-service"
 
-const FALLBACK_API_BASE_URL = "http://127.0.0.1:8002"
-
-function resolveApiBaseUrl(): string {
-  const envUrl = process.env.NEXT_PUBLIC_API_URL
-  const base = envUrl && envUrl.trim() ? envUrl.trim() : FALLBACK_API_BASE_URL
-  return base.replace(/\/+$/, "")
-}
+const DOCUMENTS_BASE_URL = buildDocumentsBaseUrl()
 
 function buildUrl(path: string): string {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`
-  return `${resolveApiBaseUrl()}${normalizedPath}`
+  const base = DOCUMENTS_BASE_URL.replace(/\/+$/, "") || "/"
+  if (base === "/") {
+    return normalizedPath
+  }
+  return `${base}${normalizedPath}`
 }
 
 function requireAuthHeaders(contentType?: string): Headers {
@@ -163,7 +162,7 @@ export async function prepareUpload(
   const filename = (file as File).name || "document"
   const contentType = (file as File).type || "application/octet-stream"
   const response = await fetch(
-    buildUrl(`/api/documents/${teamId}/prepare-upload/`),
+    buildUrl(`/documents/api/${teamId}/prepare-upload/`),
     {
       method: "POST",
       headers: requireAuthHeaders("application/json"),
@@ -217,7 +216,7 @@ export async function notifyUploaded(versionId: string): Promise<NotifyUploadRes
   }
 
   const response = await fetch(
-    buildUrl(`/api/documents/notify-uploaded/${versionId}/`),
+    buildUrl(`/documents/api/notify-uploaded/${versionId}/`),
     {
       method: "POST",
       headers: requireAuthHeaders(),
@@ -238,7 +237,7 @@ export async function approveDocument(versionId: string): Promise<NotifyUploadRe
   }
 
   const response = await fetch(
-    buildUrl(`/api/documents/approve/${versionId}/`),
+    buildUrl(`/documents/api/approve/${versionId}/`),
     {
       method: "POST",
       headers: requireAuthHeaders(),
@@ -259,7 +258,7 @@ export async function rejectDocument(versionId: string): Promise<NotifyUploadRes
   }
 
   const response = await fetch(
-    buildUrl(`/api/documents/reject/${versionId}/`),
+    buildUrl(`/documents/api/reject/${versionId}/`),
     {
       method: "POST",
       headers: requireAuthHeaders(),
@@ -280,7 +279,7 @@ export async function getDownloadURL(versionId: string): Promise<DownloadUrlResp
   }
 
   const response = await fetch(
-    buildUrl(`/api/documents/download/${versionId}/`),
+    buildUrl(`/documents/api/download/${versionId}/`),
     {
       method: "GET",
       headers: requireAuthHeaders(),
@@ -318,7 +317,7 @@ export async function listDocumentVersions(params?: {
   team_id?: string
 }): Promise<DocumentVersionDetail[]> {
   const response = await fetch(
-    buildUrl(`/api/documents/admin/versions/${buildQueryString(params)}`),
+    buildUrl(`/documents/api/admin/versions/${buildQueryString(params)}`),
     {
       method: "GET",
       headers: requireAuthHeaders(),
@@ -338,7 +337,7 @@ export async function listPendingDocuments(): Promise<DocumentVersionDetail[]> {
 }
 
 export async function getDocumentDashboardOverview(): Promise<DocumentOverviewItem[]> {
-  const response = await fetch(buildUrl("/api/documents/dashboard/overview/"), {
+  const response = await fetch(buildUrl("/documents/api/dashboard/overview/"), {
     method: "GET",
     headers: requireAuthHeaders(),
   })
@@ -357,7 +356,7 @@ export async function getTeamDocumentHistory(teamId: string): Promise<TeamDocume
     throw new Error("Missing team identifier.")
   }
 
-  const response = await fetch(buildUrl(`/api/documents/dashboard/${teamId}/`), {
+  const response = await fetch(buildUrl(`/documents/api/dashboard/${teamId}/`), {
     method: "GET",
     headers: requireAuthHeaders(),
   })

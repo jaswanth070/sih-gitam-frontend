@@ -14,7 +14,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarMenuBadge,
   SidebarSeparator,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
@@ -25,7 +24,7 @@ import {
   PlusCircle,
   LayoutDashboard,
   ListTodo,
-  Layers,
+  Eye,
   LogOut,
   Boxes,
   Network,
@@ -57,6 +56,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         { href: "/dashboard", label: "Admin Dashboard", icon: <LayoutDashboard /> },
         { href: "/queue", label: "Global Queue", icon: <Network /> },
         { href: "/requests", label: "All Requests", icon: <Boxes /> },
+        { href: "/view-documents", label: "View Documents", icon: <Eye /> },
       ]
     }
     if (role === "poc") {
@@ -64,6 +64,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         { href: "/dashboard", label: "POC Dashboard", icon: <LayoutDashboard /> },
         { href: "/queue", label: "Virtual Queue", icon: <ListTodo /> },
         { href: "/poc/document-submission", label: "Document Submission", icon: <FileText /> },
+        { href: "/view-documents", label: "View Documents", icon: <Eye /> },
         { href: "/poc/mandate-form", label: "Mandate Form", icon: <FileSignature /> },
         { href: "/poc/travel-allowance", label: "Travel Allowance", icon: <Plane /> },
       ]
@@ -125,7 +126,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
                     </span>
                   </SidebarMenuButton>
                 </Link>
-                {item.href === "/queue" && role !== "leader" && <SidebarMenuBadge>Live</SidebarMenuBadge>}
+                {item.href === "/queue" && role !== "leader" }
               </SidebarMenuItem>
             ))}
             {/* Inline Logout for visibility (remove nested button) */}

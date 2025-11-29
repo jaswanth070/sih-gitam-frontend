@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { authService } from "@/lib/auth-service"
 import { requestsService, type RequestData } from "@/lib/requests-service"
@@ -9,6 +9,7 @@ import { useRequestsQueue } from "@/hooks/use-requests-queue"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { RequestProgress } from "@/components/requests/request-progress"
 import { cn } from "@/lib/utils"
+import { StatusChangeModal } from "@/components/modals/status-change-modal"
 
 export default function QueuePage() {
   const router = useRouter()
@@ -49,15 +50,43 @@ export default function QueuePage() {
     if (hookError) setError(hookError)
   }, [hookError])
   const [loadingIds, setLoadingIds] = useState<number[]>([])
-  const handleStatusChange = async (requestId: number, newStatus: string) => {
-    setLoadingIds(ids => ids.includes(requestId) ? ids : [...ids, requestId])
+  const [pendingStatusChange, setPendingStatusChange] = useState<{
+    request: RequestData
+    nextStatus: string
+  } | null>(null)
+
+  const shouldCollectRemarks = useCallback((currentStatus: string, nextStatus: string) => {
+    if (nextStatus === "Cannot be Processed") return true
+    return currentStatus === "Processing" && nextStatus === "Issued"
+  }, [])
+
+  const handleStatusChange = async (
+    requestId: number,
+    newStatus: string,
+    remarks?: string,
+  ) => {
+    setLoadingIds((ids) => (ids.includes(requestId) ? ids : [...ids, requestId]))
+
+    const finalNote = `Status changed to ${newStatus}`
+
     try {
-      await requestsService.changeRequestStatus(requestId, newStatus)
+      await requestsService.changeRequestStatus(requestId, newStatus, finalNote, remarks)
+      setError("")
+      setPendingStatusChange(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to change status")
     } finally {
-      setLoadingIds(ids => ids.filter(id => id !== requestId))
+      setLoadingIds((ids) => ids.filter((id) => id !== requestId))
     }
+  }
+
+  const initiateStatusChange = (request: RequestData, newStatus: string) => {
+    if (shouldCollectRemarks(request.status, newStatus)) {
+      setPendingStatusChange({ request, nextStatus: newStatus })
+      return
+    }
+
+    void handleStatusChange(request.id, newStatus)
   }
 
   const filteredRequests = useMemo(() => {
@@ -158,20 +187,37 @@ export default function QueuePage() {
             <ul className="space-y-3">
               {filteredRequests.map((r, idx) => (
                 <li key={r.id}>
-                  <QueueRow
-                    request={r}
-                    position={idx + 1}
-                    onAdvance={handleStatusChange}
-                    canAdvance={!!user && (user.is_poc || user.is_admin)}
-                    highlight={recentlyChangedIds.includes(r.id)}
-                    loading={loadingIds.includes(r.id)}
-                  />
+                    <QueueRow
+                      request={r}
+                      position={idx + 1}
+                      onAdvance={initiateStatusChange}
+                      canAdvance={!!user && (user.is_poc || user.is_admin)}
+                      highlight={recentlyChangedIds.includes(r.id)}
+                      loading={loadingIds.includes(r.id)}
+                    />
                 </li>
               ))}
             </ul>
           )}
         </div>
       </div>
+      {pendingStatusChange && (
+        <StatusChangeModal
+          open={!!pendingStatusChange}
+          currentStatus={pendingStatusChange.request.status}
+          targetStatus={pendingStatusChange.nextStatus}
+          loading={loadingIds.includes(pendingStatusChange.request.id)}
+          onClose={() => setPendingStatusChange(null)}
+          onConfirm={async (remarks) => {
+            if (!pendingStatusChange) return
+            await handleStatusChange(
+              pendingStatusChange.request.id,
+              pendingStatusChange.nextStatus,
+              remarks,
+            )
+          }}
+        />
+      )}
     </DashboardShell>
   )
 }
@@ -193,7 +239,7 @@ function statusAccent(status: string) {
 interface QueueRowProps {
   request: RequestData
   position: number
-  onAdvance: (id: number, next: string) => void
+  onAdvance: (request: RequestData, next: string) => void
   canAdvance: boolean
   highlight?: boolean
   loading?: boolean
@@ -234,14 +280,16 @@ function QueueRow({ request, position, onAdvance, canAdvance, highlight = false,
         >View</a>
         {canAdvance && nextStatus && (
           <button
-            onClick={() => onAdvance(request.id, nextStatus)}
+            onClick={() => onAdvance(request, nextStatus)}
+            disabled={loading}
             className="px-3 py-1.5 text-[11px] font-medium rounded-md text-white"
             style={{ backgroundColor: nextStatus === 'Processing' ? '#007367' : '#078e31' }}
           >{nextStatus === 'Processing' ? 'Accept' : 'Issue'}</button>
         )}
         {canAdvance && request.status !== 'Issued' && request.status !== 'Cannot be Processed' && (
           <button
-            onClick={() => onAdvance(request.id, 'Cannot be Processed')}
+            onClick={() => onAdvance(request, 'Cannot be Processed')}
+            disabled={loading}
             className="px-3 py-1.5 text-[11px] font-medium rounded-md text-white bg-[#f75700]"
           >Reject</button>
         )}
@@ -249,6 +297,12 @@ function QueueRow({ request, position, onAdvance, canAdvance, highlight = false,
           <span className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-gray-800 text-white">Updating...</span>
         )}
       </div>
+      {request.remarks && (
+        <div className="rounded-md border border-dashed border-gray-200 bg-gray-50 px-3 py-2 text-[11px] text-gray-600">
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-[#002449]">Remarks</p>
+          <p className="whitespace-pre-line text-xs text-gray-700">{request.remarks}</p>
+        </div>
+      )}
     </div>
   )
 }

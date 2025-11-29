@@ -163,7 +163,7 @@ function normalizeAuthPath(pathname) {
     return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
+    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -321,6 +321,7 @@ class AuthService {
     }
     async getAdminTeams() {
         return this.request("/admin/teams/");
+    // return this.request("/poc/teams/")
     }
     async logout() {
         const refreshToken = this.getRefreshToken();
@@ -1134,7 +1135,7 @@ function deriveRequestsPrefix(pathname) {
     return fullPath.replace(/\/api$/, "") || "/requests";
 }
 function buildRequestsBaseUrl() {
-    const envUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
+    const envUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (envUrl.startsWith("/")) {
@@ -1150,7 +1151,7 @@ function buildRequestsBaseUrl() {
     }
 }
 function buildRequestsWsUrl(token) {
-    const explicitWs = ("TURBOPACK compile-time value", "wss://sih.jaswanthmadiya.tech/ws/requests");
+    const explicitWs = ("TURBOPACK compile-time value", "ws://127.0.0.1:8001/ws/requests");
     if ("TURBOPACK compile-time truthy", 1) {
         try {
             const wsUrl = new URL(explicitWs);
@@ -1160,7 +1161,7 @@ function buildRequestsWsUrl(token) {
             console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
         }
     }
-    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
+    const baseRestUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
     let origin = "";
     let prefixPath = "/requests";
     if ("TURBOPACK compile-time truthy", 1) {
@@ -1339,7 +1340,7 @@ const requestsService = {
         return response.json();
     },
     // Change request status
-    async changeRequestStatus (id, toStatus, note) {
+    async changeRequestStatus (id, toStatus, note, remarks) {
         return apiCall(`/requests/${id}/change_status/`, {
             method: "POST",
             headers: {
@@ -1347,7 +1348,10 @@ const requestsService = {
             },
             body: JSON.stringify({
                 to_status: toStatus,
-                note: note || ""
+                note: note || "",
+                ...remarks !== undefined ? {
+                    remarks
+                } : {}
             })
         });
     },
@@ -2696,7 +2700,7 @@ function AdminDashboard({ user }) {
                                     children: teams.map((team)=>{
                                         const leader = team.members?.find((member)=>member.role?.toLowerCase().includes("leader"));
                                         const pocName = team.poc?.name || team.poc?.email || "-";
-                                        const psLabel = team.problem_statement?.id ? `${team.problem_statement.id}${team.problem_statement.title ? ` · ${team.problem_statement.title}` : ""}` : "Not assigned";
+                                        const psLabel = team.problem_statement?.id ? `${team.problem_statement.id}` : "Not assigned";
                                         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableRow"], {
                                             className: "align-top",
                                             children: [

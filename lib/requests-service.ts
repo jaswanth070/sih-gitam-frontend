@@ -36,6 +36,7 @@ export interface RequestData {
   status: "Submitted" | "Processing" | "Issued" | "Cannot be Processed"
   notes: string // legacy field; backend now may send `description`
   description?: string
+  remarks?: string | null
   created_at: string
   updated_at: string
   position?: number
@@ -238,13 +239,14 @@ export const requestsService = {
   },
 
   // Change request status
-  async changeRequestStatus(id: number, toStatus: string, note?: string): Promise<RequestData> {
+  async changeRequestStatus(id: number, toStatus: string, note?: string, remarks?: string): Promise<RequestData> {
     return apiCall<RequestData>(`/requests/${id}/change_status/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to_status: toStatus,
         note: note || "",
+        ...(remarks !== undefined ? { remarks } : {}),
       }),
     })
   },

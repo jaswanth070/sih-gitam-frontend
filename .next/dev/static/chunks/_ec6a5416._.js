@@ -26,7 +26,7 @@ function normalizeAuthPath(pathname) {
     return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
+    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -200,6 +200,10 @@ class AuthService {
     async getPOCTeamDetail(teamId) {
         return this.request(`/poc/teams/${teamId}/`);
     }
+    async getAdminTeams() {
+        return this.request("/admin/teams/");
+    // return this.request("/poc/teams/")
+    }
     async logout() {
         const refreshToken = this.getRefreshToken();
         if (!refreshToken) {
@@ -277,7 +281,7 @@ function deriveRequestsPrefix(pathname) {
     return fullPath.replace(/\/api$/, "") || "/requests";
 }
 function buildRequestsBaseUrl() {
-    const envUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
+    const envUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (envUrl.startsWith("/")) {
@@ -293,7 +297,7 @@ function buildRequestsBaseUrl() {
     }
 }
 function buildRequestsWsUrl(token) {
-    const explicitWs = ("TURBOPACK compile-time value", "wss://sih.jaswanthmadiya.tech/ws/requests");
+    const explicitWs = ("TURBOPACK compile-time value", "ws://127.0.0.1:8001/ws/requests");
     if ("TURBOPACK compile-time truthy", 1) {
         try {
             const wsUrl = new URL(explicitWs);
@@ -303,7 +307,7 @@ function buildRequestsWsUrl(token) {
             console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
         }
     }
-    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/requests/");
+    const baseRestUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
     let origin = "";
     let prefixPath = "/requests";
     if ("TURBOPACK compile-time truthy", 1) {
@@ -485,7 +489,7 @@ const requestsService = {
         return response.json();
     },
     // Change request status
-    async changeRequestStatus (id, toStatus, note) {
+    async changeRequestStatus (id, toStatus, note, remarks) {
         return apiCall(`/requests/${id}/change_status/`, {
             method: "POST",
             headers: {
@@ -493,7 +497,10 @@ const requestsService = {
             },
             body: JSON.stringify({
                 to_status: toStatus,
-                note: note || ""
+                note: note || "",
+                ...remarks !== undefined ? {
+                    remarks
+                } : {}
             })
         });
     },
@@ -1701,27 +1708,36 @@ function SidebarMenuAction({ className, asChild = false, showOnHover = false, ..
     }, this);
 }
 _c17 = SidebarMenuAction;
-function SidebarMenuBadge({ className, ...props }) {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        "data-slot": "sidebar-menu-badge",
-        "data-sidebar": "menu-badge",
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])('text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none', 'peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground', 'peer-data-[size=sm]/menu-button:top-1', 'peer-data-[size=default]/menu-button:top-1.5', 'peer-data-[size=lg]/menu-button:top-2.5', 'group-data-[collapsible=icon]:hidden', className),
-        ...props
-    }, void 0, false, {
-        fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 585,
-        columnNumber: 5
-    }, this);
-}
-_c18 = SidebarMenuBadge;
+// function SidebarMenuBadge({
+//   className,
+//   ...props
+// }: React.ComponentProps<'div'>) {
+//   return (
+//     <div
+//       data-slot="sidebar-menu-badge"
+//       data-sidebar="menu-badge"
+//       className={cn(
+//         'text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none',
+//         'peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground',
+//         'peer-data-[size=sm]/menu-button:top-1',
+//         'peer-data-[size=default]/menu-button:top-1.5',
+//         'peer-data-[size=lg]/menu-button:top-2.5',
+//         'group-data-[collapsible=icon]:hidden',
+//         className,
+//       )}
+//       {...props}
+//     />
+//   )
+// }
 function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
     _s6();
-    // Random width between 50 to 90%.
-    const width = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"]({
-        "SidebarMenuSkeleton.useMemo[width]": ()=>{
-            return `${Math.floor(Math.random() * 40) + 50}%`;
+    // Use a deterministic width during SSR, randomize after hydration.
+    const [width, setWidth] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"]('70%');
+    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"]({
+        "SidebarMenuSkeleton.useEffect": ()=>{
+            setWidth(`${Math.floor(Math.random() * 40) + 50}%`);
         }
-    }["SidebarMenuSkeleton.useMemo[width]"], []);
+    }["SidebarMenuSkeleton.useEffect"], []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         "data-slot": "sidebar-menu-skeleton",
         "data-sidebar": "menu-skeleton",
@@ -1733,7 +1749,7 @@ function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
                 "data-sidebar": "menu-skeleton-icon"
             }, void 0, false, {
                 fileName: "[project]/components/ui/sidebar.tsx",
-                lineNumber: 622,
+                lineNumber: 624,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
@@ -1744,18 +1760,18 @@ function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/components/ui/sidebar.tsx",
-                lineNumber: 627,
+                lineNumber: 629,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 615,
+        lineNumber: 617,
         columnNumber: 5
     }, this);
 }
-_s6(SidebarMenuSkeleton, "nKFjX4dxbYo91VAj5VdWQ1XUe3I=");
-_c19 = SidebarMenuSkeleton;
+_s6(SidebarMenuSkeleton, "R5QxBMK2D8dsYYTdIYTl0iSiQus=");
+_c18 = SidebarMenuSkeleton;
 function SidebarMenuSub({ className, ...props }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
         "data-slot": "sidebar-menu-sub",
@@ -1764,11 +1780,11 @@ function SidebarMenuSub({ className, ...props }) {
         ...props
     }, void 0, false, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 642,
+        lineNumber: 644,
         columnNumber: 5
     }, this);
 }
-_c20 = SidebarMenuSub;
+_c19 = SidebarMenuSub;
 function SidebarMenuSubItem({ className, ...props }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
         "data-slot": "sidebar-menu-sub-item",
@@ -1777,11 +1793,11 @@ function SidebarMenuSubItem({ className, ...props }) {
         ...props
     }, void 0, false, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 660,
+        lineNumber: 662,
         columnNumber: 5
     }, this);
 }
-_c21 = SidebarMenuSubItem;
+_c20 = SidebarMenuSubItem;
 function SidebarMenuSubButton({ asChild = false, size = 'md', isActive = false, className, ...props }) {
     const Comp = asChild ? __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$radix$2d$ui$2f$react$2d$slot$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Slot"] : 'a';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Comp, {
@@ -1793,13 +1809,13 @@ function SidebarMenuSubButton({ asChild = false, size = 'md', isActive = false, 
         ...props
     }, void 0, false, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 683,
+        lineNumber: 685,
         columnNumber: 5
     }, this);
 }
-_c22 = SidebarMenuSubButton;
+_c21 = SidebarMenuSubButton;
 ;
-var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13, _c14, _c15, _c16, _c17, _c18, _c19, _c20, _c21, _c22;
+var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13, _c14, _c15, _c16, _c17, _c18, _c19, _c20, _c21;
 __turbopack_context__.k.register(_c, "SidebarProvider");
 __turbopack_context__.k.register(_c1, "Sidebar");
 __turbopack_context__.k.register(_c2, "SidebarTrigger");
@@ -1818,11 +1834,10 @@ __turbopack_context__.k.register(_c14, "SidebarMenu");
 __turbopack_context__.k.register(_c15, "SidebarMenuItem");
 __turbopack_context__.k.register(_c16, "SidebarMenuButton");
 __turbopack_context__.k.register(_c17, "SidebarMenuAction");
-__turbopack_context__.k.register(_c18, "SidebarMenuBadge");
-__turbopack_context__.k.register(_c19, "SidebarMenuSkeleton");
-__turbopack_context__.k.register(_c20, "SidebarMenuSub");
-__turbopack_context__.k.register(_c21, "SidebarMenuSubItem");
-__turbopack_context__.k.register(_c22, "SidebarMenuSubButton");
+__turbopack_context__.k.register(_c18, "SidebarMenuSkeleton");
+__turbopack_context__.k.register(_c19, "SidebarMenuSub");
+__turbopack_context__.k.register(_c20, "SidebarMenuSubItem");
+__turbopack_context__.k.register(_c21, "SidebarMenuSubButton");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

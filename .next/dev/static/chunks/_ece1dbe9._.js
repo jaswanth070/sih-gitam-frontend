@@ -381,7 +381,7 @@ function normalizeAuthPath(pathname) {
     return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
+    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -557,6 +557,7 @@ class AuthService {
     }
     async getAdminTeams() {
         return this.request("/admin/teams/");
+    // return this.request("/poc/teams/")
     }
     async logout() {
         const refreshToken = this.getRefreshToken();
@@ -919,7 +920,7 @@ const STAGE_BADGE_VARIANT = {
     success: "default",
     error: "destructive"
 };
-function UploadDocument({ teamId, documentType, label, disabled = false, accept = "application/pdf,image/*", onUploaded }) {
+function UploadDocument({ teamId, documentType, label, disabled = false, accept = "application/pdf,image/*", onUploaded, disabledReason }) {
     _s();
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     const [file, setFile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -930,17 +931,33 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
     const [storagePath, setStoragePath] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])();
     const [isDownloading, setIsDownloading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const effectiveDisabled = disabled || !teamId;
+    const isLocked = effectiveDisabled && !!teamId;
     const currentMessage = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
         "UploadDocument.useMemo[currentMessage]": ()=>{
             if (effectiveDisabled) {
-                return "Select a team to enable document uploads.";
+                if (!teamId) {
+                    return "Select a team to enable document uploads.";
+                }
+                return disabledReason ?? "Uploads are locked for this document.";
             }
             return STAGE_MESSAGE[stage];
         }
     }["UploadDocument.useMemo[currentMessage]"], [
+        disabledReason,
         effectiveDisabled,
-        stage
+        stage,
+        teamId
     ]);
+    const fileInputClasses = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "UploadDocument.useMemo[fileInputClasses]": ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("sm:max-w-md cursor-pointer border-2 border-dashed border-[#f75700] bg-white/95 shadow-[0_0_0_1px_rgba(247,87,0,0.18)] transition focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/50 file:cursor-pointer file:rounded-md file:border-0 file:bg-[#f75700] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white file:tracking-wide file:uppercase file:transition-colors hover:border-[#d94f00] file:hover:bg-[#d94f00]", file && !effectiveDisabled ? "border-solid border-[#078e31] shadow-[0_0_0_1px_rgba(7,142,49,0.2)]" : null, effectiveDisabled || isUploading ? "cursor-not-allowed border-gray-300 bg-gray-100 shadow-none file:bg-gray-300 file:text-gray-600 hover:border-gray-300" : null)
+    }["UploadDocument.useMemo[fileInputClasses]"], [
+        effectiveDisabled,
+        file,
+        isUploading
+    ]);
+    const badgeLabel = isLocked ? "Approved" : effectiveDisabled && !teamId ? "Select Team" : STAGE_LABEL[stage];
+    const badgeVariant = isLocked ? "default" : effectiveDisabled && !teamId ? "secondary" : STAGE_BADGE_VARIANT[stage];
+    const badgeClassName = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])(!isLocked && stage === "success" ? "bg-[#007367] text-white" : null, isLocked ? "bg-emerald-100 text-emerald-700 border border-emerald-200" : null);
     const resetFileInput = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "UploadDocument.useCallback[resetFileInput]": ()=>{
             setFile(null);
@@ -1045,7 +1062,7 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/components/documents/upload-document.tsx",
-                                    lineNumber: 200,
+                                    lineNumber: 235,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1053,28 +1070,28 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                                     children: label
                                 }, void 0, false, {
                                     fileName: "[project]/components/documents/upload-document.tsx",
-                                    lineNumber: 201,
+                                    lineNumber: 236,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/documents/upload-document.tsx",
-                            lineNumber: 199,
+                            lineNumber: 234,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
-                            variant: STAGE_BADGE_VARIANT[stage],
-                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])(stage === "success" ? "bg-[#007367] text-white" : ""),
-                            children: stage === "idle" && effectiveDisabled ? "Select a team" : STAGE_LABEL[stage]
+                            variant: badgeVariant,
+                            className: badgeClassName,
+                            children: badgeLabel
                         }, void 0, false, {
                             fileName: "[project]/components/documents/upload-document.tsx",
-                            lineNumber: 203,
+                            lineNumber: 238,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/documents/upload-document.tsx",
-                    lineNumber: 198,
+                    lineNumber: 233,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1085,10 +1102,10 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                             accept: accept,
                             disabled: effectiveDisabled || isUploading,
                             onChange: handleFileChange,
-                            className: "sm:max-w-md"
+                            className: fileInputClasses
                         }, inputKey, false, {
                             fileName: "[project]/components/documents/upload-document.tsx",
-                            lineNumber: 212,
+                            lineNumber: 244,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1104,20 +1121,20 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                                             className: "mr-2 h-4 w-4 animate-spin"
                                         }, void 0, false, {
                                             fileName: "[project]/components/documents/upload-document.tsx",
-                                            lineNumber: 227,
+                                            lineNumber: 259,
                                             columnNumber: 30
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$upload$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Upload$3e$__["Upload"], {
                                             className: "mr-2 h-4 w-4"
                                         }, void 0, false, {
                                             fileName: "[project]/components/documents/upload-document.tsx",
-                                            lineNumber: 227,
+                                            lineNumber: 259,
                                             columnNumber: 82
                                         }, this),
                                         isUploading ? "Uploading..." : "Upload"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/documents/upload-document.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 253,
                                     columnNumber: 13
                                 }, this),
                                 file && !isUploading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1130,14 +1147,14 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                                             className: "mr-1 h-4 w-4"
                                         }, void 0, false, {
                                             fileName: "[project]/components/documents/upload-document.tsx",
-                                            lineNumber: 232,
+                                            lineNumber: 264,
                                             columnNumber: 17
                                         }, this),
                                         "Clear"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/documents/upload-document.tsx",
-                                    lineNumber: 231,
+                                    lineNumber: 263,
                                     columnNumber: 15
                                 }, this),
                                 lastVersionId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1151,32 +1168,32 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                                             className: "mr-2 h-4 w-4 animate-spin"
                                         }, void 0, false, {
                                             fileName: "[project]/components/documents/upload-document.tsx",
-                                            lineNumber: 244,
+                                            lineNumber: 276,
                                             columnNumber: 34
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
                                             className: "mr-2 h-4 w-4"
                                         }, void 0, false, {
                                             fileName: "[project]/components/documents/upload-document.tsx",
-                                            lineNumber: 244,
+                                            lineNumber: 276,
                                             columnNumber: 86
                                         }, this),
                                         "Download"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/documents/upload-document.tsx",
-                                    lineNumber: 237,
+                                    lineNumber: 269,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/documents/upload-document.tsx",
-                            lineNumber: 220,
+                            lineNumber: 252,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/documents/upload-document.tsx",
-                    lineNumber: 211,
+                    lineNumber: 243,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1184,7 +1201,7 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                     children: currentMessage
                 }, void 0, false, {
                     fileName: "[project]/components/documents/upload-document.tsx",
-                    lineNumber: 251,
+                    lineNumber: 283,
                     columnNumber: 9
                 }, this),
                 lastVersionId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1195,7 +1212,7 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                             children: "Latest version:"
                         }, void 0, false, {
                             fileName: "[project]/components/documents/upload-document.tsx",
-                            lineNumber: 255,
+                            lineNumber: 287,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1204,7 +1221,7 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                             children: lastVersionId
                         }, void 0, false, {
                             fileName: "[project]/components/documents/upload-document.tsx",
-                            lineNumber: 256,
+                            lineNumber: 288,
                             columnNumber: 13
                         }, this),
                         storagePath && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1215,28 +1232,28 @@ function UploadDocument({ teamId, documentType, label, disabled = false, accept 
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/documents/upload-document.tsx",
-                            lineNumber: 257,
+                            lineNumber: 289,
                             columnNumber: 29
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/documents/upload-document.tsx",
-                    lineNumber: 254,
+                    lineNumber: 286,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/documents/upload-document.tsx",
-            lineNumber: 197,
+            lineNumber: 232,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/documents/upload-document.tsx",
-        lineNumber: 196,
+        lineNumber: 231,
         columnNumber: 5
     }, this);
 }
-_s(UploadDocument, "Qt8JvMIb94Y0s5b6Lyh5zGYuxV8=", false, function() {
+_s(UploadDocument, "7O2dE1I2xVbMzWqvSgQCCYXIPnI=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];
@@ -1679,8 +1696,6 @@ __turbopack_context__.s([
     ()=>SidebarMenu,
     "SidebarMenuAction",
     ()=>SidebarMenuAction,
-    "SidebarMenuBadge",
-    ()=>SidebarMenuBadge,
     "SidebarMenuButton",
     ()=>SidebarMenuButton,
     "SidebarMenuItem",
@@ -2299,27 +2314,36 @@ function SidebarMenuAction({ className, asChild = false, showOnHover = false, ..
     }, this);
 }
 _c17 = SidebarMenuAction;
-function SidebarMenuBadge({ className, ...props }) {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        "data-slot": "sidebar-menu-badge",
-        "data-sidebar": "menu-badge",
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])('text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none', 'peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground', 'peer-data-[size=sm]/menu-button:top-1', 'peer-data-[size=default]/menu-button:top-1.5', 'peer-data-[size=lg]/menu-button:top-2.5', 'group-data-[collapsible=icon]:hidden', className),
-        ...props
-    }, void 0, false, {
-        fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 585,
-        columnNumber: 5
-    }, this);
-}
-_c18 = SidebarMenuBadge;
+// function SidebarMenuBadge({
+//   className,
+//   ...props
+// }: React.ComponentProps<'div'>) {
+//   return (
+//     <div
+//       data-slot="sidebar-menu-badge"
+//       data-sidebar="menu-badge"
+//       className={cn(
+//         'text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none',
+//         'peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground',
+//         'peer-data-[size=sm]/menu-button:top-1',
+//         'peer-data-[size=default]/menu-button:top-1.5',
+//         'peer-data-[size=lg]/menu-button:top-2.5',
+//         'group-data-[collapsible=icon]:hidden',
+//         className,
+//       )}
+//       {...props}
+//     />
+//   )
+// }
 function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
     _s6();
-    // Random width between 50 to 90%.
-    const width = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"]({
-        "SidebarMenuSkeleton.useMemo[width]": ()=>{
-            return `${Math.floor(Math.random() * 40) + 50}%`;
+    // Use a deterministic width during SSR, randomize after hydration.
+    const [width, setWidth] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"]('70%');
+    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"]({
+        "SidebarMenuSkeleton.useEffect": ()=>{
+            setWidth(`${Math.floor(Math.random() * 40) + 50}%`);
         }
-    }["SidebarMenuSkeleton.useMemo[width]"], []);
+    }["SidebarMenuSkeleton.useEffect"], []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         "data-slot": "sidebar-menu-skeleton",
         "data-sidebar": "menu-skeleton",
@@ -2331,7 +2355,7 @@ function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
                 "data-sidebar": "menu-skeleton-icon"
             }, void 0, false, {
                 fileName: "[project]/components/ui/sidebar.tsx",
-                lineNumber: 622,
+                lineNumber: 624,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
@@ -2342,18 +2366,18 @@ function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/components/ui/sidebar.tsx",
-                lineNumber: 627,
+                lineNumber: 629,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 615,
+        lineNumber: 617,
         columnNumber: 5
     }, this);
 }
-_s6(SidebarMenuSkeleton, "nKFjX4dxbYo91VAj5VdWQ1XUe3I=");
-_c19 = SidebarMenuSkeleton;
+_s6(SidebarMenuSkeleton, "R5QxBMK2D8dsYYTdIYTl0iSiQus=");
+_c18 = SidebarMenuSkeleton;
 function SidebarMenuSub({ className, ...props }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
         "data-slot": "sidebar-menu-sub",
@@ -2362,11 +2386,11 @@ function SidebarMenuSub({ className, ...props }) {
         ...props
     }, void 0, false, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 642,
+        lineNumber: 644,
         columnNumber: 5
     }, this);
 }
-_c20 = SidebarMenuSub;
+_c19 = SidebarMenuSub;
 function SidebarMenuSubItem({ className, ...props }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
         "data-slot": "sidebar-menu-sub-item",
@@ -2375,11 +2399,11 @@ function SidebarMenuSubItem({ className, ...props }) {
         ...props
     }, void 0, false, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 660,
+        lineNumber: 662,
         columnNumber: 5
     }, this);
 }
-_c21 = SidebarMenuSubItem;
+_c20 = SidebarMenuSubItem;
 function SidebarMenuSubButton({ asChild = false, size = 'md', isActive = false, className, ...props }) {
     const Comp = asChild ? __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$radix$2d$ui$2f$react$2d$slot$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Slot"] : 'a';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Comp, {
@@ -2391,13 +2415,13 @@ function SidebarMenuSubButton({ asChild = false, size = 'md', isActive = false, 
         ...props
     }, void 0, false, {
         fileName: "[project]/components/ui/sidebar.tsx",
-        lineNumber: 683,
+        lineNumber: 685,
         columnNumber: 5
     }, this);
 }
-_c22 = SidebarMenuSubButton;
+_c21 = SidebarMenuSubButton;
 ;
-var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13, _c14, _c15, _c16, _c17, _c18, _c19, _c20, _c21, _c22;
+var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13, _c14, _c15, _c16, _c17, _c18, _c19, _c20, _c21;
 __turbopack_context__.k.register(_c, "SidebarProvider");
 __turbopack_context__.k.register(_c1, "Sidebar");
 __turbopack_context__.k.register(_c2, "SidebarTrigger");
@@ -2416,11 +2440,10 @@ __turbopack_context__.k.register(_c14, "SidebarMenu");
 __turbopack_context__.k.register(_c15, "SidebarMenuItem");
 __turbopack_context__.k.register(_c16, "SidebarMenuButton");
 __turbopack_context__.k.register(_c17, "SidebarMenuAction");
-__turbopack_context__.k.register(_c18, "SidebarMenuBadge");
-__turbopack_context__.k.register(_c19, "SidebarMenuSkeleton");
-__turbopack_context__.k.register(_c20, "SidebarMenuSub");
-__turbopack_context__.k.register(_c21, "SidebarMenuSubItem");
-__turbopack_context__.k.register(_c22, "SidebarMenuSubButton");
+__turbopack_context__.k.register(_c18, "SidebarMenuSkeleton");
+__turbopack_context__.k.register(_c19, "SidebarMenuSub");
+__turbopack_context__.k.register(_c20, "SidebarMenuSubItem");
+__turbopack_context__.k.register(_c21, "SidebarMenuSubButton");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -2621,7 +2644,7 @@ function DashboardShell({ children }) {
                         label: "Admin Dashboard",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$dashboard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutDashboard$3e$__["LayoutDashboard"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 57,
+                            lineNumber: 56,
                             columnNumber: 63
                         }, this)
                     },
@@ -2630,7 +2653,7 @@ function DashboardShell({ children }) {
                         label: "Global Queue",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$network$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Network$3e$__["Network"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 58,
+                            lineNumber: 57,
                             columnNumber: 56
                         }, this)
                     },
@@ -2639,7 +2662,7 @@ function DashboardShell({ children }) {
                         label: "All Requests",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$boxes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Boxes$3e$__["Boxes"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 59,
+                            lineNumber: 58,
                             columnNumber: 59
                         }, this)
                     }
@@ -2652,7 +2675,7 @@ function DashboardShell({ children }) {
                         label: "POC Dashboard",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$dashboard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutDashboard$3e$__["LayoutDashboard"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 64,
+                            lineNumber: 63,
                             columnNumber: 61
                         }, this)
                     },
@@ -2661,7 +2684,7 @@ function DashboardShell({ children }) {
                         label: "Virtual Queue",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$list$2d$todo$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ListTodo$3e$__["ListTodo"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 65,
+                            lineNumber: 64,
                             columnNumber: 57
                         }, this)
                     },
@@ -2670,7 +2693,7 @@ function DashboardShell({ children }) {
                         label: "Document Submission",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 66,
+                            lineNumber: 65,
                             columnNumber: 81
                         }, this)
                     },
@@ -2679,7 +2702,7 @@ function DashboardShell({ children }) {
                         label: "Mandate Form",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$pen$2d$line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSignature$3e$__["FileSignature"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 67,
+                            lineNumber: 66,
                             columnNumber: 67
                         }, this)
                     },
@@ -2688,7 +2711,7 @@ function DashboardShell({ children }) {
                         label: "Travel Allowance",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plane$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plane$3e$__["Plane"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 68,
+                            lineNumber: 67,
                             columnNumber: 75
                         }, this)
                     }
@@ -2701,7 +2724,7 @@ function DashboardShell({ children }) {
                     label: "Dashboard",
                     icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$dashboard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutDashboard$3e$__["LayoutDashboard"], {}, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 73,
+                        lineNumber: 72,
                         columnNumber: 55
                     }, this)
                 },
@@ -2710,7 +2733,7 @@ function DashboardShell({ children }) {
                     label: "My Requests",
                     icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {}, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 74,
+                        lineNumber: 73,
                         columnNumber: 56
                     }, this)
                 },
@@ -2719,7 +2742,7 @@ function DashboardShell({ children }) {
                     label: "New Request",
                     icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__PlusCircle$3e$__["PlusCircle"], {}, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 75,
+                        lineNumber: 74,
                         columnNumber: 60
                     }, this)
                 }
@@ -2746,7 +2769,7 @@ function DashboardShell({ children }) {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$dashboard$2d$navbar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DashboardNavbar"], {}, void 0, false, {
                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                lineNumber: 95,
+                lineNumber: 94,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sidebar"], {
@@ -2765,7 +2788,7 @@ function DashboardShell({ children }) {
                                     children: "SIH Portal"
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 99,
+                                    lineNumber: 98,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2777,7 +2800,7 @@ function DashboardShell({ children }) {
                                     children: role === "admin" ? "Administrator" : role === "poc" ? "POC" : role === "leader" ? "Team Leader" : "Guest"
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 102,
+                                    lineNumber: 101,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2786,18 +2809,18 @@ function DashboardShell({ children }) {
                                     children: user?.email || "guest@example.com"
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 111,
+                                    lineNumber: 110,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 98,
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 97,
+                        lineNumber: 96,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarContent"], {
@@ -2819,36 +2842,30 @@ function DashboardShell({ children }) {
                                                                     children: item.label
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                                    lineNumber: 124,
+                                                                    lineNumber: 123,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                            lineNumber: 122,
+                                                            lineNumber: 121,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                        lineNumber: 121,
+                                                        lineNumber: 120,
                                                         columnNumber: 19
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                    lineNumber: 120,
+                                                    lineNumber: 119,
                                                     columnNumber: 17
                                                 }, this),
-                                                item.href === "/queue" && role !== "leader" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenuBadge"], {
-                                                    children: "Live"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                    lineNumber: 128,
-                                                    columnNumber: 65
-                                                }, this)
+                                                item.href === "/queue" && role !== "leader"
                                             ]
                                         }, item.href, true, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 119,
+                                            lineNumber: 118,
                                             columnNumber: 15
                                         }, this)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenuItem"], {
@@ -2864,7 +2881,7 @@ function DashboardShell({ children }) {
                                                         className: "text-[#002449]"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                        lineNumber: 140,
+                                                        lineNumber: 139,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2872,34 +2889,34 @@ function DashboardShell({ children }) {
                                                         children: "Logout"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                        lineNumber: 141,
+                                                        lineNumber: 140,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 139,
+                                                lineNumber: 138,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 133,
+                                            lineNumber: 132,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 132,
+                                        lineNumber: 131,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 117,
+                                lineNumber: 116,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarSeparator"], {}, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 146,
+                                lineNumber: 145,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenu"], {
@@ -2913,17 +2930,17 @@ function DashboardShell({ children }) {
                                                 children: "Team Overview"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 151,
+                                                lineNumber: 150,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 150,
+                                            lineNumber: 149,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 149,
+                                        lineNumber: 148,
                                         columnNumber: 15
                                     }, this),
                                     role === "poc" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenuItem"], {
@@ -2935,29 +2952,29 @@ function DashboardShell({ children }) {
                                                 children: "Assigned Teams"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 158,
+                                                lineNumber: 157,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 157,
+                                            lineNumber: 156,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 156,
+                                        lineNumber: 155,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 147,
+                                lineNumber: 146,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 116,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarFooter"], {
@@ -2972,7 +2989,7 @@ function DashboardShell({ children }) {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__["LogOut"], {}, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 173,
+                                                lineNumber: 172,
                                                 columnNumber: 19
                                             }, this),
                                             " ",
@@ -2980,39 +2997,39 @@ function DashboardShell({ children }) {
                                                 children: "Logout"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 173,
+                                                lineNumber: 172,
                                                 columnNumber: 30
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 172,
+                                        lineNumber: 171,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 167,
+                                    lineNumber: 166,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 166,
+                                lineNumber: 165,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 165,
+                            lineNumber: 164,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 164,
+                        lineNumber: 163,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                lineNumber: 96,
+                lineNumber: 95,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarInset"], {
@@ -3023,7 +3040,7 @@ function DashboardShell({ children }) {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarTrigger"], {}, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 182,
+                                lineNumber: 181,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -3041,7 +3058,7 @@ function DashboardShell({ children }) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 183,
+                                lineNumber: 182,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3052,18 +3069,18 @@ function DashboardShell({ children }) {
                                     children: user.email
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 192,
+                                    lineNumber: 191,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 190,
+                                lineNumber: 189,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 181,
+                        lineNumber: 180,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3071,19 +3088,19 @@ function DashboardShell({ children }) {
                         children: children
                     }, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 198,
+                        lineNumber: 197,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                lineNumber: 180,
+                lineNumber: 179,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-        lineNumber: 94,
+        lineNumber: 93,
         columnNumber: 5
     }, this);
 }
@@ -3496,6 +3513,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$banknote$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Banknote$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/banknote.js [app-client] (ecmascript) <export default as Banknote>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plane$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plane$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plane.js [app-client] (ecmascript) <export default as Plane>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$pen$2d$line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSignature$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-pen-line.js [app-client] (ecmascript) <export default as FileSignature>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-check.js [app-client] (ecmascript) <export default as CheckCircle2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$upload$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/utils/upload.ts [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
@@ -3596,6 +3614,11 @@ const DOCUMENT_SECTIONS = [
         accept: "application/pdf"
     }
 ];
+const APPROVED_STATUSES = new Set([
+    "approved",
+    "verified",
+    "accepted"
+]);
 function orderMembers(team) {
     if (!team?.members) return [];
     const members = [
@@ -3781,7 +3804,7 @@ function DocumentSubmissionPage() {
                                     children: "Document Submission"
                                 }, void 0, false, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 247,
+                                    lineNumber: 249,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3789,13 +3812,13 @@ function DocumentSubmissionPage() {
                                     children: "Upload mandatory documentation for verification ahead of the Grand Finale."
                                 }, void 0, false, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 250,
+                                    lineNumber: 252,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 246,
+                            lineNumber: 248,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3810,12 +3833,12 @@ function DocumentSubmissionPage() {
                                         children: "Back to Dashboard"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                        lineNumber: 256,
+                                        lineNumber: 258,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 255,
+                                    lineNumber: 257,
                                     columnNumber: 13
                                 }, this),
                                 teamId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -3827,24 +3850,24 @@ function DocumentSubmissionPage() {
                                         children: "View Team Details"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                        lineNumber: 260,
+                                        lineNumber: 262,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 259,
+                                    lineNumber: 261,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 254,
+                            lineNumber: 256,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                    lineNumber: 245,
+                    lineNumber: 247,
                     columnNumber: 9
                 }, this),
                 !teamId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -3854,12 +3877,12 @@ function DocumentSubmissionPage() {
                         children: "Select a team from the POC dashboard to manage document submissions. Use the “Document Submission” button on a team card to land here with the correct context."
                     }, void 0, false, {
                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                        lineNumber: 268,
+                        lineNumber: 270,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                    lineNumber: 267,
+                    lineNumber: 269,
                     columnNumber: 11
                 }, this),
                 error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -3869,12 +3892,12 @@ function DocumentSubmissionPage() {
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                        lineNumber: 277,
+                        lineNumber: 279,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                    lineNumber: 276,
+                    lineNumber: 278,
                     columnNumber: 11
                 }, this),
                 loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -3884,7 +3907,7 @@ function DocumentSubmissionPage() {
                             className: "w-6 h-6 animate-spin text-[#f75700]"
                         }, void 0, false, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 283,
+                            lineNumber: 285,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3892,13 +3915,13 @@ function DocumentSubmissionPage() {
                             children: "Loading team information..."
                         }, void 0, false, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 284,
+                            lineNumber: 286,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                    lineNumber: 282,
+                    lineNumber: 284,
                     columnNumber: 11
                 }, this),
                 team && !loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3920,7 +3943,7 @@ function DocumentSubmissionPage() {
                                                 children: team.name
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                lineNumber: 293,
+                                                lineNumber: 295,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3928,7 +3951,7 @@ function DocumentSubmissionPage() {
                                                 children: team.institution
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                lineNumber: 294,
+                                                lineNumber: 296,
                                                 columnNumber: 19
                                             }, this),
                                             team.problem_statement && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3939,13 +3962,13 @@ function DocumentSubmissionPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                lineNumber: 296,
+                                                lineNumber: 298,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                        lineNumber: 292,
+                                        lineNumber: 294,
                                         columnNumber: 17
                                     }, this),
                                     leader && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3956,7 +3979,7 @@ function DocumentSubmissionPage() {
                                                 children: "Team Leader"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                lineNumber: 303,
+                                                lineNumber: 305,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3964,7 +3987,7 @@ function DocumentSubmissionPage() {
                                                 children: leader.user?.name || leader.user?.email
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                lineNumber: 304,
+                                                lineNumber: 306,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3972,24 +3995,24 @@ function DocumentSubmissionPage() {
                                                 children: leader.user?.email
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                lineNumber: 305,
+                                                lineNumber: 307,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                        lineNumber: 302,
+                                        lineNumber: 304,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                lineNumber: 291,
+                                lineNumber: 293,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 290,
+                            lineNumber: 292,
                             columnNumber: 13
                         }, this),
                         documentsError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -3999,12 +4022,12 @@ function DocumentSubmissionPage() {
                                 children: documentsError
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                lineNumber: 313,
+                                lineNumber: 315,
                                 columnNumber: 17
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 312,
+                            lineNumber: 314,
                             columnNumber: 15
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4017,7 +4040,7 @@ function DocumentSubmissionPage() {
                                             className: "w-5 h-5 text-[#002449]"
                                         }, void 0, false, {
                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                            lineNumber: 319,
+                                            lineNumber: 321,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -4028,13 +4051,13 @@ function DocumentSubmissionPage() {
                                             children: "Mentor & Team Members"
                                         }, void 0, false, {
                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                            lineNumber: 320,
+                                            lineNumber: 322,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 318,
+                                    lineNumber: 320,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4048,7 +4071,7 @@ function DocumentSubmissionPage() {
                                                     children: "Faculty Mentor"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                    lineNumber: 327,
+                                                    lineNumber: 329,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4056,7 +4079,7 @@ function DocumentSubmissionPage() {
                                                     children: mentorCard.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                    lineNumber: 328,
+                                                    lineNumber: 330,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4064,13 +4087,13 @@ function DocumentSubmissionPage() {
                                                     children: "Official contact shared during onboarding."
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                    lineNumber: 329,
+                                                    lineNumber: 331,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                            lineNumber: 326,
+                                            lineNumber: 328,
                                             columnNumber: 19
                                         }, this),
                                         orderedMembers.map((member)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -4081,7 +4104,7 @@ function DocumentSubmissionPage() {
                                                         children: member.role
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                        lineNumber: 334,
+                                                        lineNumber: 336,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4089,7 +4112,7 @@ function DocumentSubmissionPage() {
                                                         children: member.user.name || member.user.email
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                        lineNumber: 335,
+                                                        lineNumber: 337,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4097,25 +4120,25 @@ function DocumentSubmissionPage() {
                                                         children: member.user.email
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                        lineNumber: 336,
+                                                        lineNumber: 338,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, member.user.email, true, {
                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                lineNumber: 333,
+                                                lineNumber: 335,
                                                 columnNumber: 19
                                             }, this))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 324,
+                                    lineNumber: 326,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 317,
+                            lineNumber: 319,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4129,7 +4152,7 @@ function DocumentSubmissionPage() {
                                     children: "Document Categories"
                                 }, void 0, false, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 343,
+                                    lineNumber: 345,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$accordion$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Accordion"], {
@@ -4142,45 +4165,58 @@ function DocumentSubmissionPage() {
                                         ].sort((a, b)=>(b.version ?? 0) - (a.version ?? 0)) : [];
                                         const latestVersion = docInfo?.latest_version ?? sortedVersions[0];
                                         const latestStatus = docInfo?.latest_status ?? latestVersion?.status;
+                                        const normalizedStatus = latestStatus?.toLowerCase() ?? null;
+                                        const isApproved = normalizedStatus ? APPROVED_STATUSES.has(normalizedStatus) : false;
                                         const requiresUpload = docInfo?.requires_upload ?? (!latestVersion && !docInfo?.pending_review);
                                         const pendingReview = docInfo?.pending_review ?? false;
                                         const statusLabel = requiresUpload && !latestVersion ? "Awaiting Upload" : formatStatusLabel(latestStatus);
                                         const statusVariant = requiresUpload && !latestVersion ? "outline" : resolveStatusVariant(latestStatus);
                                         const uploadedAtLabel = latestVersion?.uploaded_at ? timestampFormatter.format(new Date(latestVersion.uploaded_at)) : null;
                                         const rejectionNote = latestVersion?.rejection_reason;
+                                        const uploadDisabled = isApproved;
                                         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$accordion$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AccordionItem"], {
                                             value: id,
                                             className: "border border-gray-200 rounded-lg",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$accordion$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AccordionTrigger"], {
-                                                    className: "px-4 py-3 text-left",
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center gap-3",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                                                                className: "w-5 h-5 text-[#f75700]"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                lineNumber: 367,
-                                                                columnNumber: 27
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "font-semibold text-sm md:text-base text-gray-900",
-                                                                children: title
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                lineNumber: 368,
-                                                                columnNumber: 27
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                        lineNumber: 366,
-                                                        columnNumber: 25
-                                                    }, this)
-                                                }, void 0, false, {
+                                                    className: "px-4 py-3 text-left items-center",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex flex-1 items-center gap-3",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                                                    className: "w-5 h-5 text-[#f75700]"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/poc/document-submission/page.tsx",
+                                                                    lineNumber: 372,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "font-semibold text-sm md:text-base text-gray-900",
+                                                                    children: title
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/poc/document-submission/page.tsx",
+                                                                    lineNumber: 373,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/app/poc/document-submission/page.tsx",
+                                                            lineNumber: 371,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        isApproved && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__["CheckCircle2"], {
+                                                            className: "h-4 w-4 text-emerald-500",
+                                                            "aria-label": "Document approved"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/poc/document-submission/page.tsx",
+                                                            lineNumber: 376,
+                                                            columnNumber: 27
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                    lineNumber: 365,
+                                                    lineNumber: 370,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$accordion$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AccordionContent"], {
@@ -4193,7 +4229,7 @@ function DocumentSubmissionPage() {
                                                                     children: description
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                    lineNumber: 373,
+                                                                    lineNumber: 381,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -4202,18 +4238,18 @@ function DocumentSubmissionPage() {
                                                                             children: item
                                                                         }, item, false, {
                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                            lineNumber: 376,
+                                                                            lineNumber: 384,
                                                                             columnNumber: 31
                                                                         }, this))
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                    lineNumber: 374,
+                                                                    lineNumber: 382,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                            lineNumber: 372,
+                                                            lineNumber: 380,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4224,10 +4260,12 @@ function DocumentSubmissionPage() {
                                                                     documentType: documentType,
                                                                     label: title,
                                                                     accept: accept,
-                                                                    onUploaded: handleUploadComplete
+                                                                    onUploaded: handleUploadComplete,
+                                                                    disabled: uploadDisabled,
+                                                                    disabledReason: isApproved ? "This document is already approved. Uploading a new file is disabled." : undefined
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                    lineNumber: 381,
+                                                                    lineNumber: 389,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4240,14 +4278,14 @@ function DocumentSubmissionPage() {
                                                                                     className: "h-3 w-3 animate-spin"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                    lineNumber: 391,
+                                                                                    lineNumber: 401,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 " Updating status..."
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                            lineNumber: 390,
+                                                                            lineNumber: 400,
                                                                             columnNumber: 31
                                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                             className: "flex flex-wrap items-center gap-2",
@@ -4257,7 +4295,7 @@ function DocumentSubmissionPage() {
                                                                                     children: statusLabel
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                    lineNumber: 395,
+                                                                                    lineNumber: 405,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 pendingReview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -4265,16 +4303,16 @@ function DocumentSubmissionPage() {
                                                                                     children: "Pending Review"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                    lineNumber: 396,
+                                                                                    lineNumber: 406,
                                                                                     columnNumber: 51
                                                                                 }, this),
-                                                                                requiresUpload && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                !isApproved && requiresUpload && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     className: "text-muted-foreground",
                                                                                     children: "Upload required"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                    lineNumber: 397,
-                                                                                    columnNumber: 52
+                                                                                    lineNumber: 408,
+                                                                                    columnNumber: 35
                                                                                 }, this),
                                                                                 uploadedAtLabel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     className: "text-muted-foreground",
@@ -4284,13 +4322,13 @@ function DocumentSubmissionPage() {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                    lineNumber: 398,
+                                                                                    lineNumber: 410,
                                                                                     columnNumber: 53
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                            lineNumber: 394,
+                                                                            lineNumber: 404,
                                                                             columnNumber: 31
                                                                         }, this),
                                                                         rejectionNote && !documentsLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4301,7 +4339,7 @@ function DocumentSubmissionPage() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                            lineNumber: 402,
+                                                                            lineNumber: 414,
                                                                             columnNumber: 31
                                                                         }, this),
                                                                         !documentsLoading && sortedVersions.length === 0 && !requiresUpload && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4309,13 +4347,13 @@ function DocumentSubmissionPage() {
                                                                             children: "No previous uploads recorded."
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                            lineNumber: 405,
+                                                                            lineNumber: 417,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                    lineNumber: 388,
+                                                                    lineNumber: 398,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 !documentsLoading && sortedVersions.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4330,28 +4368,28 @@ function DocumentSubmissionPage() {
                                                                                             children: "Version"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                            lineNumber: 413,
+                                                                                            lineNumber: 425,
                                                                                             columnNumber: 37
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                                             children: "Status"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                            lineNumber: 414,
+                                                                                            lineNumber: 426,
                                                                                             columnNumber: 37
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                                             children: "File"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                            lineNumber: 415,
+                                                                                            lineNumber: 427,
                                                                                             columnNumber: 37
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                                             children: "Uploaded"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                            lineNumber: 416,
+                                                                                            lineNumber: 428,
                                                                                             columnNumber: 37
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -4359,18 +4397,18 @@ function DocumentSubmissionPage() {
                                                                                             children: "Actions"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                            lineNumber: 417,
+                                                                                            lineNumber: 429,
                                                                                             columnNumber: 37
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                    lineNumber: 412,
+                                                                                    lineNumber: 424,
                                                                                     columnNumber: 35
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                lineNumber: 411,
+                                                                                lineNumber: 423,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -4386,7 +4424,7 @@ function DocumentSubmissionPage() {
                                                                                                 children: version.version ?? "—"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                lineNumber: 431,
+                                                                                                lineNumber: 443,
                                                                                                 columnNumber: 41
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4395,12 +4433,12 @@ function DocumentSubmissionPage() {
                                                                                                     children: versionStatus
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                    lineNumber: 433,
+                                                                                                    lineNumber: 445,
                                                                                                     columnNumber: 43
                                                                                                 }, this)
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                lineNumber: 432,
+                                                                                                lineNumber: 444,
                                                                                                 columnNumber: 41
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4408,7 +4446,7 @@ function DocumentSubmissionPage() {
                                                                                                 children: version.original_filename || "—"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                lineNumber: 435,
+                                                                                                lineNumber: 447,
                                                                                                 columnNumber: 41
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4416,7 +4454,7 @@ function DocumentSubmissionPage() {
                                                                                                 children: versionUploaded
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                lineNumber: 438,
+                                                                                                lineNumber: 450,
                                                                                                 columnNumber: 41
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4431,87 +4469,87 @@ function DocumentSubmissionPage() {
                                                                                                         className: "h-3.5 w-3.5 animate-spin"
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                        lineNumber: 448,
+                                                                                                        lineNumber: 460,
                                                                                                         columnNumber: 47
-                                                                                                    }, this) : "Download"
+                                                                                                    }, this) : "View"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                    lineNumber: 440,
+                                                                                                    lineNumber: 452,
                                                                                                     columnNumber: 43
                                                                                                 }, this)
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                                lineNumber: 439,
+                                                                                                lineNumber: 451,
                                                                                                 columnNumber: 41
                                                                                             }, this)
                                                                                         ]
                                                                                     }, version.id, true, {
                                                                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                        lineNumber: 430,
+                                                                                        lineNumber: 442,
                                                                                         columnNumber: 39
                                                                                     }, this);
                                                                                 })
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                                lineNumber: 420,
+                                                                                lineNumber: 432,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                        lineNumber: 410,
+                                                                        lineNumber: 422,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                                    lineNumber: 409,
+                                                                    lineNumber: 421,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                            lineNumber: 380,
+                                                            lineNumber: 388,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                                    lineNumber: 371,
+                                                    lineNumber: 379,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, id, true, {
                                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                                            lineNumber: 364,
+                                            lineNumber: 369,
                                             columnNumber: 21
                                         }, this);
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                                    lineNumber: 346,
+                                    lineNumber: 348,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/poc/document-submission/page.tsx",
-                            lineNumber: 342,
+                            lineNumber: 344,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/poc/document-submission/page.tsx",
-                    lineNumber: 289,
+                    lineNumber: 291,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/poc/document-submission/page.tsx",
-            lineNumber: 244,
+            lineNumber: 246,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/poc/document-submission/page.tsx",
-        lineNumber: 243,
+        lineNumber: 245,
         columnNumber: 5
     }, this);
 }

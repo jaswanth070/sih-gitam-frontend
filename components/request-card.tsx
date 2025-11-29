@@ -74,6 +74,12 @@ export function RequestCard({ request, isClickable = true }: RequestCardProps) {
         <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200 text-gray-600 font-medium text-[11px]">Created {new Date(request.created_at).toLocaleDateString()}</span>
         <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200 text-gray-600 font-medium text-[11px]">Updated {new Date(request.updated_at).toLocaleDateString()}</span>
       </div>
+      {request.remarks && (
+        <div className="rounded-md border border-dashed border-gray-200 bg-gray-50 px-3 py-2 text-[11px] text-gray-600">
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-[#002449]">Remarks</p>
+          <p className="whitespace-pre-line text-xs text-gray-700">{request.remarks}</p>
+        </div>
+      )}
     </div>
   )
 

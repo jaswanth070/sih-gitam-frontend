@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useRouter, useParams } from "next/navigation"
-import Link from "next/link"
 import { authService } from "@/lib/auth-service"
 import { requestsService, type RequestData } from "@/lib/requests-service"
+import { StatusChangeModal } from "@/components/modals/status-change-modal"
 import { RequestProgress } from "@/components/requests/request-progress"
 
 export default function RequestDetailPage() {
@@ -15,6 +15,7 @@ export default function RequestDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [changingStatus, setChangingStatus] = useState(false)
+  const [pendingStatus, setPendingStatus] = useState<string | null>(null)
 
   const user = authService.getCurrentUser()
 
@@ -43,25 +44,52 @@ export default function RequestDetailPage() {
     fetchRequest()
   }, [requestId])
 
-  const handleStatusChange = async (newStatus: string) => {
-    if (!request) return
+  const shouldCollectRemarks = useCallback((currentStatus: string, nextStatus: string) => {
+    if (nextStatus === "Cannot be Processed") return true
+    return currentStatus === "Processing" && nextStatus === "Issued"
+  }, [])
 
-    try {
-      setChangingStatus(true)
-      const updated = await requestsService.changeRequestStatus(request.id, newStatus)
-      setRequest(updated)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update status")
-    } finally {
-      setChangingStatus(false)
-    }
-  }
+  const handleStatusChange = useCallback(
+    async (newStatus: string, remarks?: string) => {
+      if (!request) return
+
+      try {
+        setChangingStatus(true)
+        const updated = await requestsService.changeRequestStatus(
+          request.id,
+          newStatus,
+          `Status changed to ${newStatus}`,
+          remarks,
+        )
+        setRequest(updated)
+        setPendingStatus(null)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to update status")
+      } finally {
+        setChangingStatus(false)
+      }
+    },
+    [request],
+  )
+
+  const initiateStatusChange = useCallback(
+    (nextStatus: string) => {
+      if (!request) return
+      if (shouldCollectRemarks(request.status, nextStatus)) {
+        setPendingStatus(nextStatus)
+        return
+      }
+
+      void handleStatusChange(nextStatus)
+    },
+    [handleStatusChange, request, shouldCollectRemarks],
+  )
 
   if (loading) {
     return (
       <div className="min-h-[40vh] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-10 h-10 border-4 border-gray-300 border-t-[#f75700] rounded-full animate-spin mx-auto mb-4" />
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-[#f75700]" />
           <p className="text-gray-600 font-medium">Loading request...</p>
         </div>
       </div>
@@ -71,7 +99,7 @@ export default function RequestDetailPage() {
   if (!request) {
     return (
       <div className="p-6">
-        <p className="text-gray-600 text-sm">{error || "Request not found"}</p>
+        <p className="text-sm text-gray-600">{error || "Request not found"}</p>
       </div>
     )
   }
@@ -84,154 +112,266 @@ export default function RequestDetailPage() {
         ? ["Issued", "Cannot be Processed"]
         : []
 
+  const accent = accentColor(request.status)
+  const accentSoft = `${accent}1a`
+  const headerGradient = `linear-gradient(135deg, ${accentSoft} 0%, #ffffff 65%)`
+  const headingText = request.notes.trim().length > 0
+    ? request.notes
+    : request.description && request.description.trim().length > 0
+      ? request.description
+      : "Request"
+  const detailedCopy = request.description && request.description.trim().length > 0
+    ? request.description
+    : request.notes.trim().length > 0
+      ? request.notes
+      : "No additional details were provided."
+  const createdAt = new Date(request.created_at).toLocaleString()
+  const updatedAt = new Date(request.updated_at).toLocaleString()
+  const queuePosition = request.position ? `#${request.position}` : "--"
+  const teamName = request.team_name || "Unassigned Team"
+
   return (
-      <div className="max-w-5xl mx-auto">
+    <>
+      <div className="mx-auto max-w-6xl space-y-8 pb-12">
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-red-800 text-sm">{error}</p>
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-4 shadow-sm">
+            <p className="text-sm text-red-800">{error}</p>
           </div>
         )}
-        <div
-          className="group relative bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm"
-          style={{ boxShadow: `inset 0 0 0 2px ${accentColor(request.status)}20` }}
-        >
-          <span className="absolute inset-y-0 left-0 w-1 rounded-l-xl" style={{ backgroundColor: accentColor(request.status) }} />
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 mb-6">
-            <div className="space-y-3 md:space-y-4 flex-1 min-w-0">
-              <div className="flex items-center gap-3 flex-wrap">
-                <span
-                  className="px-3 py-1 text-xs font-semibold text-white rounded-md"
-                  style={{ backgroundColor: categoryColor(request.category) }}
-                >{request.category}</span>
-                <RequestProgress status={request.status} />
-              </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight line-clamp-3">{request.notes || 'Request'}</h1>
+
+        <section className="relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl">
+          <div className="absolute inset-0" style={{ backgroundImage: headerGradient }} />
+          <div className="relative space-y-6 p-8 md:p-12">
+            <div className="flex flex-wrap items-center gap-3">
+              <span
+                className="rounded-full px-3 py-1 text-xs font-semibold text-white"
+                style={{ backgroundColor: categoryColor(request.category) }}
+              >
+                {request.category}
+              </span>
+              <span
+                className="rounded-full px-3 py-1 text-xs font-semibold text-white"
+                style={{ backgroundColor: accentColor(request.status) }}
+              >
+                {request.status}
+              </span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[11px] md:text-xs w-full lg:w-auto lg:min-w-[24rem]">
-              <MetaBlock label="Created" value={new Date(request.created_at).toLocaleString()} />
-              <MetaBlock label="Updated" value={new Date(request.updated_at).toLocaleString()} />
+
+            <div className="space-y-4">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">{headingText}</h1>
+              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-gray-600">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 shadow-sm">
+                  <span className="uppercase tracking-wide text-gray-500">Request</span>
+                  <span className="text-gray-900">#{request.id}</span>
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 shadow-sm">
+                  <span className="uppercase tracking-wide text-gray-500">Team</span>
+                  <span className="text-gray-900">{teamName}</span>
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 shadow-sm">
+                  <span className="uppercase tracking-wide text-gray-500">Queue</span>
+                  <span className="text-gray-900">{queuePosition}</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/60 bg-white/70 px-4 py-3 shadow-inner">
+              <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">Progress</span>
+              <RequestProgress status={request.status} />
+            </div>
+
+            <div className="grid gap-4 text-xs font-semibold text-gray-700 sm:grid-cols-2 lg:grid-cols-4">
+              <MetaBlock label="Created" value={createdAt} />
+              <MetaBlock label="Updated" value={updatedAt} />
+              <MetaBlock label="Category" value={request.category} />
               <MetaBlock label="Status" value={request.status} />
-              {request.position && <MetaBlock label="Queue" value={'#'+request.position} />}
             </div>
           </div>
+        </section>
 
-          {/* BOM Items */}
-          {request.bom_items && request.bom_items.length > 0 && (
-            <Section title="BOM Items">
-              <table className="w-full text-sm table-fixed">
-                <thead className="bg-gray-50 border border-gray-200">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold">Item Name</th>
-                    <th className="px-3 py-2 text-right font-semibold">Qty</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {request.bom_items.map((item: any, idx: number) => (
-                    <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="px-3 py-2">{item.item_name}</td>
-                      <td className="px-3 py-2 text-right font-semibold">{item.quantity}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <div className="space-y-6">
+            <Section title="Overview">
+              <p className="whitespace-pre-line text-sm leading-relaxed text-gray-700">{detailedCopy}</p>
             </Section>
-          )}
 
-          {/* Additional Items */}
-          {request.additional_items && request.additional_items.length > 0 && (
-            <Section title="Additional Items">
-              <table className="w-full text-sm table-fixed">
-                <thead className="bg-gray-50 border border-gray-200">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold">Item Name</th>
-                    <th className="px-3 py-2 text-right font-semibold">Qty</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {request.additional_items.map((item: any, idx: number) => (
-                    <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="px-3 py-2">{item.item_name}</td>
-                      <td className="px-3 py-2 text-right font-semibold">{item.quantity}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </Section>
-          )}
-
-          {/* Fabrication */}
-          {request.fabrication && (
-            <Section title="Fabrication Details">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <MetaBlock label="Type" value={request.fabrication.fab_type} />
-                <MetaBlock label="Name" value={request.fabrication.name} />
-              </div>
-              {request.fabrication.file && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <a
-                    href={request.fabrication.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1.5 rounded-md border border-gray-300 text-xs font-medium text-[#002449] hover:bg-gray-50"
-                  >Download File →</a>
+            {request.remarks && (
+              <Section title="Team Remarks">
+                <div className="rounded-xl border border-orange-200 bg-orange-50 px-4 py-4 text-sm text-gray-800 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#f75700]">Latest Remark</p>
+                  <p className="mt-2 whitespace-pre-line leading-relaxed">{request.remarks}</p>
                 </div>
-              )}
-            </Section>
-          )}
+              </Section>
+            )}
 
-          {/* Status Actions */}
-          {canChangeStatus && nextStatus.length > 0 && (
-            <div className="pt-6 mt-6 border-t border-gray-200">
-              <h2 className="text-sm font-semibold mb-4" style={{color:'#f75700'}}>Update Status</h2>
-              <div className="flex flex-wrap gap-2">
-                {nextStatus.map((status) => (
-                  <button
-                    key={status}
-                    onClick={() => handleStatusChange(status)}
-                    disabled={changingStatus}
-                    className="px-4 py-2 text-xs font-semibold rounded-md text-white"
-                    style={{ backgroundColor: status === 'Cannot be Processed' ? '#f75700' : '#078e31' }}
-                  >
-                    {changingStatus ? 'Updating...' : status === 'Cannot be Processed' ? 'Reject' : 'Mark ' + status}
-                  </button>
-                ))}
-              </div>
+            {request.bom_items && request.bom_items.length > 0 && (
+              <Section title="BOM Items">
+                <div className="overflow-hidden rounded-xl border border-gray-100">
+                  <table className="min-w-full divide-y divide-gray-100 text-sm">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-4 py-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Item Name</th>
+                        <th className="px-4 py-2 text-right text-xs font-semibold uppercase tracking-wide text-gray-500">Qty</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 bg-white">
+                      {request.bom_items.map((item: any, idx: number) => (
+                        <tr key={idx} className="hover:bg-gray-50">
+                          <td className="px-4 py-2 text-sm font-medium text-gray-800">{item.item_name}</td>
+                          <td className="px-4 py-2 text-right font-semibold text-gray-900">{item.quantity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Section>
+            )}
+
+            {request.additional_items && request.additional_items.length > 0 && (
+              <Section title="Additional Items">
+                <div className="overflow-hidden rounded-xl border border-gray-100">
+                  <table className="min-w-full divide-y divide-gray-100 text-sm">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-4 py-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Item Name</th>
+                        <th className="px-4 py-2 text-right text-xs font-semibold uppercase tracking-wide text-gray-500">Qty</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 bg-white">
+                      {request.additional_items.map((item: any, idx: number) => (
+                        <tr key={idx} className="hover:bg-gray-50">
+                          <td className="px-4 py-2 text-sm font-medium text-gray-800">{item.item_name}</td>
+                          <td className="px-4 py-2 text-right font-semibold text-gray-900">{item.quantity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Section>
+            )}
+
+            {request.fabrication && (
+              <Section title="Fabrication Details">
+                <div className="grid gap-3 text-sm sm:grid-cols-2">
+                  <MetaBlock label="Type" value={request.fabrication.fab_type} />
+                  <MetaBlock label="Name" value={request.fabrication.name} />
+                </div>
+                {request.fabrication.file && (
+                  <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Attachment</p>
+                    <a
+                      href={request.fabrication.file}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex items-center gap-2 rounded-lg border border-[#002449]/20 bg-[#002449]/5 px-3 py-2 text-sm font-semibold text-[#002449] transition hover:bg-[#002449]/10"
+                    >
+                      Download fabrication file
+                    </a>
+                  </div>
+                )}
+              </Section>
+            )}
+          </div>
+
+          <aside className="space-y-6">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-[#002449]">Key Details</h2>
+              <dl className="mt-4 space-y-3 text-sm">
+                <div className="flex items-start justify-between gap-4">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Request ID</dt>
+                  <dd className="text-sm font-semibold text-gray-900">#{request.id}</dd>
+                </div>
+                <div className="flex items-start justify-between gap-4">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Team</dt>
+                  <dd className="max-w-[12rem] text-right text-sm font-semibold text-gray-900">{teamName}</dd>
+                </div>
+                <div className="flex items-start justify-between gap-4">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Queue Position</dt>
+                  <dd className="text-sm font-semibold text-gray-900">{queuePosition}</dd>
+                </div>
+                <div className="flex items-start justify-between gap-4">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Created</dt>
+                  <dd className="max-w-[12rem] text-right text-sm font-semibold text-gray-900">{createdAt}</dd>
+                </div>
+                <div className="flex items-start justify-between gap-4">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Updated</dt>
+                  <dd className="max-w-[12rem] text-right text-sm font-semibold text-gray-900">{updatedAt}</dd>
+                </div>
+              </dl>
             </div>
-          )}
+
+            {canChangeStatus && nextStatus.length > 0 && (
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <h2 className="text-sm font-semibold text-[#f75700]">Update Status</h2>
+                <p className="mt-2 text-sm text-gray-600">
+                  Choose the next stage for this request. You can add remarks to guide the team before confirming.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {nextStatus.map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => initiateStatusChange(status)}
+                      disabled={changingStatus}
+                      className="rounded-lg px-4 py-2 text-xs font-semibold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70"
+                      style={{ backgroundColor: status === "Cannot be Processed" ? "#f75700" : "#078e31" }}
+                    >
+                      {changingStatus
+                        ? "Updating..."
+                        : status === "Cannot be Processed"
+                          ? "Reject"
+                          : `Mark ${status}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
         </div>
       </div>
+
+      {request && pendingStatus && (
+        <StatusChangeModal
+          open={!!pendingStatus}
+          currentStatus={request.status}
+          targetStatus={pendingStatus}
+          loading={changingStatus}
+          onClose={() => setPendingStatus(null)}
+          onConfirm={async (remarks) => {
+            await handleStatusChange(pendingStatus, remarks)
+          }}
+        />
+      )}
+    </>
   )
-
 }
-
 
 function categoryColor(cat: string) {
-  if (cat === 'BOM') return '#002449'
-  if (cat === 'ADDITIONAL') return '#007367'
-  return '#f75700'
+  if (cat === "BOM") return "#002449"
+  if (cat === "ADDITIONAL") return "#007367"
+  return "#f75700"
 }
+
 function accentColor(status: string) {
-  if (status === 'Submitted') return '#f75700'
-  if (status === 'Processing') return '#002449'
-  if (status === 'Issued') return '#078e31'
-  return '#6b7280'
+  if (status === "Submitted") return "#f75700"
+  if (status === "Processing") return "#002449"
+  if (status === "Issued") return "#078e31"
+  return "#6b7280"
 }
+
 function MetaBlock({ label, value }: { label: string; value: string }) {
   return (
-    <div className="space-y-1">
-      <p className="text-[10px] uppercase tracking-wide text-gray-500 font-medium">{label}</p>
-      <p className="text-xs font-semibold text-gray-900 truncate whitespace-nowrap max-w-[12rem]" title={value}>{value}</p>
+    <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm">
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-500">{label}</p>
+      <p className="mt-2 text-sm font-semibold text-gray-900 break-words">{value}</p>
     </div>
   )
 }
+
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mb-8">
-      <h2 className="text-sm font-semibold mb-3" style={{color:'#002449'}}>{title}</h2>
-      <div className="rounded-lg border border-gray-200 bg-white overflow-hidden p-2 md:p-3">
-        {children}
-      </div>
-    </div>
+    <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 className="text-base font-semibold text-[#002449]">{title}</h2>
+      <div className="mt-4 space-y-4">{children}</div>
+    </section>
   )
 }
-// Duplicate legacy blocks removed to resolve parse error.
