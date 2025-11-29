@@ -83,5 +83,5 @@ export function RequestCard({ request, isClickable = true }: RequestCardProps) {
     </div>
   )
 
-  return isClickable ? <Link href={`/requests/${request.id}`}>{content}</Link> : content
+  return isClickable ? <Link href={`/my-requests/${request.id}`}>{content}</Link> : content
 }

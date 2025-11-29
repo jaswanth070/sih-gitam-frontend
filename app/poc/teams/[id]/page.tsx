@@ -382,7 +382,7 @@ export default function POCTeamDetailsPage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <ActionLink href={goToDocumentSubmissionHref} label="Document Submission" description="Upload and review mandatory documents." />
-                  <ActionLink href={`/requests?team_id=${team.team_id ?? teamRouteId}`} label="View All Requests" description="Open the central request queue filtered to this team." />
+                  <ActionLink href={`/my-requests?team_id=${team.team_id ?? teamRouteId}`} label="View All Requests" description="Open the central request queue filtered to this team." />
                   <ActionLink
                     href={`/poc/mandate-form?teamId=${team.team_id ?? teamRouteId}`}
                     label="Mandate Form"
@@ -717,7 +717,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
       </CardContent>
       <CardFooter className="flex flex-wrap items-center justify-between gap-2">
         <Button asChild size="sm" variant="outline" className="text-xs">
-          <Link href={`/requests/${request.id}`}>
+          <Link href={`/my-requests/${request.id}`}>
             View Details
           </Link>
         </Button>

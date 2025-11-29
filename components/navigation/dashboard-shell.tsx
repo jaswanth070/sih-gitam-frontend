@@ -55,7 +55,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
       return [
         { href: "/dashboard", label: "Admin Dashboard", icon: <LayoutDashboard /> },
         { href: "/queue", label: "Global Queue", icon: <Network /> },
-        { href: "/requests", label: "All Requests", icon: <Boxes /> },
+        { href: "/my-requests", label: "All Requests", icon: <Boxes /> },
         { href: "/view-documents", label: "View Documents", icon: <Eye /> },
       ]
     }
@@ -72,15 +72,15 @@ export function DashboardShell({ children }: DashboardShellProps) {
     // leader default
     return [
       { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard /> },
-      { href: "/requests", label: "My Requests", icon: <FileText /> },
-      { href: "/requests/new", label: "New Request", icon: <PlusCircle /> },
+      { href: "/my-requests", label: "My Requests", icon: <FileText /> },
+      { href: "/my-requests/new", label: "New Request", icon: <PlusCircle /> },
     ]
   }, [role])
 
   const isActive = useCallback(
     (href: string) => {
       if (href === "/") return pathname === href
-      if (href === "/requests") return pathname === "/requests"
+      if (href === "/my-requests") return pathname.startsWith("/my-requests")
       return pathname.startsWith(href)
     },
     [pathname],
@@ -94,7 +94,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
   return (
     <SidebarProvider className="bg-white">
       <DashboardNavbar />
-      <Sidebar collapsible="offcanvas" className="border-r border-gray-200 mt-20">
+      <Sidebar collapsible="offcanvas" className="border-r border-gray-200 mt-[140px] sm:mt-20">
         <SidebarHeader>
           <div className="px-3 py-3">
             <h1 className="text-base font-bold tracking-tight" style={{ color: "#002449" }}>
@@ -178,10 +178,10 @@ export function DashboardShell({ children }: DashboardShellProps) {
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="mt-20">
-        <div className="flex items-center gap-4 p-2 bg-white">
+      <SidebarInset className="mt-[140px] sm:mt-20">
+        <div className="flex flex-wrap items-center gap-3 p-2 bg-white">
           <SidebarTrigger />
-          <h2 className="text-xs font-semibold whitespace-nowrap" style={{ color: "#002449" }} suppressHydrationWarning>
+          <h2 className="text-xs font-semibold text-[#002449] sm:whitespace-nowrap" suppressHydrationWarning>
             {role === "leader" && "Team"}
             {role === "poc" && "POC"}
             {role === "admin" && "Admin"}

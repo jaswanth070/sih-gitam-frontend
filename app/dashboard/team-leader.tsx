@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { authService, type TeamContact, type TeamDetails } from "@/lib/auth-service"
 import { getStoredLeaderTeam } from "@/lib/session-store"
 import { GraduationCap, IdCard, Layers, Mail, Phone, Users } from "lucide-react"
+import Image from "next/image"
 
 type TeamLeaderDashboardProps = {
   user?: any
@@ -134,6 +135,12 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
   return (
     <div className="space-y-8 pb-10">
       <section className="relative overflow-hidden rounded-3xl border border-[#002449]/15 bg-gradient-to-br from-[#002449]/10 via-white to-white p-8 shadow-sm md:p-12">
+        <div className="hidden lg:block absolute -right-0 top-1/2 -translate-y-1/2">
+          <div className="relative h-40 w-40 opacity-60">
+            <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(247,87,0,0.25),_rgba(7,142,49,0.15),_transparent_70%)] blur-xl" aria-hidden="true" />
+            <Image src="/SIH.png" alt="Smart India Hackathon emblem" width={200} height={200} className="relative h-full w-full object-contain" priority />
+          </div>
+        </div>
         <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#002449]/10 blur-3xl" aria-hidden="true" />
         <div className="absolute -left-24 top-10 h-48 w-48 rounded-full bg-[#f75700]/15 blur-3xl" aria-hidden="true" />
         <div className="absolute -right-10 bottom-[-60px] h-60 w-60 rounded-full bg-[#0b8f6f]/20 blur-3xl" aria-hidden="true" />

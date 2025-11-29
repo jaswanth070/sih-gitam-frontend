@@ -4,33 +4,32 @@ import Image from "next/image"
 export function DashboardNavbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="px-4 py-4 w-full flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex w-full flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:py-4">
         {/* Left: Banner + separator + GITAM logo */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+        <div className="flex w-full min-w-0 items-center justify-center gap-3 overflow-hidden sm:w-auto sm:justify-start">
           <Image
             src="/sih_banner.png"
             alt="Smart India Hackathon 2025 Banner"
             width={320}
             height={70}
-            className="h-12 w-auto max-w-[220px] sm:h-14 sm:max-w-none object-contain"
+            className="h-10 w-auto max-w-[220px] object-contain sm:h-14 sm:max-w-none lg:h-16"
             priority
-            sizes="(max-width: 640px) 70vw, 320px"
+            sizes="(max-width: 640px) 55vw, 320px"
           />
-          <span className="hidden sm:block h-10 w-px bg-gray-300" aria-hidden="true" />
-          <span className="block sm:hidden h-px w-12 bg-gray-300" aria-hidden="true" />
+          <span className="h-10 w-px bg-gray-300" aria-hidden="true" />
           <Image
             src="/gitam_logo.png"
             alt="GITAM Logo"
             width={180}
             height={70}
-            className="h-10 w-auto max-w-[160px] sm:h-14 sm:max-w-none object-contain"
+            className="h-9 w-auto max-w-[30vw] object-contain sm:h-14 sm:max-w-none lg:h-16"
             priority
-            sizes="(max-width: 640px) 50vw, 180px"
+            sizes="(max-width: 640px) 30vw, 180px"
           />
         </div>
         {/* Right: Title cluster */}
-        <div className="flex flex-col items-center sm:items-middle text-center sm:text-right">
-          <h1 className="text-base sm:text-lg font-extrabold tracking-tight text-[#002449] leading-5">
+        <div className="flex flex-col items-center text-center sm:items-center sm:text-right">
+          <h1 className="text-base font-extrabold leading-5 tracking-tight text-[#002449] sm:text-lg">
             SIH <span className="text-[#f75700]">2025</span> Grand Final
           </h1>
           <div className="mt-1 flex items-center gap-2">

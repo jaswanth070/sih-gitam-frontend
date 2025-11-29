@@ -240,7 +240,7 @@ export function AdminDashboard({ user }: AdminDashboardProps) {
               <Link href="/queue">View queue</Link>
             </Button>
             <Button asChild variant="outline" size="sm" className="text-xs">
-              <Link href="/requests">All requests</Link>
+              <Link href="/my-requests">All requests</Link>
             </Button>
           </div>
         </Card>

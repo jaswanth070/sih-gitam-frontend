@@ -275,7 +275,7 @@ function QueueRow({ request, position, onAdvance, canAdvance, highlight = false,
       </div>
       <div className="flex flex-wrap gap-2">
         <a
-          href={`/requests/${request.id}`}
+          href={`/my-requests/${request.id}`}
           className="px-3 py-1.5 text-[11px] font-medium rounded-md border border-gray-300 hover:bg-gray-50"
         >View</a>
         {canAdvance && nextStatus && (

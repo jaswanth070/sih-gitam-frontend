@@ -482,6 +482,13 @@ function MandateFormContent() {
 
         <div className="space-y-4 print:space-y-1.5">
           <Card className="mandate-print-container p-6 border border-gray-300 shadow-sm bg-white print:border-0 print:shadow-none print:p-4 print:rounded-none">
+            <div className="hidden print:block print:mb-4">
+              <img
+                src="/sih_banner.png"
+                alt="Smart India Hackathon banner"
+                className="mx-auto h-auto max-h-36 w-full max-w-[780px] object-contain"
+              />
+            </div>
             <div className="text-center space-y-1.5 print:space-y-1 mb-4 print:mb-3 font-serif text-gray-900">
               <p className="text-sm print:text-base font-semibold">All India Council for Technical Education</p>
               <p className="text-xs print:text-[11px] text-gray-700">
@@ -610,6 +617,13 @@ function MandateFormContent() {
                   <p className="text-sm print:text-sm font-semibold text-red-600">Signature of Account holder</p>
                 </div>
               </div>
+              <div className="hidden print:block print:mt-6">
+                <img
+                  src="/partners_banner.png"
+                  alt="Partners banner"
+                  className="mx-auto h-auto max-h-32 w-full max-w-[760px] object-contain"
+                />
+              </div>
             </div>
           </Card>
         </div>
@@ -670,6 +684,11 @@ function MandateFormContent() {
           .mandate-print-container * {
             font-family: "Times New Roman", Times, serif !important;
             color: #000 !important;
+          }
+          .mandate-print-container img {
+            display: block !important;
+            max-width: 100% !important;
+            height: auto !important;
           }
         }
       `}</style>

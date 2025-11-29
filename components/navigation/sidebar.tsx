@@ -44,11 +44,17 @@ export function Sidebar() {
         ]
       : [
           { href: "/dashboard", label: "Dashboard", icon: "🏠" },
-          { href: "/requests", label: "My Requests", icon: "📝" },
-          { href: "/requests/new", label: "New Request", icon: "➕" },
+          { href: "/my-requests", label: "My Requests", icon: "📝" },
+          { href: "/my-requests/new", label: "New Request", icon: "➕" },
         ]
 
-  const isActive = (href: string) => pathname === href
+  const isActive = (href: string) => {
+    if (href === "/my-requests") {
+      if (pathname === "/my-requests") return true
+      return pathname.startsWith("/my-requests/") && !pathname.startsWith("/my-requests/new")
+    }
+    return pathname === href
+  }
 
   return (
     <>

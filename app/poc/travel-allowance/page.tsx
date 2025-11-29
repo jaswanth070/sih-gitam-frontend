@@ -767,6 +767,13 @@ function TravelAllowanceFormContent() {
 
         <div className="space-y-4 print:space-y-2">
           <Card className="ta-print-container p-6 border border-gray-300 shadow-sm bg-white print:border print:border-black print:p-4 print:shadow-none">
+            <div className="hidden print:block print:mb-4">
+              <img
+                src="/sih_banner.png"
+                alt="Smart India Hackathon banner"
+                className="mx-auto h-auto max-h-32 w-full max-w-[780px] object-contain"
+              />
+            </div>
             <div className="text-center space-y-1.5 print:space-y-1 mb-4 print:mb-3 font-serif text-gray-900">
               <p className="text-base font-semibold uppercase">All India Council for Technical Education</p>
               <p className="text-sm font-semibold">Smart India Hackathon 2025</p>
@@ -905,6 +912,13 @@ function TravelAllowanceFormContent() {
               <span>Signature of Team Leader</span>
               <span>Signature of College SPOC</span>
             </div>
+            <div className="hidden print:block print:mt-6">
+              <img
+                src="/partners_banner.png"
+                alt="Partners banner"
+                className="mx-auto h-auto max-h-32 w-full max-w-[760px] object-contain"
+              />
+            </div>
           </Card>
         </div>
       </div>
@@ -965,7 +979,21 @@ function TravelAllowanceFormContent() {
             font-family: "Times New Roman", Times, serif !important;
             color: #000 !important;
           }
+          .ta-print-container img {
+            display: block !important;
+            max-width: 100% !important;
+            height: auto !important;
+          }
           .ta-print-table {
+            width: 100% !important;
+          }
+          .ta-print-table thead {
+            display: table-header-group !important;
+          }
+          .ta-print-table tbody {
+            display: table-row-group !important;
+          }
+          .ta-print-table tr {
             page-break-inside: avoid !important;
           }
           .ta-print-table th,
