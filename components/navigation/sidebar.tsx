@@ -8,7 +8,7 @@ import { authService } from "@/lib/auth-service"
 export function Sidebar() {
   const router = useRouter()
   const pathname = usePathname()
-  const [userRole, setUserRole] = useState<"leader" | "poc" | null>(null)
+  const [userRole, setUserRole] = useState<"leader" | "poc" | "admin" | null>(null)
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -22,7 +22,9 @@ export function Sidebar() {
       const parts = token.split(".")
       if (parts.length === 3) {
         const decoded = JSON.parse(atob(parts[1]))
-        if (decoded.is_poc) {
+        if (decoded.is_admin) {
+          setUserRole("admin")
+        } else if (decoded.is_poc) {
           setUserRole("poc")
         } else {
           setUserRole("leader")
@@ -34,26 +36,40 @@ export function Sidebar() {
   }, [router])
 
   const navItems =
-    userRole === "poc"
+    userRole === "admin"
       ? [
-          { href: "/dashboard", label: "Dashboard", icon: "📊" },
-          { href: "/queue", label: "Virtual Queue", icon: "📋" },
-          { href: "/poc/document-submission", label: "Document Submission", icon: "📂" },
-          { href: "/poc/mandate-form", label: "Mandate Form", icon: "🖨️" },
-          { href: "/poc/travel-allowance", label: "Travel Allowance", icon: "✈️" },
+          { href: "/dashboard", label: "Dashboard", icon: "🛡️" },
+          { href: "/dashboard/teams", label: "Teams", icon: "👥" },
+          { href: "/dashboard#all-requests", label: "All Requests", icon: "📦" },
+          { href: "/dashboard/requests-tracking", label: "Requests Tracking", icon: "📈" },
+          { href: "/queue", label: "Global Queue", icon: "📋" },
+          { href: "/dashboard/documents-verification", label: "Documents Verification", icon: "📂" },
+          { href: "/view-documents", label: "Detailed Doc Review", icon: "🗂️" },
         ]
-      : [
-          { href: "/dashboard", label: "Dashboard", icon: "🏠" },
-          { href: "/my-requests", label: "My Requests", icon: "📝" },
-          { href: "/my-requests/new", label: "New Request", icon: "➕" },
-        ]
+      : userRole === "poc"
+        ? [
+            { href: "/dashboard", label: "Dashboard", icon: "📊" },
+            { href: "/queue", label: "Virtual Queue", icon: "📋" },
+            { href: "/poc/document-submission", label: "Document Submission", icon: "📂" },
+            { href: "/poc/mandate-form", label: "Mandate Form", icon: "🖨️" },
+            { href: "/poc/travel-allowance", label: "Travel Allowance", icon: "✈️" },
+          ]
+        : [
+            { href: "/dashboard", label: "Dashboard", icon: "🏠" },
+            { href: "/my-requests", label: "My Requests", icon: "📝" },
+            { href: "/my-requests/new", label: "New Request", icon: "➕" },
+          ]
 
   const isActive = (href: string) => {
-    if (href === "/my-requests") {
+    const baseHref = href.split("#")[0]
+    if (baseHref === "/my-requests") {
       if (pathname === "/my-requests") return true
       return pathname.startsWith("/my-requests/") && !pathname.startsWith("/my-requests/new")
     }
-    return pathname === href
+    if (baseHref === "/dashboard") {
+      return pathname === "/dashboard"
+    }
+    return pathname === baseHref || pathname.startsWith(`${baseHref}/`)
   }
 
   return (
@@ -77,7 +93,11 @@ export function Sidebar() {
             SIH | GITAM
           </h2>
           <p className="text-xs mt-1" style={{ color: "#007367" }}>
-            {userRole === "poc" ? "POC Dashboard" : "Team Leader Dashboard"}
+            {userRole === "admin"
+              ? "Admin Control Center"
+              : userRole === "poc"
+                ? "POC Dashboard"
+                : "Team Leader Dashboard"}
           </p>
         </div>
 

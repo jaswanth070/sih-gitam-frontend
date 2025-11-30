@@ -26,7 +26,6 @@ import {
   ListTodo,
   Eye,
   LogOut,
-  Boxes,
   Network,
   FileSignature,
   Plane,
@@ -53,10 +52,12 @@ export function DashboardShell({ children }: DashboardShellProps) {
   const navItems = useMemo(() => {
     if (role === "admin") {
       return [
-        { href: "/dashboard", label: "Admin Dashboard", icon: <LayoutDashboard /> },
+        { href: "/dashboard", label: "Overview", icon: <LayoutDashboard /> },
+        { href: "/dashboard/teams", label: "Teams Directory", icon: <Users /> },
+        { href: "/dashboard/requests-tracking", label: "Requests Tracking", icon: <ListTodo /> },
         { href: "/queue", label: "Global Queue", icon: <Network /> },
-        { href: "/my-requests", label: "All Requests", icon: <Boxes /> },
-        { href: "/view-documents", label: "View Documents", icon: <Eye /> },
+        { href: "/dashboard/documents-verification", label: "Documents Verification", icon: <FileText /> },
+        { href: "/view-documents", label: "Detailed Doc Review", icon: <Eye /> },
       ]
     }
     if (role === "poc") {
@@ -79,9 +80,13 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
   const isActive = useCallback(
     (href: string) => {
-      if (href === "/") return pathname === href
-      if (href === "/my-requests") return pathname.startsWith("/my-requests")
-      return pathname.startsWith(href)
+      const cleanHref = href.split("#")[0]
+      if (cleanHref === "/") return pathname === cleanHref
+      if (cleanHref === "/my-requests") return pathname.startsWith("/my-requests")
+      if (cleanHref === "/dashboard") {
+        return pathname === "/dashboard" || pathname === "/dashboard/"
+      }
+      return pathname === cleanHref || pathname.startsWith(`${cleanHref}/`)
     },
     [pathname],
   )
@@ -98,7 +103,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         <SidebarHeader>
           <div className="px-3 py-3">
             <h1 className="text-base font-bold tracking-tight" style={{ color: "#002449" }}>
-              SIH Portal
+              SIH | GITAM
             </h1>
             <p className="text-[11px] font-medium" style={{ color: "#007367" }} suppressHydrationWarning>
               {role === "admin"
@@ -126,7 +131,6 @@ export function DashboardShell({ children }: DashboardShellProps) {
                     </span>
                   </SidebarMenuButton>
                 </Link>
-                {item.href === "/queue" && role !== "leader" }
               </SidebarMenuItem>
             ))}
             {/* Inline Logout for visibility (remove nested button) */}

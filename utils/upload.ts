@@ -252,16 +252,18 @@ export async function approveDocument(versionId: string): Promise<NotifyUploadRe
   return parseJsonBody<NotifyUploadResponse>(response)
 }
 
-export async function rejectDocument(versionId: string): Promise<NotifyUploadResponse | null> {
+export async function rejectDocument(versionId: string, remarks?: string): Promise<NotifyUploadResponse | null> {
   if (!versionId) {
     throw new Error("Missing version identifier.")
   }
 
+  const trimmedRemarks = remarks?.trim()
   const response = await fetch(
     buildUrl(`/documents/api/reject/${versionId}/`),
     {
       method: "POST",
-      headers: requireAuthHeaders(),
+      headers: requireAuthHeaders(trimmedRemarks ? "application/json" : undefined),
+      body: trimmedRemarks ? JSON.stringify({ remarks: trimmedRemarks }) : undefined,
     },
   )
 
