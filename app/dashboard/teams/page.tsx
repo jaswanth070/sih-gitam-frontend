@@ -136,6 +136,9 @@ function MembersList({ members }: { members: TeamMemberSummary[] }) {
                 {member.user?.email && (
                   <p className="text-xs text-muted-foreground break-all">{member.user.email}</p>
                 )}
+                <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                  <Phone className="h-3.5 w-3.5" /> {member.phone || "Phone not shared"}
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-xs">

@@ -8,6 +8,7 @@ import {
   Loader2,
   RefreshCcw,
   Search,
+  Eye,
 } from "lucide-react"
 
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
@@ -247,7 +248,7 @@ export default function RequestsTrackingPage() {
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-muted-foreground">{teams.length-1} team{teams.length === 1 ? "" : "s"} available.</p>
+              <p className="text-xs text-muted-foreground">{teams.length} team{teams.length === 1 ? "" : "s"} available.</p>
             </div>
 
             <div className="flex flex-col gap-2 md:flex-1">
@@ -325,7 +326,7 @@ export default function RequestsTrackingPage() {
                   <TableHead className="min-w-[130px]">Status</TableHead>
                   <TableHead className="min-w-[160px]">Submitted</TableHead>
                   <TableHead className="min-w-[180px]">Notes</TableHead>
-                  <TableHead className="min-w-[150px] text-right">Updated</TableHead>
+                  <TableHead className="min-w-[120px] text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -363,8 +364,20 @@ export default function RequestsTrackingPage() {
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2 text-xs text-muted-foreground">
-                        <CalendarDays className="h-4 w-4" /> {formatDate(request.updated_at)}
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center justify-end gap-2 text-xs text-muted-foreground">
+                          <CalendarDays className="h-4 w-4" /> {formatDate(request.updated_at)}
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-2 text-xs"
+                          asChild
+                        >
+                          <a href={`/my-requests/${request.id}`} target="_blank" rel="noopener noreferrer">
+                            <Eye className="h-4 w-4" /> View request
+                          </a>
+                        </Button>
                       </div>
                     </TableCell>
                   </TableRow>

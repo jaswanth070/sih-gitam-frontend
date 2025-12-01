@@ -384,9 +384,9 @@ export default function POCTeamDetailsPage() {
                   <ActionLink href={goToDocumentSubmissionHref} label="Document Submission" description="Upload and review mandatory documents." />
                   <ActionLink href={`/my-requests?team_id=${team.team_id ?? teamRouteId}`} label="View All Requests" description="Open the central request queue filtered to this team." />
                   <ActionLink
-                    href={`/poc/mandate-form?teamId=${team.team_id ?? teamRouteId}`}
-                    label="Mandate Form"
-                    description="Review reimbursement and travel mandate details."
+                    href={`/poc/ta-form?teamId=${team.id ?? teamRouteId}`}
+                    label="TA & Mandate Form"
+                    description="Open the combined TA and mandate workflow with this team selected."
                   />
                 </CardContent>
               </Card>
@@ -425,6 +425,7 @@ export default function POCTeamDetailsPage() {
                                 </Badge>
                               </div>
                               <p className="text-xs text-muted-foreground break-all">{member.user?.email}</p>
+                              <p className="text-xs text-muted-foreground break-all">{member.phone}</p>
                             </div>
                           </div>
                         )

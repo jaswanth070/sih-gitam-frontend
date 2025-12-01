@@ -1,6 +1,8 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/contacts-directory/page": "app/dashboard/contacts-directory/page.js",
   "/dashboard/documents-verification/page": "app/dashboard/documents-verification/page.js",
+  "/dashboard/jury-forms/page": "app/dashboard/jury-forms/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/dashboard/requests-tracking/page": "app/dashboard/requests-tracking/page.js",
   "/dashboard/teams/page": "app/dashboard/teams/page.js",
@@ -8,6 +10,11 @@
   "/my-requests/[id]/page": "app/my-requests/[id]/page.js",
   "/my-requests/page": "app/my-requests/page.js",
   "/page": "app/page.js",
+  "/poc/document-submission/page": "app/poc/document-submission/page.js",
+  "/poc/mandate-form/page": "app/poc/mandate-form/page.js",
+  "/poc/ta-form/page": "app/poc/ta-form/page.js",
+  "/poc/teams/[id]/page": "app/poc/teams/[id]/page.js",
+  "/poc/travel-allowance/page": "app/poc/travel-allowance/page.js",
   "/queue/page": "app/queue/page.js",
   "/view-documents/page": "app/view-documents/page.js"
 }

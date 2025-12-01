@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -74,12 +75,14 @@ function resolveStatusVariant(status?: string): "default" | "secondary" | "destr
 
 export default function ViewDocumentsPage() {
   const { toast } = useToast()
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [role, setRole] = useState<UserRole>(null)
   const [loadingTeams, setLoadingTeams] = useState(true)
   const [teams, setTeams] = useState<TeamOption[]>([])
   const [teamDetailsMap, setTeamDetailsMap] = useState<Record<string, TeamDetails>>({})
   const [teamError, setTeamError] = useState<string | null>(null)
-  const [selectedTeamId, setSelectedTeamId] = useState<string>("")
+  const [selectedTeamId, setSelectedTeamId] = useState<string>(() => searchParams?.get("teamId") ?? "")
   const [documents, setDocuments] = useState<TeamDocumentHistoryItem[]>([])
   const [documentsLoading, setDocumentsLoading] = useState(false)
   const [documentsError, setDocumentsError] = useState<string | null>(null)
@@ -89,6 +92,23 @@ export default function ViewDocumentsPage() {
   const timestampFormatter = useMemo(
     () => new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }),
     [],
+  )
+
+  const syncTeamParam = useCallback(
+    (teamId: string) => {
+      if (typeof window === "undefined") return
+      const params = new URLSearchParams(window.location.search)
+      if (teamId) {
+        params.set("teamId", teamId)
+      } else {
+        params.delete("teamId")
+      }
+      const query = params.toString()
+      const target = query ? `?${query}` : ""
+      if (target === window.location.search) return
+      router.replace(`${window.location.pathname}${target}`, { scroll: false })
+    },
+    [router],
   )
 
   useEffect(() => {
@@ -130,6 +150,7 @@ export default function ViewDocumentsPage() {
             return ""
           })
           if (cleared) {
+            syncTeamParam("")
             setDocuments([])
           }
         } else if (detectedRole === "poc") {
@@ -150,6 +171,7 @@ export default function ViewDocumentsPage() {
             return ""
           })
           if (cleared) {
+            syncTeamParam("")
             setDocuments([])
           }
         } else if (detectedRole === "leader") {
@@ -172,6 +194,7 @@ export default function ViewDocumentsPage() {
             return ""
           })
           if (cleared) {
+            syncTeamParam("")
             setDocuments([])
           }
         } else {
@@ -183,6 +206,7 @@ export default function ViewDocumentsPage() {
             return ""
           })
           if (cleared) {
+            syncTeamParam("")
             setDocuments([])
           }
         }
@@ -200,7 +224,12 @@ export default function ViewDocumentsPage() {
     }
 
     void loadTeams()
-  }, [toast])
+  }, [toast, syncTeamParam])
+
+  useEffect(() => {
+    const queryTeamId = searchParams?.get("teamId") ?? ""
+    setSelectedTeamId((prev) => (prev === queryTeamId ? prev : queryTeamId))
+  }, [searchParams])
 
   const hasTeamDetails = selectedTeamId ? Boolean(teamDetailsMap[selectedTeamId]) : false
 
@@ -277,17 +306,21 @@ export default function ViewDocumentsPage() {
       .filter((entry): entry is ApprovedDocumentEntry => entry !== null)
   }, [documents])
 
-  const handleTeamChange = useCallback((value: string) => {
-    let changed = false
-    setSelectedTeamId((prev) => {
-      if (prev === value) return prev
-      changed = true
-      return value
-    })
-    if (changed) {
-      setDocuments([])
-    }
-  }, [])
+  const handleTeamChange = useCallback(
+    (value: string) => {
+      let changed = false
+      setSelectedTeamId((prev) => {
+        if (prev === value) return prev
+        changed = true
+        return value
+      })
+      syncTeamParam(value)
+      if (changed) {
+        setDocuments([])
+      }
+    },
+    [syncTeamParam],
+  )
 
   const handleDownload = useCallback(
     async (versionId: string) => {

@@ -40,6 +40,8 @@ export function Sidebar() {
       ? [
           { href: "/dashboard", label: "Dashboard", icon: "🛡️" },
           { href: "/dashboard/teams", label: "Teams", icon: "👥" },
+          { href: "/dashboard/contacts-directory", label: "Contacts Directory", icon: "📞" },
+          { href: "/dashboard/jury-forms", label: "Jury Forms", icon: "⚖️" },
           { href: "/dashboard#all-requests", label: "All Requests", icon: "📦" },
           { href: "/dashboard/requests-tracking", label: "Requests Tracking", icon: "📈" },
           { href: "/queue", label: "Global Queue", icon: "📋" },
@@ -49,10 +51,11 @@ export function Sidebar() {
       : userRole === "poc"
         ? [
             { href: "/dashboard", label: "Dashboard", icon: "📊" },
+            { href: "/dashboard/contacts-directory", label: "Contacts Directory", icon: "📞" },
             { href: "/queue", label: "Virtual Queue", icon: "📋" },
-            { href: "/poc/document-submission", label: "Document Submission", icon: "📂" },
-            { href: "/poc/mandate-form", label: "Mandate Form", icon: "🖨️" },
-            { href: "/poc/travel-allowance", label: "Travel Allowance", icon: "✈️" },
+              { href: "/poc/document-submission", label: "Document Submission", icon: "📂" },
+              { href: "/poc/ta-form", label: "TA & Mandate Form", icon: "🧾" },
+            { href: "/dashboard/jury-forms", label: "Jury Forms", icon: "⚖️" },
           ]
         : [
             { href: "/dashboard", label: "Dashboard", icon: "🏠" },

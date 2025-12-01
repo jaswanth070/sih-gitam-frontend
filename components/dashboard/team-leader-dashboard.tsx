@@ -152,6 +152,9 @@ export function TeamLeaderDashboard({ user }: LeaderDashboardProps) {
                   <div key={i} className="flex flex-col border-b last:border-b-0 border-border pb-2">
                     <p className="text-sm font-medium truncate">{m.user.name}</p>
                     <p className="text-xs text-muted-foreground break-all">{m.user.email}</p>
+                    <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Phone className="h-3 w-3" /> {m.phone || "Phone not shared"}
+                    </p>
                     <span className="text-[10px] font-semibold mt-0.5 tracking-wide uppercase" style={{ color: '#f75700' }}>{m.role}</span>
                   </div>
                 ))}

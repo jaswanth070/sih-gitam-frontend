@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useCallback } from "react"
+import React, { useMemo, useCallback, useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { authService } from "@/lib/auth-service"
@@ -29,6 +29,7 @@ import {
   Network,
   FileSignature,
   Plane,
+  Phone,
 } from "lucide-react"
 
 interface DashboardShellProps {
@@ -36,10 +37,11 @@ interface DashboardShellProps {
 }
 
 export function DashboardShell({ children }: DashboardShellProps) {
+  const router = useRouter()
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(() => Boolean(authService.getAccessToken()))
   // Retrieve current user client-side; returns null on server.
   const user = authService.getCurrentUser()
   const pathname = usePathname()
-  const router = useRouter()
 
   const role: "leader" | "poc" | "admin" | null = user?.is_admin
     ? "admin"
@@ -58,6 +60,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         { href: "/queue", label: "Global Queue", icon: <Network /> },
         { href: "/dashboard/documents-verification", label: "Documents Verification", icon: <FileText /> },
         { href: "/view-documents", label: "Detailed Doc Review", icon: <Eye /> },
+        { href: "/dashboard/contacts-directory", label: "Contacts Directory", icon: <Phone /> },
       ]
     }
     if (role === "poc") {
@@ -66,8 +69,9 @@ export function DashboardShell({ children }: DashboardShellProps) {
         { href: "/queue", label: "Virtual Queue", icon: <ListTodo /> },
         { href: "/poc/document-submission", label: "Document Submission", icon: <FileText /> },
         { href: "/view-documents", label: "View Documents", icon: <Eye /> },
-        { href: "/poc/mandate-form", label: "Mandate Form", icon: <FileSignature /> },
-        { href: "/poc/travel-allowance", label: "Travel Allowance", icon: <Plane /> },
+        { href: "/poc/ta-form", label: "TA & Mandate Form", icon: <FileSignature /> },
+        { href: "/dashboard/jury-forms", label: "Jury Forms", icon: <Plane /> },
+        { href: "/dashboard/contacts-directory", label: "Contacts Directory", icon: <Phone /> },
       ]
     }
     // leader default
@@ -94,6 +98,36 @@ export function DashboardShell({ children }: DashboardShellProps) {
   const handleLogout = async () => {
     await authService.logout()
     router.push("/login")
+  }
+
+  useEffect(() => {
+    const ensureAuthorized = () => {
+      const token = authService.getAccessToken()
+      const currentUser = authService.getCurrentUser()
+      if (!token || !currentUser) {
+        setIsAuthorized(false)
+        router.replace("/login")
+      } else {
+        setIsAuthorized(true)
+      }
+    }
+
+    ensureAuthorized()
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === "sih_access_token") {
+        ensureAuthorized()
+      }
+    }
+
+    window.addEventListener("storage", handleStorage)
+    return () => {
+      window.removeEventListener("storage", handleStorage)
+    }
+  }, [router])
+
+  if (!isAuthorized) {
+    return null
   }
 
   return (

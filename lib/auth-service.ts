@@ -104,6 +104,7 @@ export interface TeamMemberSummary {
     id: string
     email: string
     name: string
+    phone:string
   }
 }
 
@@ -197,24 +198,44 @@ class AuthService {
       headers,
     })
 
-    if (response.status === 401 && retryCount === 0) {
+    const isRefreshRequest = endpoint.includes("/token/refresh/")
+
+    if (response.status === 401) {
       const refreshToken = this.getRefreshToken()
-      if (refreshToken) {
+      if (!isRefreshRequest && retryCount === 0 && refreshToken) {
         try {
-          const newAccessToken = await this.refreshAccessToken(refreshToken)
+          await this.refreshAccessToken(refreshToken)
           return this.request<T>(endpoint, options, 1)
         } catch (error) {
           this.clearTokens()
+          clearSessionCache()
           if (typeof window !== "undefined") {
             window.location.href = "/login"
           }
           throw new Error("Session expired. Please login again.")
         }
       }
+
+      this.clearTokens()
+      clearSessionCache()
+      if (typeof window !== "undefined") {
+        window.location.href = "/login"
+      }
     }
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}))
+      const detailMessage = (error.detail || error.message || "").toString().toLowerCase()
+      if (
+        detailMessage.includes("token") &&
+        (detailMessage.includes("expired") || detailMessage.includes("invalid"))
+      ) {
+        this.clearTokens()
+        clearSessionCache()
+        if (typeof window !== "undefined") {
+          window.location.href = "/login"
+        }
+      }
       throw new Error(error.detail || error.message || `API Error: ${response.status}`)
     }
 

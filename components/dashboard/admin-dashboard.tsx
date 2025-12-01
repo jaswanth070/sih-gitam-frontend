@@ -12,6 +12,7 @@ import {
   ListOrdered,
   Loader2,
   Lock,
+  Phone,
   RefreshCcw,
   Settings,
   ShieldCheck,
@@ -42,12 +43,6 @@ const adminNavigationLinks: NavigationLink[] = [
     icon: Users,
   },
   {
-    href: "/dashboard#all-requests",
-    label: "All Requests",
-    description: "",
-    icon: ClipboardList,
-  },
-  {
     href: "/dashboard/requests-tracking",
     label: "Requests Tracking",
     description: "",
@@ -71,6 +66,12 @@ const adminNavigationLinks: NavigationLink[] = [
     description: "",
     icon: FolderOpen,
   },
+  {
+    href: "/dashboard/contacts-directory",
+    label: "Contacts Directory",
+    description: "",
+    icon: Phone,
+  },
 ]
 
 interface AdminConsoleLink {
@@ -82,21 +83,21 @@ interface AdminConsoleLink {
 
 const adminConsoleLinks: AdminConsoleLink[] = [
   {
-    href: "/adminin-auth/",
+    href: "/admin-auth/",
     label: "Auth Console",
-    description: "Requires Special Access",
+    description: "",
     icon: Lock,
   },
   {
     href: "/admin-ops/",
     label: "Operations Console",
-    description: "Requires Special Access",
+    description: "",
     icon: Settings,
   },
   {
     href: "/admin-docs/",
     label: "Documents Console",
-    description: "Requires Special Access",
+    description: "",
     icon: FileText,
   },
 ]

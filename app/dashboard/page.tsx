@@ -8,7 +8,7 @@ import { authService } from "@/lib/auth-service"
 import { getCachedPOCTeams } from "@/lib/dashboard-cache"
 import { TeamLeaderDashboard } from "./team-leader"
 import { AdminDashboard } from "@/components/dashboard/admin-dashboard"
-import { Users, FileText, AlertCircle, ExternalLink, Layers, Building2, User2 } from "lucide-react"
+import { Users, FileText, AlertCircle, ExternalLink, Layers, Building2, User2, Phone } from "lucide-react"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Button } from "@/components/ui/button"
 
@@ -108,7 +108,6 @@ function POCDashboard({ user }: { user: any }) {
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-2" style={{color:'#002449'}}>
           <Users className="w-6 h-6 text-[#002449]" /> Welcome, {user?.name?.split(' ')[0] || 'POC'}
         </h2>
-        <p className="text-sm text-muted-foreground">Focused view of assigned teams.</p>
       </header>
 
       {feedback && (
@@ -143,6 +142,7 @@ function TeamCard({ team, onView }: { team: any; onView: () => void }) {
     ? (team.members.find((m: any) => m.role?.toLowerCase() === 'leader')?.user?.name || '-')
     : (team.leader_name || '-')
   const problemId = team.problem_statement?.id
+  const pocPhone = team.poc?.phone || team.primary_contact?.phone || team.contact_phone || team.phone || ""
   return (
     <Card
       role="group"
@@ -157,6 +157,9 @@ function TeamCard({ team, onView }: { team: any; onView: () => void }) {
       </p>
       <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
         <Building2 className="w-3 h-3" /> {team.institution}
+      </p>
+      <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
+        <Phone className="w-3 h-3" /> {pocPhone || "Phone not shared"}
       </p>
       {problemId && (
         <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-semibold tracking-wide bg-[#f75700]/10 text-[#f75700] border border-[#f75700]/30 w-fit">

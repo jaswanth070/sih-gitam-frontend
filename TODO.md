@@ -1,3 +1,4 @@
-- [ ] Investigate Docker build copy error
-- [ ] Update Dockerfile to copy source files correctly
-- [ ] Provide guidance on rebuilding image
+- [x] Update POC nav in dashboard shell to point only to TA & Mandate form
+- [x] Rework TA & Mandate page to include team selection, HTML form (beneficiary + travel with mirror option), and toggleable PDF preview without open-in-new-tab or tip
+- [x] Ensure PDF prefill uses live form values for beneficiary and member data when previewing
+- [x] Provide updated manual test instructions for accessing the new workflow
