@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { Suspense, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
@@ -218,7 +218,7 @@ function parseAmount(value: string): number {
   return Number.isFinite(amount) ? amount : 0
 }
 
-export default function TAFormPage() {
+function TAFormPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const initialTeamId = searchParams.get("teamId") || ""
@@ -1230,5 +1230,19 @@ export default function TAFormPage() {
         )}
       </div>
     </DashboardShell>
+  )
+}
+
+export default function TAFormPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[50vh] w-full items-center justify-center p-6">
+          <Loader2 className="h-6 w-6 animate-spin text-[#f75700]" />
+        </div>
+      }
+    >
+      <TAFormPageContent />
+    </Suspense>
   )
 }
