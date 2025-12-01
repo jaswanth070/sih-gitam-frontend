@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Card } from "@/components/ui/card"
@@ -73,7 +73,7 @@ function resolveStatusVariant(status?: string): "default" | "secondary" | "destr
   return "outline"
 }
 
-export default function ViewDocumentsPage() {
+function ViewDocumentsPageContent() {
   const { toast } = useToast()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -619,5 +619,19 @@ export default function ViewDocumentsPage() {
         )}
       </div>
     </DashboardShell>
+  )
+}
+
+export default function ViewDocumentsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[50vh] w-full items-center justify-center p-6">
+          <Loader2 className="h-6 w-6 animate-spin text-[#f75700]" />
+        </div>
+      }
+    >
+      <ViewDocumentsPageContent />
+    </Suspense>
   )
 }
