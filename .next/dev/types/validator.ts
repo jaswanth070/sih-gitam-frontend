@@ -99,6 +99,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../app/enroute-gitam/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/enroute-gitam">> = Specific
+  const handler = {} as typeof import("../../../app/enroute-gitam/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/help/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/help">> = Specific

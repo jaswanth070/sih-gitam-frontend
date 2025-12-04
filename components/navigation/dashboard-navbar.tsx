@@ -34,7 +34,7 @@ export function DashboardNavbar() {
           </h1>
           <div className="mt-1 flex items-center gap-2">
             <span className="h-px w-5 sm:w-6 bg-[#f75700]" />
-            <span className="text-[12px] sm:text-[14px] font-medium text-gray-500 uppercase tracking-wider">GITAM</span>
+            <span className="text-[12px] sm:text-[14px] font-medium text-gray-500 uppercase tracking-wider">HARDWARE EDITION</span>
             <span className="h-px w-5 sm:w-6 bg-[#078e31]" />
           </div>
         </div>

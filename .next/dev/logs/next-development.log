@@ -1,1126 +1,235 @@
-[00:00:14.316] Server  LOG      ✓ Ready in 8.9s
-[00:00:54.362] Server  LOG      ○ Compiling / ...
-[00:01:06.655] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:07.189] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:01:07.189] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:01:07.189] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609039472}
-[00:02:17.592] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609110068}
-[00:02:36.136] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:00:13.669] Server  LOG      ✓ Ready in 8.6s
+[00:00:16.720] Server  LOG      ○ Compiling / ...
+[00:00:21.360] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:21.640] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:21.640] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:21.640] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854079955}
+[00:00:51.886] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854110175}
+[00:00:54.240] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:02:36.136] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:02:36.136] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:00:54.240] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:54.240] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:02:36.136] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:02:38.498] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609131054}
-[00:02:45.838] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609138414}
-[00:02:50.179] Browser ERROR   [team] Error fetching team requests snapshot {}
-[00:02:53.617] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:02:53.853] Browser ERROR   [team] Failed to load team details {}
-[00:02:54.122] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:02:54.122] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[00:02:54.122] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609146692}
-[00:02:55.858] Browser ERROR   [team] Error fetching team requests snapshot {}
-[00:03:00.021] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609152583}
-[00:03:00.153] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609152733}
-[00:03:02.169] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609154653}
-[00:03:02.169] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609154748}
-[00:03:04.267] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:03:04.456] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:03:04.456] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[00:03:04.456] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609157034}
-[00:03:06.784] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:03:06.961] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:03:06.961] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[00:03:06.961] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609159531}
-[00:07:29.758] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764609422215}
-[00:17:47.140] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:17:47.433] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={true}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" data-active={true} ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               Overview
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[00:17:47.557] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:17:47.557] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
-[00:17:47.557] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
-[00:17:47.557] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610040130}
-[00:17:47.557] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610040130}
-[00:17:50.077] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610042647}
-[00:17:52.519] Server  LOG      ✓ Compiled in 672ms
-[00:17:55.467] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:00:54.240] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:31.930] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:32.075] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:01:32.075] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:01:32.075] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854150506}
+[00:01:37.438] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:17:55.467] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:17:55.467] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:01:37.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:37.438] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:17:55.467] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:17:57.031] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610049595}
-[00:18:11.729] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/mandate-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/mandate-form","o":"http://localhost:3000/poc/mandate-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610064119}
-[00:18:45.702] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/travel-allowance color: rgb(120, 120, 120) color: inherit {"dp":"/poc/travel-allowance","o":"http://localhost:3000/poc/travel-allowance","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610098160}
-[00:19:33.094] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:19:33.419] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[00:19:33.584] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:19:33.584] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[00:19:33.584] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[00:19:33.584] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610146152}
-[00:19:33.584] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610146152}
-[00:26:16.430] Server  LOG      ✓ Compiled in 354ms
-[00:26:56.799] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610589203}
-[00:26:58.503] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610591073}
-[00:27:44.104] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610636680}
-[00:27:46.134] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610638693}
-[00:29:50.565] Server  LOG      ✓ Compiled in 462ms
-[00:29:50.824] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:29:51.217] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[00:29:51.326] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:29:51.326] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[00:29:51.326] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[00:29:51.326] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610763904}
-[00:29:51.326] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764610763904}
-[00:30:06.729] Server  LOG      ✓ Compiled in 316ms
-[00:30:06.841] Browser ERROR   The final argument passed to %s changed size between renders. The order and size of this array must remain constant.
-
-Previous: %s
-Incoming: %s useEffect [, true] []
-[00:30:26.091] Server  LOG      ✓ Compiled in 349ms
-[00:30:41.011] Server  LOG      ✓ Compiled in 294ms
-[00:37:32.343] Server  LOG      ✓ Compiled in 324ms
-[00:37:53.623] Server  LOG      ✓ Compiled in 296ms
-[00:38:00.824] Server  LOG      ✓ Compiled in 266ms
-[00:38:03.165] Server  LOG      ✓ Compiled in 295ms
-[00:38:03.309] Browser ERROR   A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://react.dev/link/controlled-components
-[00:41:04.440] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:41:04.797] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[00:41:04.933] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:41:04.933] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[00:41:04.933] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[00:41:04.933] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764611437494}
-[00:41:04.933] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764611437495}
-[01:00:10.995] Server  LOG      ✓ Compiled in 423ms
-[01:02:32.334] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:02:32.927] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[01:02:32.927] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:02:32.927] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[01:02:32.928] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[01:02:32.928] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764612725471}
-[01:02:32.928] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764612725471}
-[01:02:38.122] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764612730700}
-[01:02:39.098] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764612731654}
-[01:05:21.554] Server  LOG      ✓ Compiled in 310ms
-[01:05:23.332] Server  LOG      ✓ Compiled in 294ms
-[01:05:24.972] Server  LOG      ✓ Compiled in 310ms
-[01:05:26.710] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:05:27.261] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[01:05:27.363] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:05:27.363] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[01:05:27.363] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
-[01:05:27.363] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764612899946}
-[01:05:27.363] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764612899946}
-[01:08:40.632] Server  LOG      ✓ Compiled in 293ms
-[01:08:57.224] Server  LOG      ✓ Compiled in 269ms
-[01:10:39.201] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613211703}
-[01:11:52.814] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:11:53.098] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[01:11:53.208] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:11:53.208] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/jury-forms","route":"/dashboard/jury-forms"}
-[01:11:53.208] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/jury-forms","route":"/dashboard/jury-forms"}
-[01:11:53.208] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613285785}
-[01:11:53.208] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613285785}
-[01:12:47.234] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613339801}
-[01:12:48.442] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613341004}
-[01:13:37.175] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613389679}
-[01:13:39.034] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613391614}
-[01:13:41.467] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7&teamCode=12345 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7&teamCode=12345","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613394017}
-[01:13:41.612] Browser ERROR   Team document history error {}
-[01:13:41.612] Browser ERROR   Team document history error {}
-[01:13:48.188] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613400760}
-[01:13:50.082] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613402659}
-[01:13:52.162] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests?team_id=12345 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests?team_id=12345","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613404720}
-[01:13:55.462] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613408032}
-[01:14:04.654] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613417226}
-[01:14:08.688] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:14:10.109] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/mandate-form?teamId=12345 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/mandate-form","o":"http://localhost:3000/poc/mandate-form?teamId=12345","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613422622}
-[01:14:14.415] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613426969}
-[01:14:18.486] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:15:46.659] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:15:46.659] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:15:46.659] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[01:15:46.659] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613518447}
-[01:15:48.565] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613521127}
-[01:15:48.751] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613521316}
-[01:15:56.820] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613529394}
-[01:16:11.273] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:01:37.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:46.605] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:16:11.273] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:16:11.273] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:01:46.605] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:46.605] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:16:11.273] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:16:12.840] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613545397}
-[01:16:27.164] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:16:27.311] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:16:27.311] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/adminin-auth","route":"/adminin-auth"}
-[01:16:27.311] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/adminin-auth color: rgb(120, 120, 120) color: inherit {"dp":"/adminin-auth","o":"http://localhost:3000/adminin-auth","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613559891}
-[01:16:48.682] Server  LOG      ✓ Compiled in 402ms
-[01:16:53.084] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:16:53.254] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:16:53.254] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin-auth","route":"/admin-auth"}
-[01:16:53.254] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin-auth color: rgb(120, 120, 120) color: inherit {"dp":"/admin-auth","o":"http://localhost:3000/admin-auth","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613585837}
-[01:16:57.141] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613589547}
-[01:17:05.063] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613597629}
-[01:17:18.992] Server  LOG      ✓ Compiled in 321ms
-[01:17:19.611] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:17:20.190] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[01:17:20.190] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:17:20.190] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[01:17:20.190] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[01:17:20.190] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613612589}
-[01:17:20.190] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613612590}
-[01:17:24.185] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:17:28.975] Server  LOG        Reload env: .env.local
-[01:17:29.778] Server  LOG      ✓ Compiled in 523ms
-[01:17:31.006] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:31.180] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:32.178] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:17:34.030] Server  LOG        Reload env: .env.local
-[01:17:34.548] Server  LOG      ✓ Compiled in 498ms
-[01:17:34.657] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:35.191] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:35.483] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:35.626] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:36.844] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:36.844] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:37.631] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:37.632] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:37.907] Browser ERROR   uncaughtError: Error: ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-
-[01:17:37.947] Browser ERROR   uncaughtError: Error: ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-
-[01:17:38.130] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:38.130] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:38.191] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:17:38.191] Browser ERROR   ./app/dashboard/jury-forms/page.tsx:90:1
-Parsing ecmascript source code failed
-  88 |
-  89 |               src={pdfUrl ?? JURY_PDF_SRC}
-> 90 |
-     | ^
-
-Expected '</', got '<eof>'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/jury-forms/page.tsx [Client Component Browser]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/jury-forms/page.tsx [Client Component SSR]
-    ./app/dashboard/jury-forms/page.tsx [Server Component]
-[01:18:03.461] Server  LOG      ✓ Compiled in 304ms
-[01:18:04.131] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:18:04.284] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:18:04.404] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               Overview
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[01:18:04.616] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:18:04.616] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/requests-tracking","route":"/dashboard/requests-tracking"}
-[01:18:04.616] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/requests-tracking","route":"/dashboard/requests-tracking"}
-[01:18:04.616] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613657194}
-[01:18:04.616] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613657194}
-[01:18:05.186] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               POC Dashboard
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[01:18:05.186] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:18:05.186] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[01:18:05.186] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[01:18:05.186] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613657228}
-[01:18:05.186] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613657228}
-[01:18:21.187] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:18:59.329] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613711803}
-[01:19:02.142] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents?teamId=778dcff8-8ff4-42e9-b648-473122772a86 color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents?teamId=778dcff8-8ff4-42e9-b648-473122772a86","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613714708}
-[01:20:40.595] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613813110}
-[01:20:53.215] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613825772}
-[01:20:55.681] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613828229}
-[01:20:59.728] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613832289}
-[01:21:02.016] Browser ERROR   Team document history error {}
-[01:21:13.164] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613845728}
-[01:21:14.575] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613847156}
-[01:21:15.070] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:21:15.960] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7&teamCode=12345 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7&teamCode=12345","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613848461}
-[01:21:15.960] Browser ERROR   Team document history error {}
-[01:21:15.960] Browser ERROR   Team document history error {}
-[01:21:21.579] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613854148}
-[01:21:23.707] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:21:23.893] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests?team_id=12345 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests?team_id=12345","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613856451}
-[01:21:26.047] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613858616}
-[01:21:27.654] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613860232}
-[01:21:28.847] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:21:31.500] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/mandate-form?teamId=12345 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/mandate-form","o":"http://localhost:3000/poc/mandate-form?teamId=12345","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764613864031}
-[01:23:17.723] Server  LOG      ✓ Compiled in 306ms
-[01:23:18.191] Browser ERROR   uncaughtError: ReferenceError: Cannot access 'syncTeamParam' before initialization
-[01:23:51.555] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[01:23:51.557] Server  LOG      ✓ Compiled in 453ms
-[01:23:52.052] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:23:53.186] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bg-sidebar...">
-      <SidebarHeader>
-      <SidebarContent>
-        <div data-slot="sidebar-co..." data-sidebar="content" className="flex min-h...">
-          <SidebarMenu>
-            <ul data-slot="sidebar-menu" data-sidebar="menu" className="flex w-ful...">
-              <SidebarMenuItem>
-                <li data-slot="sidebar-me..." data-sidebar="menu-item" className="group/menu...">
-                  <LinkComponent href="/dashboard">
-                    <a ref={function} onClick={function onClick} onMouseEnter={function onMouseEnter} ...>
-                      <SidebarMenuButton asChild={true} isActive={false}>
-                        <Slot data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                          <SlotClone data-slot="sidebar-me..." data-sidebar="menu-button" data-size="default" ...>
-                            <span className={"peer/men..."} data-slot="sidebar-me..." data-sidebar="menu-button" ...>
-                              <LayoutDashboard>
-                              <span>
-+                               Overview
--                               Dashboard
-              ...
-              ...
-          ...
-      ...
-
-[01:23:53.186] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:23:53.186] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/view-documents","route":"/view-documents"}
-[01:23:53.186] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/view-documents","route":"/view-documents"}
-[01:23:53.186] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents?teamId=778dcff8-8ff4-42e9-b648-473122772a86 color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents?teamId=778dcff8-8ff4-42e9-b648-473122772a86","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614004979}
-[01:23:53.186] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents?teamId=778dcff8-8ff4-42e9-b648-473122772a86 color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents?teamId=778dcff8-8ff4-42e9-b648-473122772a86","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614004980}
-[01:24:13.549] Server  LOG      ✓ Compiled in 331ms
-[01:24:40.677] Server  LOG      ✓ Compiled in 467ms
-[01:25:10.647] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614083100}
-[01:25:12.631] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614085189}
-[01:25:13.449] Browser ERROR   [queue-hook] snapshot error {}
-[01:25:13.449] Browser ERROR   [queue-hook] snapshot error {}
-[01:25:15.426] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:25:16.226] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614088785}
-[01:25:16.226] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:25:18.475] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:25:29.473] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:01:46.605] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:50.208] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:25:29.473] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:25:29.473] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:01:50.208] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:50.208] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:25:29.473] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:25:31.032] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614103590}
-[01:25:34.722] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614107300}
-[01:25:37.013] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:25:38.731] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614111261}
-[01:25:38.731] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:25:39.078] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:25:44.832] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614117387}
-[01:25:47.488] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614120049}
-[01:25:50.061] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614122619}
-[01:25:50.812] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614123363}
-[01:25:52.515] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614125095}
-[01:25:54.873] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests?team_id=12345 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests?team_id=12345","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614127430}
-[01:25:56.623] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614129187}
-[01:26:01.728] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614134303}
-[01:26:04.205] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614136558}
-[01:26:20.448] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614152924}
-[01:26:23.751] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents?teamId=71a4dbda-fc98-43c9-a238-45e2ef2a710b color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents?teamId=71a4dbda-fc98-43c9-a238-45e2ef2a710b","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614156315}
-[01:26:28.625] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614161138}
-[01:26:36.244] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614168797}
-[01:26:41.308] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614173858}
-[01:26:42.389] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614174956}
-[01:27:34.699] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614227165}
-[01:27:35.505] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614228084}
-[01:27:37.635] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/documents-verification color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/documents-verification","o":"http://localhost:3000/dashboard/documents-verification","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614230184}
-[01:27:37.635] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:27:37.774] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:28:14.574] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614267126}
-[01:28:31.801] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614284255}
-[01:28:33.099] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614285675}
-[01:28:38.916] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:28:39.212] Browser ERROR   [team] Failed to load team details {}
-[01:28:39.362] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:28:39.674] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:28:39.674] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[01:28:39.674] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614292245}
-[01:29:34.068] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:29:34.549] Browser ERROR   [team] Failed to load team details {}
-[01:29:34.549] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:29:34.549] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[01:29:34.549] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614347127}
-[01:29:34.549] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:34:08.451] Server  LOG      ✓ Compiled in 440ms
-[01:34:15.177] Browser ERROR   [team] Error fetching team requests snapshot {}
-[01:34:24.761] Server  LOG      ✓ Compiled in 533ms
-[01:34:26.182] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614637835}
-[01:35:01.315] Server  LOG      ✓ Compiled in 460ms
-[01:35:41.813] Server  LOG      ✓ Compiled in 444ms
-[01:36:35.799] Server  LOG      ✓ Compiled in 472ms
-[01:38:32.728] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:38:33.191] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:38:33.191] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/teams","route":"/dashboard/teams"}
-[01:38:33.191] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[01:38:33.191] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614885769}
-[01:38:33.191] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614885770}
-[01:38:47.285] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:38:47.566] Browser ERROR   [team] Failed to load team details {}
-[01:38:47.949] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:38:48.155] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:38:48.155] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[01:38:48.155] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614900739}
-[01:39:52.026] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614964470}
-[01:39:55.751] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764614968282}
-[01:41:21.456] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/documents-verification color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/documents-verification","o":"http://localhost:3000/dashboard/documents-verification","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615053948}
-[01:41:27.909] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615060470}
-[01:42:21.737] Server  LOG      ✓ Compiled in 597ms
-[01:42:44.525] Server  LOG      ✓ Compiled in 699ms
-[01:43:29.478] Server  LOG      ✓ Compiled in 323ms
-[01:43:51.804] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615204300}
-[01:44:35.722] Server  LOG      ✓ Compiled in 394ms
-[01:44:52.709] Server  LOG      ✓ Compiled in 419ms
-[01:47:25.408] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615417903}
-[01:47:26.930] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615419494}
-[01:47:29.120] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615421686}
-[01:47:31.871] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615424438}
-[01:47:34.548] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:47:36.919] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:47:38.633] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:47:40.685] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:47:44.178] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:47:46.180] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:47:52.177] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:47:54.188] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:48:06.189] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:48:08.179] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:48:23.133] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615475628}
-[01:48:24.563] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615477127}
-[01:48:33.068] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:48:35.096] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:49:55.095] Server  LOG      ✓ Compiled in 310ms
-[01:51:42.534] Server  LOG      ✓ Compiled in 325ms
-[01:52:04.665] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:52:04.911] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:01:50.208] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:32.375] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:02:32.375] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:32.375] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
-https://react.dev/link/hydration-mismatch
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"8"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:02:32.375] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:36.653] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:02:36.654] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:02:36.654] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854215078}
+[00:02:37.731] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
-[01:52:04.911] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:52:04.911] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[01:52:04.911] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[01:52:04.911] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615697494}
-[01:52:04.911] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615697494}
-[01:52:20.544] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:52:34.792] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615727228}
-[01:53:18.073] Server  LOG      ✓ Compiled in 342ms
-[01:53:20.055] Server  LOG      ✓ Compiled in 280ms
-[01:53:21.661] Server  LOG      ✓ Compiled in 281ms
-[01:53:30.758] Server  LOG      ✓ Compiled in 325ms
-[01:53:36.558] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615788981}
-[01:53:57.474] Server  LOG      ✓ Compiled in 296ms
-[01:54:07.261] Server  LOG      ✓ Compiled in 295ms
-[01:54:10.725] Server  LOG      ✓ Compiled in 279ms
-[01:54:18.086] Server  LOG      ✓ Compiled in 360ms
-[01:54:21.751] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615834283}
-[01:54:57.742] Server  LOG      ✓ Compiled in 342ms
-[01:55:02.582] Server  LOG      ✓ Compiled in 293ms
-[01:55:08.478] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615880883}
-[01:55:10.548] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615883108}
-[01:55:18.269] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615890829}
-[01:55:18.953] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615891535}
-[01:55:20.319] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615892879}
-[01:55:21.492] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615894043}
-[01:55:22.597] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615895160}
-[01:55:23.555] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615896118}
-[01:55:24.974] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615897539}
-[01:55:28.744] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:55:30.809] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:55:39.377] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615911841}
-[01:56:04.368] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:56:04.513] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:56:04.513] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin-ops","route":"/admin-ops"}
-[01:56:04.513] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin-ops color: rgb(120, 120, 120) color: inherit {"dp":"/admin-ops","o":"http://localhost:3000/admin-ops","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615937097}
-[01:56:12.715] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615945225}
-[01:56:15.548] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615948102}
-[01:56:17.304] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615949852}
-[01:56:18.680] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615951243}
-[01:56:20.709] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/documents-verification color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/documents-verification","o":"http://localhost:3000/dashboard/documents-verification","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615953250}
-[01:56:22.369] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615954891}
-[01:56:31.338] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615963897}
-[01:56:32.582] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764615965139}
-[01:57:31.705] Server  LOG      ✓ Compiled in 319ms
-[01:58:28.925] Server  LOG      ✓ Compiled in 282ms
-[01:58:33.285] Server  LOG      ✓ Compiled in 341ms
-[01:58:34.675] Server  LOG      ✓ Compiled in 295ms
-[01:58:38.287] Server  LOG      ✓ Compiled in 276ms
-[01:58:46.118] Server  LOG      ✓ Compiled in 317ms
-[01:58:51.226] Server  LOG      ✓ Compiled in 308ms
-[01:58:55.033] Server  LOG      ✓ Compiled in 269ms
-[01:58:58.927] Server  LOG      ✓ Compiled in 271ms
-[01:59:04.792] Server  LOG      ✓ Compiled in 272ms
-[01:59:08.641] Server  LOG      ✓ Compiled in 354ms
-[01:59:12.516] Server  LOG      ✓ Compiled in 318ms
-[01:59:34.871] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/documents-verification color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/documents-verification","o":"http://localhost:3000/dashboard/documents-verification","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616147300}
-[01:59:37.140] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616149698}
-[01:59:38.212] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616150784}
-[01:59:39.563] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616152131}
-[01:59:40.652] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616153233}
-[01:59:41.757] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616154316}
-[01:59:41.757] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:59:42.916] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616155485}
-[01:59:43.959] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:59:44.245] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616156811}
-[01:59:51.739] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616164305}
-[01:59:52.595] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616165152}
-[01:59:53.059] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616165637}
-[01:59:53.674] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/documents-verification color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/documents-verification","o":"http://localhost:3000/dashboard/documents-verification","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616166227}
-[01:59:54.478] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616167047}
-[01:59:56.417] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[01:59:56.805] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616169327}
-[01:59:57.646] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/documents-verification color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/documents-verification","o":"http://localhost:3000/dashboard/documents-verification","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616170202}
-[01:59:58.738] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[02:01:22.577] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764616255077}
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:02:37.731] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:37.731] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:02:37.731] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:58.358] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:02:58.358] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:02:58.359] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854236787}
+[00:03:01.055] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:03:01.055] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:03:01.056] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854239483}
+[00:03:04.071] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:04.071] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:04.071] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:04.071] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:09.834] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:09.834] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:09.834] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:09.834] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:13.431] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:13.431] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:13.431] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:13.431] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:16.250] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:16.250] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:16.250] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:16.250] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:47.452] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:47.452] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:47.452] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:47.452] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:53.105] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:53.105] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:53.106] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:53.106] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:21.236] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:21.236] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:21.236] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:21.236] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:27.326] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:27.889] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:04:27.889] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:04:27.889] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854326307}
+[00:04:32.671] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:32.671] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:32.671] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:32.671] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:37.854] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:37.854] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:37.854] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:37.854] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:15.438] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:05:15.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:15.438] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:05:15.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:06:08.581] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854426958}
+[00:06:37.260] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854455591}
+[00:07:03.612] Server  LOG      ✓ Compiled in 389ms
+[00:07:09.056] Server  LOG      ✓ Compiled in 321ms
+[00:07:14.840] Server  LOG      ✓ Compiled in 355ms
+[00:07:18.023] Server  LOG      ✓ Compiled in 303ms
+[00:07:25.433] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:07:25.433] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:07:25.433] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:07:25.433] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:07:42.096] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764854520329}

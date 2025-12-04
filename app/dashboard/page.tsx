@@ -8,7 +8,7 @@ import { authService } from "@/lib/auth-service"
 import { getCachedPOCTeams } from "@/lib/dashboard-cache"
 import { TeamLeaderDashboard } from "./team-leader"
 import { AdminDashboard } from "@/components/dashboard/admin-dashboard"
-import { Users, FileText, AlertCircle, ExternalLink, Layers, Building2, User2, Phone } from "lucide-react"
+import { Users, AlertCircle, ExternalLink, Layers, Building2, User2, Phone, Navigation2 } from "lucide-react"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Button } from "@/components/ui/button"
 
@@ -54,15 +54,42 @@ export default function DashboardPage() {
 
   return (
     <DashboardShell>
-    {userRole === "admin" && <AdminDashboard user={currentUser} />}
-      {userRole === "leader" && <TeamLeaderDashboard user={currentUser} />}
-      {userRole === "poc" && <POCDashboard user={currentUser} />}
-      {!userRole && (
-        <Card className="p-12 text-center">
-          <AlertCircle className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <p className="text-muted-foreground font-medium">Unable to determine user role</p>
-        </Card>
-      )}
+      <div className="space-y-6">
+        <div className="rounded-2xl border border-[#002449]/15 bg-white shadow-sm">
+          <Link
+            href="/enroute-gitam"
+            className="flex flex-col gap-3 px-5 py-4 transition hover:bg-[#f75700]/5 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#002449] text-white">
+                <Navigation2 className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold" style={{ color: "#002449" }}>
+                  Enroute GITAM: Smart arrival guide
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Find mobile-first directions from airport, railway station, or city bus stops.
+                </p>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#f75700]">
+              Open guide
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </Link>
+        </div>
+
+        {userRole === "admin" && <AdminDashboard user={currentUser} />}
+        {userRole === "leader" && <TeamLeaderDashboard user={currentUser} />}
+        {userRole === "poc" && <POCDashboard user={currentUser} />}
+        {!userRole && (
+          <Card className="p-12 text-center">
+            <AlertCircle className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+            <p className="text-muted-foreground font-medium">Unable to determine user role</p>
+          </Card>
+        )}
+      </div>
     </DashboardShell>
   )
 }

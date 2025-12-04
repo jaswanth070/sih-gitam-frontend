@@ -158,7 +158,7 @@ function normalizeAuthPath(pathname) {
     return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/");
+    const raw = ("TURBOPACK compile-time value", "https://sih.jaswanthmadiya.tech/auth/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -3229,7 +3229,7 @@ function parseAmount(value) {
     const amount = parseFloat(normalized);
     return Number.isFinite(amount) ? amount : 0;
 }
-function TAFormPage() {
+function TAFormPageContent() {
     _s();
     const searchParams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"])();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
@@ -3242,14 +3242,14 @@ function TAFormPage() {
     const [teamLoading, setTeamLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [teamError, setTeamError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [beneficiaryData, setBeneficiaryData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "TAFormPage.useState": ()=>createInitialBeneficiaryState()
-    }["TAFormPage.useState"]);
+        "TAFormPageContent.useState": ()=>createInitialBeneficiaryState()
+    }["TAFormPageContent.useState"]);
     const [taInfo, setTaInfo] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "TAFormPage.useState": ()=>createInitialTAInfo()
-    }["TAFormPage.useState"]);
+        "TAFormPageContent.useState": ()=>createInitialTAInfo()
+    }["TAFormPageContent.useState"]);
     const [travelMembers, setTravelMembers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "TAFormPage.useState": ()=>createTravelMembers(null)
-    }["TAFormPage.useState"]);
+        "TAFormPageContent.useState": ()=>createTravelMembers(null)
+    }["TAFormPageContent.useState"]);
     const [syncAll, setSyncAll] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [previewVisible, setPreviewVisible] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [pdfUrl, setPdfUrl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -3258,10 +3258,10 @@ function TAFormPage() {
     const fieldLabelClass = "text-xs font-semibold uppercase tracking-wide text-[#002449]";
     const inputAccentClass = "bg-[#f5f8ff] border-[#9bb1d4] focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/40";
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "TAFormPage.useEffect": ()=>{
+        "TAFormPageContent.useEffect": ()=>{
             let mounted = true;
             const loadTeams = {
-                "TAFormPage.useEffect.loadTeams": async ()=>{
+                "TAFormPageContent.useEffect.loadTeams": async ()=>{
                     try {
                         const pocTeams = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$dashboard$2d$cache$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCachedPOCTeams"])();
                         if (mounted) setTeams(pocTeams);
@@ -3271,17 +3271,17 @@ function TAFormPage() {
                         if (mounted) setTeamsLoading(false);
                     }
                 }
-            }["TAFormPage.useEffect.loadTeams"];
+            }["TAFormPageContent.useEffect.loadTeams"];
             loadTeams();
             return ({
-                "TAFormPage.useEffect": ()=>{
+                "TAFormPageContent.useEffect": ()=>{
                     mounted = false;
                 }
-            })["TAFormPage.useEffect"];
+            })["TAFormPageContent.useEffect"];
         }
-    }["TAFormPage.useEffect"], []);
+    }["TAFormPageContent.useEffect"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "TAFormPage.useEffect": ()=>{
+        "TAFormPageContent.useEffect": ()=>{
             if (!selectedTeamId) {
                 setBeneficiaryData(createInitialBeneficiaryState());
                 setTaInfo(createInitialTAInfo());
@@ -3290,15 +3290,15 @@ function TAFormPage() {
             }
             let active = true;
             const fetchTeamDetails = {
-                "TAFormPage.useEffect.fetchTeamDetails": async ()=>{
+                "TAFormPageContent.useEffect.fetchTeamDetails": async ()=>{
                     setTeamLoading(true);
                     setTeamError(null);
                     try {
                         const details = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getPOCTeamDetail(selectedTeamId);
                         if (!active) return;
                         const leaderMember = details.members?.find({
-                            "TAFormPage.useEffect.fetchTeamDetails": (member)=>member.role?.toLowerCase().includes("leader")
-                        }["TAFormPage.useEffect.fetchTeamDetails"]);
+                            "TAFormPageContent.useEffect.fetchTeamDetails": (member)=>member.role?.toLowerCase().includes("leader")
+                        }["TAFormPageContent.useEffect.fetchTeamDetails"]);
                         const baseBeneficiary = createInitialBeneficiaryState();
                         setBeneficiaryData({
                             ...baseBeneficiary,
@@ -3326,34 +3326,34 @@ function TAFormPage() {
                         if (active) setTeamLoading(false);
                     }
                 }
-            }["TAFormPage.useEffect.fetchTeamDetails"];
+            }["TAFormPageContent.useEffect.fetchTeamDetails"];
             fetchTeamDetails();
             return ({
-                "TAFormPage.useEffect": ()=>{
+                "TAFormPageContent.useEffect": ()=>{
                     active = false;
                 }
-            })["TAFormPage.useEffect"];
+            })["TAFormPageContent.useEffect"];
         }
-    }["TAFormPage.useEffect"], [
+    }["TAFormPageContent.useEffect"], [
         selectedTeamId
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "TAFormPage.useEffect": ()=>{
+        "TAFormPageContent.useEffect": ()=>{
             if (initialTeamId && teams.some({
-                "TAFormPage.useEffect": (team)=>team.id === initialTeamId
-            }["TAFormPage.useEffect"])) {
+                "TAFormPageContent.useEffect": (team)=>team.id === initialTeamId
+            }["TAFormPageContent.useEffect"])) {
                 setSelectedTeamId(initialTeamId);
             }
         }
-    }["TAFormPage.useEffect"], [
+    }["TAFormPageContent.useEffect"], [
         initialTeamId,
         teams
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "TAFormPage.useEffect": ()=>{
+        "TAFormPageContent.useEffect": ()=>{
             let active = true;
             const generatePreview = {
-                "TAFormPage.useEffect.generatePreview": async ()=>{
+                "TAFormPageContent.useEffect.generatePreview": async ()=>{
                     if (!previewVisible) {
                         setPreviewGenerating(false);
                         setPreviewError(null);
@@ -3376,7 +3376,7 @@ function TAFormPage() {
                         const pdfDoc = await pdfLib.PDFDocument.load(sourceBuffer);
                         const form = pdfDoc.getForm();
                         const setText = {
-                            "TAFormPage.useEffect.generatePreview.setText": (fieldName, value)=>{
+                            "TAFormPageContent.useEffect.generatePreview.setText": (fieldName, value)=>{
                                 try {
                                     form.getTextField(fieldName).setText(value);
                                 } catch (error) {
@@ -3387,9 +3387,9 @@ function TAFormPage() {
                                     }
                                 }
                             }
-                        }["TAFormPage.useEffect.generatePreview.setText"];
+                        }["TAFormPageContent.useEffect.generatePreview.setText"];
                         const setCheckboxPair = {
-                            "TAFormPage.useEffect.generatePreview.setCheckboxPair": (yesField, noField, value)=>{
+                            "TAFormPageContent.useEffect.generatePreview.setCheckboxPair": (yesField, noField, value)=>{
                                 try {
                                     const yesBox = form.getCheckBox(yesField);
                                     value === "Yes" ? yesBox.check() : yesBox.uncheck();
@@ -3399,7 +3399,7 @@ function TAFormPage() {
                                     value === "No" ? noBox.check() : noBox.uncheck();
                                 } catch (error) {}
                             }
-                        }["TAFormPage.useEffect.generatePreview.setCheckboxPair"];
+                        }["TAFormPageContent.useEffect.generatePreview.setCheckboxPair"];
                         setText("teamLeaderName", beneficiaryData.teamLeaderName || "");
                         setText("instituteName", beneficiaryData.instituteName || "");
                         setText("aadharNumber", beneficiaryData.aadharNumber || "");
@@ -3426,7 +3426,7 @@ function TAFormPage() {
                         setText("InstituteName", taInfo.instituteName || "");
                         let grandTotal = 0;
                         travelMembers.forEach({
-                            "TAFormPage.useEffect.generatePreview": (member)=>{
+                            "TAFormPageContent.useEffect.generatePreview": (member)=>{
                                 const onward = member.onward;
                                 const returnLeg = member.returnTrip;
                                 // travelMembersLeaderonwardfromDate
@@ -3498,7 +3498,7 @@ function TAFormPage() {
                                 }
                                 grandTotal += parseAmount(onward.admissibleFare) + parseAmount(returnLeg.admissibleFare);
                             }
-                        }["TAFormPage.useEffect.generatePreview"]);
+                        }["TAFormPageContent.useEffect.generatePreview"]);
                         setText("grandTotal", grandTotal ? String(grandTotal) : "");
                         const pdfBytes = await pdfDoc.save();
                         const arrayBuffer = new ArrayBuffer(pdfBytes.byteLength);
@@ -3528,51 +3528,51 @@ function TAFormPage() {
                         if (active) setPreviewGenerating(false);
                     }
                 }
-            }["TAFormPage.useEffect.generatePreview"];
+            }["TAFormPageContent.useEffect.generatePreview"];
             generatePreview();
             return ({
-                "TAFormPage.useEffect": ()=>{
+                "TAFormPageContent.useEffect": ()=>{
                     active = false;
                 }
-            })["TAFormPage.useEffect"];
+            })["TAFormPageContent.useEffect"];
         }
-    }["TAFormPage.useEffect"], [
+    }["TAFormPageContent.useEffect"], [
         previewVisible,
         beneficiaryData,
         travelMembers,
         taInfo
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "TAFormPage.useEffect": ()=>{
+        "TAFormPageContent.useEffect": ()=>{
             if (syncAll) {
                 setTravelMembers({
-                    "TAFormPage.useEffect": (prev)=>syncAllMembersToPrimary(prev)
-                }["TAFormPage.useEffect"]);
+                    "TAFormPageContent.useEffect": (prev)=>syncAllMembersToPrimary(prev)
+                }["TAFormPageContent.useEffect"]);
             }
         }
-    }["TAFormPage.useEffect"], [
+    }["TAFormPageContent.useEffect"], [
         syncAll
     ]);
     const totalFareDisplay = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "TAFormPage.useMemo[totalFareDisplay]": ()=>{
+        "TAFormPageContent.useMemo[totalFareDisplay]": ()=>{
             return travelMembers.reduce({
-                "TAFormPage.useMemo[totalFareDisplay]": (sum, member)=>{
+                "TAFormPageContent.useMemo[totalFareDisplay]": (sum, member)=>{
                     return sum + parseAmount(member.onward.totalFare) + parseAmount(member.returnTrip.totalFare);
                 }
-            }["TAFormPage.useMemo[totalFareDisplay]"], 0);
+            }["TAFormPageContent.useMemo[totalFareDisplay]"], 0);
         }
-    }["TAFormPage.useMemo[totalFareDisplay]"], [
+    }["TAFormPageContent.useMemo[totalFareDisplay]"], [
         travelMembers
     ]);
     const admissibleFareDisplay = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "TAFormPage.useMemo[admissibleFareDisplay]": ()=>{
+        "TAFormPageContent.useMemo[admissibleFareDisplay]": ()=>{
             return travelMembers.reduce({
-                "TAFormPage.useMemo[admissibleFareDisplay]": (sum, member)=>{
+                "TAFormPageContent.useMemo[admissibleFareDisplay]": (sum, member)=>{
                     return sum + parseAmount(member.onward.admissibleFare) + parseAmount(member.returnTrip.admissibleFare);
                 }
-            }["TAFormPage.useMemo[admissibleFareDisplay]"], 0);
+            }["TAFormPageContent.useMemo[admissibleFareDisplay]"], 0);
         }
-    }["TAFormPage.useMemo[admissibleFareDisplay]"], [
+    }["TAFormPageContent.useMemo[admissibleFareDisplay]"], [
         travelMembers
     ]);
     const handleTeamChange = (value)=>{
@@ -5582,15 +5582,44 @@ function TAFormPage() {
         columnNumber: 5
     }, this);
 }
-_s(TAFormPage, "n2iviHLYKU6x8xmvwDILuyE5qEY=", false, function() {
+_s(TAFormPageContent, "n2iviHLYKU6x8xmvwDILuyE5qEY=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
 });
-_c = TAFormPage;
-var _c;
-__turbopack_context__.k.register(_c, "TAFormPage");
+_c = TAFormPageContent;
+function TAFormPage() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Suspense"], {
+        fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "flex min-h-[50vh] w-full items-center justify-center p-6",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                className: "h-6 w-6 animate-spin text-[#f75700]"
+            }, void 0, false, {
+                fileName: "[project]/app/poc/ta-form/page.tsx",
+                lineNumber: 1241,
+                columnNumber: 11
+            }, void 0)
+        }, void 0, false, {
+            fileName: "[project]/app/poc/ta-form/page.tsx",
+            lineNumber: 1240,
+            columnNumber: 9
+        }, void 0),
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TAFormPageContent, {}, void 0, false, {
+            fileName: "[project]/app/poc/ta-form/page.tsx",
+            lineNumber: 1245,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/app/poc/ta-form/page.tsx",
+        lineNumber: 1238,
+        columnNumber: 5
+    }, this);
+}
+_c1 = TAFormPage;
+var _c, _c1;
+__turbopack_context__.k.register(_c, "TAFormPageContent");
+__turbopack_context__.k.register(_c1, "TAFormPage");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

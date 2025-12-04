@@ -116,11 +116,11 @@ export default function LoginPage() {
         </div>
         <div className="text-center mb-2">
           <h1 className="text-2xl font-extrabold tracking-tight text-[#002449]">
-            SIH <span className="text-[#f75700]">2025</span> Grand Final
+            SIH <span className="text-[#f75700]">2025</span> GRAND FINAL
           </h1>
           <div className="mt-2 flex items-center justify-center gap-2">
             <span className="h-px w-8 bg-[#f75700]" />
-            <span className="text-[14px] font-medium text-gray-500 uppercase tracking-wider">GITAM</span>
+            <span className="text-[14px] font-medium text-gray-500 uppercase tracking-wider">HARDWARE EDITION</span>
             <span className="h-px w-8 bg-[#078e31]" />
           </div>
         </div>
