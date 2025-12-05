@@ -69,7 +69,7 @@ export default function LoginPage() {
       setFeedback({
         type: "success",
         title: "OTP Sent",
-        message: "Check your email for the OTP (also visible in dev logs)",
+        message: "Check your email for the OTP",
       })
     } catch (err: any) {
       setFeedback({ type: "error", title: "Failed", message: err.message || "Could not send OTP" })

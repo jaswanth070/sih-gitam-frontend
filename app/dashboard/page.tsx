@@ -6,15 +6,29 @@ import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { authService } from "@/lib/auth-service"
 import { getCachedPOCTeams } from "@/lib/dashboard-cache"
-import { TeamLeaderDashboard } from "./team-leader"
 import { AdminDashboard } from "@/components/dashboard/admin-dashboard"
-import { Users, AlertCircle, ExternalLink, Layers, Building2, User2, Phone, Navigation2 } from "lucide-react"
+import { VolunteerDashboard } from "@/components/dashboard/volunteer-dashboard"
+import { TeamLeaderDashboard } from "./team-leader"
+import {
+  Users,
+  AlertCircle,
+  ExternalLink,
+  Layers,
+  Building2,
+  User2,
+  Phone,
+  CheckCircle2,
+  Clock3,
+  MapPin,
+  LogOut,
+} from "lucide-react"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 export default function DashboardPage() {
   const router = useRouter()
-  const [userRole, setUserRole] = useState<"leader" | "poc" | "admin" | null>(null)
+  const [userRole, setUserRole] = useState<"leader" | "poc" | "admin" | "volunteer" | null>(null)
   const [currentUser, setCurrentUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
@@ -30,6 +44,7 @@ export default function DashboardPage() {
         const decoded = JSON.parse(atob(parts[1]))
         if (decoded.is_admin) setUserRole("admin")
         else if (decoded.is_poc) setUserRole("poc")
+        else if (decoded.is_volunteer) setUserRole("volunteer")
         else setUserRole("leader")
         setCurrentUser(decoded)
       }
@@ -55,32 +70,8 @@ export default function DashboardPage() {
   return (
     <DashboardShell>
       <div className="space-y-6">
-        <div className="rounded-2xl border border-[#002449]/15 bg-white shadow-sm">
-          <Link
-            href="/enroute-gitam"
-            className="flex flex-col gap-3 px-5 py-4 transition hover:bg-[#f75700]/5 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#002449] text-white">
-                <Navigation2 className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold" style={{ color: "#002449" }}>
-                  Enroute GITAM: Smart arrival guide
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Find mobile-first directions from airport, railway station, or city bus stops.
-                </p>
-              </div>
-            </div>
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#f75700]">
-              Open guide
-              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-            </span>
-          </Link>
-        </div>
-
         {userRole === "admin" && <AdminDashboard user={currentUser} />}
+        {userRole === "volunteer" && <VolunteerDashboard user={currentUser} />}
         {userRole === "leader" && <TeamLeaderDashboard user={currentUser} />}
         {userRole === "poc" && <POCDashboard user={currentUser} />}
         {!userRole && (
@@ -170,6 +161,21 @@ function TeamCard({ team, onView }: { team: any; onView: () => void }) {
     : (team.leader_name || '-')
   const problemId = team.problem_statement?.id
   const pocPhone = team.poc?.phone || team.primary_contact?.phone || team.contact_phone || team.phone || ""
+  const isCheckedOut = Boolean(team.members_checked_out)
+  const isCheckedIn = Boolean(team.members_checked_in)
+  const statusBadge = isCheckedOut ? (
+    <Badge variant="outline" className="gap-1 bg-slate-100 text-slate-700 border-slate-200">
+      <LogOut className="w-3.5 h-3.5" /> Checked out
+    </Badge>
+  ) : isCheckedIn ? (
+    <Badge variant="outline" className="gap-1 bg-emerald-50 text-emerald-700 border-emerald-200">
+      <CheckCircle2 className="w-3.5 h-3.5" /> Checked in
+    </Badge>
+  ) : (
+    <Badge variant="outline" className="gap-1 bg-amber-50 text-amber-700 border-amber-200">
+      <Clock3 className="w-3.5 h-3.5" /> Pending
+    </Badge>
+  )
   return (
     <Card
       role="group"
@@ -178,12 +184,19 @@ function TeamCard({ team, onView }: { team: any; onView: () => void }) {
     >
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-semibold text-base leading-snug line-clamp-2" style={{color:'#002449'}}>{team.name}</h3>
+        <div className="flex flex-col items-end gap-1">
+          <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Check-in status</span>
+          {statusBadge}
+        </div>
       </div>
       <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
         <User2 className="w-3 h-3" /> Leader: <span className="font-medium">{leaderName}</span>
       </p>
       <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
         <Building2 className="w-3 h-3" /> {team.institution}
+      </p>
+      <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
+        <MapPin className="w-3 h-3" /> {team.room_allocation || "Room not assigned"}
       </p>
       <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
         <Phone className="w-3 h-3" /> {pocPhone || "Phone not shared"}

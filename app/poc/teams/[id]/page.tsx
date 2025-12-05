@@ -7,11 +7,15 @@ import {
   AlertCircle,
   ArrowUpRight,
   Building2,
+  Clock3,
   CheckCircle2,
+  ClipboardCheck,
   ClipboardList,
   FileText,
+  LogOut,
   Layers,
   Mail,
+  MapPin,
   Phone,
   ShieldCheck,
   User2,
@@ -59,6 +63,16 @@ export default function POCTeamDetailsPage() {
     () => new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }),
     [],
   )
+  const formatTimestamp = useCallback(
+    (value?: string | null) => {
+      if (!value) return null
+      const date = new Date(value)
+      if (Number.isNaN(date.getTime())) return null
+      return timestampFormatter.format(date)
+    },
+    [timestampFormatter],
+  )
+  const formatRecordedBy = useCallback((contact?: TeamContact | null) => contact?.name || contact?.email || "—", [])
 
   useEffect(() => {
     if (!teamRouteId) return
@@ -233,6 +247,25 @@ export default function POCTeamDetailsPage() {
     return `/poc/document-submission?${params.toString()}`
   }, [team])
 
+  const goToCheckInHref = useMemo(() => {
+    if (!team) return "#"
+    return `/dashboard/check-in/${team.id ?? teamRouteId}`
+  }, [team, teamRouteId])
+  const isCheckedOut = Boolean(team?.members_checked_out)
+  const isCheckedIn = Boolean(team?.members_checked_in)
+  const statusBadgeClass = isCheckedOut
+    ? "bg-slate-100/20 text-slate-100 border-slate-100/30"
+    : isCheckedIn
+      ? "bg-emerald-100/20 text-emerald-50 border-emerald-100/30"
+      : "bg-amber-100/20 text-amber-50 border-amber-100/30"
+  const statusLabel = isCheckedOut ? "Checked out" : isCheckedIn ? "Checked in" : "Check-in pending"
+  const statusIndicatorBg = isCheckedOut
+    ? "bg-slate-100 text-slate-700"
+    : isCheckedIn
+      ? "bg-emerald-100 text-emerald-700"
+      : "bg-amber-100 text-amber-700"
+  const statusIcon = isCheckedOut ? <LogOut className="h-4 w-4" /> : isCheckedIn ? <CheckCircle2 className="h-4 w-4" /> : <Clock3 className="h-4 w-4" />
+
   return (
     <>
       <DashboardShell>
@@ -270,11 +303,20 @@ export default function POCTeamDetailsPage() {
                           Problem Statement • {team.problem_statement.id}
                         </Badge>
                       )}
+                      <Badge
+                        variant="secondary"
+                        className={statusBadgeClass}
+                      >
+                        {statusLabel}
+                      </Badge>
                     </div>
                     <div className="space-y-2">
                       <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{team.name}</h1>
                       <p className="flex items-center gap-2 text-sm text-white/80">
                         <Building2 className="h-4 w-4" /> {team.institution}
+                      </p>
+                      <p className="flex items-center gap-2 text-xs text-white/80">
+                        <MapPin className="h-3.5 w-3.5" /> {team.room_allocation || "Room not assigned"}
                       </p>
                     </div>
                     {team.problem_statement?.title && (
@@ -303,12 +345,18 @@ export default function POCTeamDetailsPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                   <SummaryStat
                     icon={Users}
                     label="Total Members"
                     value={totalMembers.toString()}
                     helper={leader ? `${leader.user?.name ?? leader.user?.email} leads the team` : undefined}
+                  />
+                  <SummaryStat
+                    icon={ClipboardCheck}
+                    label="Check-in status"
+                    value={statusLabel}
+                    helper={isCheckedOut ? "Team has completed checkout" : isCheckedIn ? "Volunteers confirmed arrival" : "Awaiting confirmation"}
                   />
                   <SummaryStat
                     icon={ClipboardList}
@@ -327,6 +375,12 @@ export default function POCTeamDetailsPage() {
                     label="Rejected"
                     value={rejectedRequests.toString()}
                     helper={rejectedRequests ? "Needs attention" : "All good"}
+                  />
+                  <SummaryStat
+                    icon={MapPin}
+                    label="Room"
+                    value={team.room_allocation ? team.room_allocation : "Not assigned"}
+                    helper={team.room_allocation ? "Verify hostel allocation" : "Coordinate with admin desk"}
                   />
                 </div>
 
@@ -376,6 +430,46 @@ export default function POCTeamDetailsPage() {
               <Card className="border border-gray-200 shadow-sm">
                 <CardHeader className="pb-4">
                   <CardTitle className="flex items-center gap-2 text-lg" style={{ color: "#002449" }}>
+                    <ClipboardCheck className="h-5 w-5 text-[#002449]" /> Arrival timeline
+                  </CardTitle>
+                  <CardDescription>Volunteer updates on check-in and checkout actions.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center gap-3 rounded-lg border border-muted/40 bg-muted/10 p-3">
+                    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full ${statusIndicatorBg}`}>
+                      {statusIcon}
+                    </span>
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Current status</p>
+                      <p className="text-sm font-semibold" style={{ color: "#002449" }}>{statusLabel}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-xs text-muted-foreground">
+                    <div className="rounded-md border border-border/50 bg-white p-3">
+                      <p className="text-[10px] uppercase tracking-wide">Checked in</p>
+                      <p className="mt-1 text-sm font-semibold text-[#002449]">
+                        {formatTimestamp(team.check_in_timestamp) ?? "Not recorded"}
+                      </p>
+                      <p className="mt-1 flex items-center gap-2">
+                        <User2 className="h-3.5 w-3.5" /> {formatRecordedBy(team.check_in_recorded_by)}
+                      </p>
+                    </div>
+                    <div className="rounded-md border border-border/50 bg-white p-3">
+                      <p className="text-[10px] uppercase tracking-wide">Checked out</p>
+                      <p className="mt-1 text-sm font-semibold text-[#002449]">
+                        {formatTimestamp(team.check_out_timestamp) ?? "Not recorded"}
+                      </p>
+                      <p className="mt-1 flex items-center gap-2">
+                        <User2 className="h-3.5 w-3.5" /> {formatRecordedBy(team.check_out_recorded_by)}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border border-gray-200 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2 text-lg" style={{ color: "#002449" }}>
                     <FileText className="h-5 w-5 text-[#002449]" /> Quick Actions
                   </CardTitle>
                   <CardDescription>Handy shortcuts for POC operations.</CardDescription>
@@ -388,6 +482,11 @@ export default function POCTeamDetailsPage() {
                     label="TA & Mandate Form"
                     description="Open the combined TA and mandate workflow with this team selected."
                   />
+                    <ActionLink
+                      href={goToCheckInHref}
+                      label="Manage Check-In"
+                      description="Record arrivals, room allocations, and notes for this team."
+                    />
                 </CardContent>
               </Card>
             </section>

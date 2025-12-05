@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///D:/Jaswanth/Downloads/smart-india-hackathon-app/components/infrastructure/scroll-stack.css"],"sourcesContent":[".scroll-stack-scroller {\r\n  position: relative;\r\n  width: 100%;\r\n  overflow: visible;\r\n}\r\n\r\n.scroll-stack-inner {\r\n  position: relative;\r\n}\r\n\r\n.scroll-stack-card {\r\n  position: relative;\r\n  width: min(100%, 720px);\r\n  margin: 0 auto;\r\n  transform-style: preserve-3d;\r\n  will-change: transform, filter;\r\n  transition: filter 0.3s ease;\r\n}\r\n\r\n@media (min-width: 1024px) {\r\n  .scroll-stack-card {\r\n    width: min(100%, 760px);\r\n  }\r\n}\r\n\r\n.scroll-stack-end {\r\n  height: 35vh;\r\n}\r\n"],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;AAIA;;;;;;;;;AASA;EACE;;;;;AAKF"}}]
+}

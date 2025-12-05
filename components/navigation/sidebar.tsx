@@ -8,7 +8,7 @@ import { authService } from "@/lib/auth-service"
 export function Sidebar() {
   const router = useRouter()
   const pathname = usePathname()
-  const [userRole, setUserRole] = useState<"leader" | "poc" | "admin" | null>(null)
+  const [userRole, setUserRole] = useState<"leader" | "poc" | "admin" | "volunteer" | null>(null)
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -26,6 +26,8 @@ export function Sidebar() {
           setUserRole("admin")
         } else if (decoded.is_poc) {
           setUserRole("poc")
+        } else if (decoded.is_volunteer) {
+          setUserRole("volunteer")
         } else {
           setUserRole("leader")
         }
@@ -40,6 +42,7 @@ export function Sidebar() {
       ? [
           { href: "/dashboard", label: "Dashboard", icon: "🛡️" },
           { href: "/dashboard/teams", label: "Teams", icon: "👥" },
+          { href: "/dashboard/check-in", label: "Check-In Center", icon: "✅" },
           { href: "/dashboard/contacts-directory", label: "Contacts Directory", icon: "📞" },
           { href: "/dashboard/jury-forms", label: "Jury Forms", icon: "⚖️" },
           { href: "/dashboard#all-requests", label: "All Requests", icon: "📦" },
@@ -56,12 +59,17 @@ export function Sidebar() {
               { href: "/poc/document-submission", label: "Document Submission", icon: "📂" },
               { href: "/poc/ta-form", label: "TA & Mandate Form", icon: "🧾" },
             { href: "/dashboard/jury-forms", label: "Jury Forms", icon: "⚖️" },
+            { href: "/dashboard/check-in", label: "Check-In Center", icon: "✅" },
           ]
-        : [
-            { href: "/dashboard", label: "Dashboard", icon: "🏠" },
-            { href: "/my-requests", label: "My Requests", icon: "📝" },
-            { href: "/my-requests/new", label: "New Request", icon: "➕" },
-          ]
+        : userRole === "volunteer"
+          ? [
+              { href: "/dashboard", label: "Dashboard", icon: "🧭" },
+            ]
+          : [
+              { href: "/dashboard", label: "Dashboard", icon: "🏠" },
+              { href: "/my-requests", label: "My Requests", icon: "📝" },
+              { href: "/my-requests/new", label: "New Request", icon: "➕" },
+            ]
 
   const isActive = (href: string) => {
     const baseHref = href.split("#")[0]
@@ -100,7 +108,9 @@ export function Sidebar() {
               ? "Admin Control Center"
               : userRole === "poc"
                 ? "POC Dashboard"
-                : "Team Leader Dashboard"}
+                : userRole === "volunteer"
+                  ? "Volunteer Workspace"
+                  : "Team Leader Dashboard"}
           </p>
         </div>
 

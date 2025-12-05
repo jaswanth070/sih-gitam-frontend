@@ -17,6 +17,10 @@ __turbopack_context__.s([
     ()=>getStoredPOCTeamDetail,
     "getStoredPOCTeams",
     ()=>getStoredPOCTeams,
+    "getStoredVolunteerTeamDetail",
+    ()=>getStoredVolunteerTeamDetail,
+    "getStoredVolunteerTeams",
+    ()=>getStoredVolunteerTeams,
     "storeAdminTeams",
     ()=>storeAdminTeams,
     "storeCurrentUser",
@@ -26,7 +30,11 @@ __turbopack_context__.s([
     "storePOCTeamDetail",
     ()=>storePOCTeamDetail,
     "storePOCTeams",
-    ()=>storePOCTeams
+    ()=>storePOCTeams,
+    "storeVolunteerTeamDetail",
+    ()=>storeVolunteerTeamDetail,
+    "storeVolunteerTeams",
+    ()=>storeVolunteerTeams
 ]);
 const SESSION_KEY = "sih_session_cache_v1";
 function isBrowser() {
@@ -121,6 +129,32 @@ function storeAdminTeams(teams) {
 function getStoredAdminTeams() {
     const session = readSession();
     return Array.isArray(session.adminTeams) ? session.adminTeams : [];
+}
+function storeVolunteerTeams(teams) {
+    mergeSession({
+        volunteerTeams: teams
+    });
+}
+function getStoredVolunteerTeams() {
+    const session = readSession();
+    return Array.isArray(session.volunteerTeams) ? session.volunteerTeams : [];
+}
+function storeVolunteerTeamDetail(team) {
+    if (!team?.id) return;
+    const session = readSession();
+    const nextDetails = {
+        ...session.volunteerTeamDetails ?? {},
+        [team.id]: team
+    };
+    mergeSession({
+        volunteerTeamDetails: nextDetails
+    });
+}
+function getStoredVolunteerTeamDetail(teamId) {
+    if (!teamId) return null;
+    const session = readSession();
+    const lookup = session.volunteerTeamDetails ?? {};
+    return lookup[teamId] ?? null;
 }
 function getSessionSnapshot() {
     return readSession();
@@ -376,6 +410,63 @@ class AuthService {
         return data;
     // return this.request("/poc/teams/")
     }
+    async getVolunteerTeams() {
+        const cached = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredVolunteerTeams"])();
+        if (cached.length) return cached;
+        const data = await this.request("/volunteer/teams/");
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeVolunteerTeams"])(data);
+        return data;
+    }
+    async getVolunteerTeamDetail(teamId) {
+        const cached = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredVolunteerTeamDetail"])(teamId);
+        if (cached) return cached;
+        const data = await this.request(`/volunteer/teams/${teamId}/`);
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeVolunteerTeamDetail"])(data);
+        return data;
+    }
+    async updateTeamCheckIn(teamId, payload, method = "PATCH") {
+        const body = method === "PATCH" ? payload : {
+            members_checked_in: Boolean(payload.members_checked_in),
+            check_in_remarks: payload.check_in_remarks ?? "",
+            room_allocation: payload.room_allocation ?? ""
+        };
+        const response = await this.request(`/teams/${teamId}/check-in/`, {
+            method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+        // Update session caches for all relevant user roles
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeVolunteerTeamDetail"])(response);
+        const volunteerTeams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredVolunteerTeams"])();
+        if (volunteerTeams.length) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeVolunteerTeams"])(volunteerTeams.map((team)=>team.id === response.id ? {
+                    ...team,
+                    ...response
+                } : team));
+        }
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storePOCTeamDetail"])(response);
+        const pocTeams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredPOCTeams"])();
+        if (pocTeams.length) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storePOCTeams"])(pocTeams.map((team)=>team.id === response.id ? {
+                    ...team,
+                    ...response
+                } : team));
+        }
+        const adminTeams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredAdminTeams"])();
+        if (adminTeams.length) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeAdminTeams"])(adminTeams.map((team)=>team.id === response.id ? {
+                    ...team,
+                    ...response
+                } : team));
+        }
+        const leaderTeam = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredLeaderTeam"])();
+        if (leaderTeam?.id === response.id) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeLeaderTeam"])(response);
+        }
+        return response;
+    }
     async logout() {
         const refreshToken = this.getRefreshToken();
         if (!refreshToken) {
@@ -458,6 +549,16 @@ class AuthService {
                 }));
             } catch (error) {
                 console.warn("[auth-service] unable to cache POC teams", error);
+            }
+            return;
+        }
+        if (user.is_volunteer) {
+            if (!force && (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredVolunteerTeams"])().length) return;
+            try {
+                const teams = await this.request("/volunteer/teams/");
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeVolunteerTeams"])(teams);
+            } catch (error) {
+                console.warn("[auth-service] unable to cache volunteer teams", error);
             }
             return;
         }
@@ -1869,7 +1970,7 @@ function DashboardNavbar() {
                                     lineNumber: 33,
                                     columnNumber: 17
                                 }, this),
-                                " Grand Final"
+                                " GRAND FINAL"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/navigation/dashboard-navbar.tsx",
@@ -1888,7 +1989,7 @@ function DashboardNavbar() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "text-[12px] sm:text-[14px] font-medium text-gray-500 uppercase tracking-wider",
-                                    children: "GITAM"
+                                    children: "HARDWARE EDITION"
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-navbar.tsx",
                                     lineNumber: 37,
@@ -1957,6 +2058,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$pen$2d$line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSignature$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-pen-line.js [app-client] (ecmascript) <export default as FileSignature>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plane$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plane$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plane.js [app-client] (ecmascript) <export default as Plane>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/phone.js [app-client] (ecmascript) <export default as Phone>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clipboard$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ClipboardCheck$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/clipboard-check.js [app-client] (ecmascript) <export default as ClipboardCheck>");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
@@ -1976,7 +2078,7 @@ function DashboardShell({ children }) {
     // Retrieve current user client-side; returns null on server.
     const user = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getCurrentUser();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
-    const role = user?.is_admin ? "admin" : user?.is_poc ? "poc" : user ? "leader" : null;
+    const role = user?.is_admin ? "admin" : user?.is_poc ? "poc" : user?.is_volunteer ? "volunteer" : user ? "leader" : null;
     const navItems = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
         "DashboardShell.useMemo[navItems]": ()=>{
             if (role === "admin") {
@@ -1986,7 +2088,7 @@ function DashboardShell({ children }) {
                         label: "Overview",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$dashboard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutDashboard$3e$__["LayoutDashboard"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 57,
+                            lineNumber: 60,
                             columnNumber: 56
                         }, this)
                     },
@@ -1995,8 +2097,17 @@ function DashboardShell({ children }) {
                         label: "Teams Directory",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 58,
+                            lineNumber: 61,
                             columnNumber: 69
+                        }, this)
+                    },
+                    {
+                        href: "/dashboard/check-in",
+                        label: "Check-In Center",
+                        icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clipboard$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ClipboardCheck$3e$__["ClipboardCheck"], {}, void 0, false, {
+                            fileName: "[project]/components/navigation/dashboard-shell.tsx",
+                            lineNumber: 62,
+                            columnNumber: 72
                         }, this)
                     },
                     {
@@ -2004,7 +2115,7 @@ function DashboardShell({ children }) {
                         label: "Requests Tracking",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$list$2d$todo$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ListTodo$3e$__["ListTodo"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 59,
+                            lineNumber: 63,
                             columnNumber: 83
                         }, this)
                     },
@@ -2013,7 +2124,7 @@ function DashboardShell({ children }) {
                         label: "Global Queue",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$network$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Network$3e$__["Network"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 60,
+                            lineNumber: 64,
                             columnNumber: 56
                         }, this)
                     },
@@ -2022,7 +2133,7 @@ function DashboardShell({ children }) {
                         label: "Documents Verification",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 61,
+                            lineNumber: 65,
                             columnNumber: 93
                         }, this)
                     },
@@ -2031,7 +2142,7 @@ function DashboardShell({ children }) {
                         label: "Detailed Doc Review",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 62,
+                            lineNumber: 66,
                             columnNumber: 72
                         }, this)
                     },
@@ -2040,7 +2151,7 @@ function DashboardShell({ children }) {
                         label: "Contacts Directory",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 63,
+                            lineNumber: 67,
                             columnNumber: 85
                         }, this)
                     }
@@ -2053,7 +2164,7 @@ function DashboardShell({ children }) {
                         label: "POC Dashboard",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$dashboard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutDashboard$3e$__["LayoutDashboard"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 68,
+                            lineNumber: 72,
                             columnNumber: 61
                         }, this)
                     },
@@ -2062,7 +2173,7 @@ function DashboardShell({ children }) {
                         label: "Virtual Queue",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$list$2d$todo$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ListTodo$3e$__["ListTodo"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 69,
+                            lineNumber: 73,
                             columnNumber: 57
                         }, this)
                     },
@@ -2071,7 +2182,7 @@ function DashboardShell({ children }) {
                         label: "Document Submission",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 70,
+                            lineNumber: 74,
                             columnNumber: 81
                         }, this)
                     },
@@ -2080,7 +2191,7 @@ function DashboardShell({ children }) {
                         label: "View Documents",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 71,
+                            lineNumber: 75,
                             columnNumber: 67
                         }, this)
                     },
@@ -2089,7 +2200,7 @@ function DashboardShell({ children }) {
                         label: "TA & Mandate Form",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$pen$2d$line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSignature$3e$__["FileSignature"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 72,
+                            lineNumber: 76,
                             columnNumber: 67
                         }, this)
                     },
@@ -2098,8 +2209,17 @@ function DashboardShell({ children }) {
                         label: "Jury Forms",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plane$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plane$3e$__["Plane"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 73,
+                            lineNumber: 77,
                             columnNumber: 69
+                        }, this)
+                    },
+                    {
+                        href: "/dashboard/check-in",
+                        label: "Check-In Center",
+                        icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clipboard$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ClipboardCheck$3e$__["ClipboardCheck"], {}, void 0, false, {
+                            fileName: "[project]/components/navigation/dashboard-shell.tsx",
+                            lineNumber: 78,
+                            columnNumber: 72
                         }, this)
                     },
                     {
@@ -2107,8 +2227,21 @@ function DashboardShell({ children }) {
                         label: "Contacts Directory",
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {}, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 74,
+                            lineNumber: 79,
                             columnNumber: 85
+                        }, this)
+                    }
+                ];
+            }
+            if (role === "volunteer") {
+                return [
+                    {
+                        href: "/dashboard",
+                        label: "Volunteer Dashboard",
+                        icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$dashboard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutDashboard$3e$__["LayoutDashboard"], {}, void 0, false, {
+                            fileName: "[project]/components/navigation/dashboard-shell.tsx",
+                            lineNumber: 83,
+                            columnNumber: 73
                         }, this)
                     }
                 ];
@@ -2120,7 +2253,7 @@ function DashboardShell({ children }) {
                     label: "Dashboard",
                     icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$dashboard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutDashboard$3e$__["LayoutDashboard"], {}, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 79,
+                        lineNumber: 87,
                         columnNumber: 55
                     }, this)
                 },
@@ -2129,7 +2262,7 @@ function DashboardShell({ children }) {
                     label: "My Requests",
                     icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {}, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 80,
+                        lineNumber: 88,
                         columnNumber: 59
                     }, this)
                 },
@@ -2138,7 +2271,7 @@ function DashboardShell({ children }) {
                     label: "New Request",
                     icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__PlusCircle$3e$__["PlusCircle"], {}, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 81,
+                        lineNumber: 89,
                         columnNumber: 63
                     }, this)
                 }
@@ -2204,7 +2337,7 @@ function DashboardShell({ children }) {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$dashboard$2d$navbar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DashboardNavbar"], {}, void 0, false, {
                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                lineNumber: 135,
+                lineNumber: 143,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sidebar"], {
@@ -2223,7 +2356,7 @@ function DashboardShell({ children }) {
                                     children: "SIH | GITAM"
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 139,
+                                    lineNumber: 147,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2232,10 +2365,10 @@ function DashboardShell({ children }) {
                                         color: "#007367"
                                     },
                                     suppressHydrationWarning: true,
-                                    children: role === "admin" ? "Administrator" : role === "poc" ? "POC" : role === "leader" ? "Team Leader" : "Guest"
+                                    children: role === "admin" ? "Administrator" : role === "poc" ? "POC" : role === "volunteer" ? "Volunteer" : role === "leader" ? "Team Leader" : "Guest"
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 142,
+                                    lineNumber: 150,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2244,18 +2377,18 @@ function DashboardShell({ children }) {
                                     children: user?.email || "guest@example.com"
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 151,
+                                    lineNumber: 161,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 138,
+                            lineNumber: 146,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 137,
+                        lineNumber: 145,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarContent"], {
@@ -2276,28 +2409,28 @@ function DashboardShell({ children }) {
                                                                 children: item.label
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                                lineNumber: 164,
+                                                                lineNumber: 174,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                        lineNumber: 162,
+                                                        lineNumber: 172,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                    lineNumber: 161,
+                                                    lineNumber: 171,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 160,
+                                                lineNumber: 170,
                                                 columnNumber: 17
                                             }, this)
                                         }, item.href, false, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 159,
+                                            lineNumber: 169,
                                             columnNumber: 15
                                         }, this)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenuItem"], {
@@ -2313,7 +2446,7 @@ function DashboardShell({ children }) {
                                                         className: "text-[#002449]"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                        lineNumber: 179,
+                                                        lineNumber: 189,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2321,34 +2454,34 @@ function DashboardShell({ children }) {
                                                         children: "Logout"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                        lineNumber: 180,
+                                                        lineNumber: 190,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 178,
+                                                lineNumber: 188,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 172,
+                                            lineNumber: 182,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 171,
+                                        lineNumber: 181,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 157,
+                                lineNumber: 167,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarSeparator"], {}, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 185,
+                                lineNumber: 195,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenu"], {
@@ -2362,17 +2495,17 @@ function DashboardShell({ children }) {
                                                 children: "Team Overview"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 190,
+                                                lineNumber: 200,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 189,
+                                            lineNumber: 199,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 188,
+                                        lineNumber: 198,
                                         columnNumber: 15
                                     }, this),
                                     role === "poc" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenuItem"], {
@@ -2384,29 +2517,51 @@ function DashboardShell({ children }) {
                                                 children: "Assigned Teams"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 197,
+                                                lineNumber: 207,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                            lineNumber: 196,
+                                            lineNumber: 206,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 205,
+                                        columnNumber: 15
+                                    }, this),
+                                    role === "volunteer" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenuItem"], {
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            href: "/dashboard",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarMenuButton"], {
+                                                asChild: true,
+                                                isActive: isActive("/dashboard"),
+                                                children: "Volunteer Workspace"
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/navigation/dashboard-shell.tsx",
+                                                lineNumber: 214,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/navigation/dashboard-shell.tsx",
+                                            lineNumber: 213,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/navigation/dashboard-shell.tsx",
+                                        lineNumber: 212,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 186,
+                                lineNumber: 196,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 156,
+                        lineNumber: 166,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarFooter"], {
@@ -2421,7 +2576,7 @@ function DashboardShell({ children }) {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__["LogOut"], {}, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 212,
+                                                lineNumber: 229,
                                                 columnNumber: 19
                                             }, this),
                                             " ",
@@ -2429,39 +2584,39 @@ function DashboardShell({ children }) {
                                                 children: "Logout"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                                lineNumber: 212,
+                                                lineNumber: 229,
                                                 columnNumber: 30
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                        lineNumber: 211,
+                                        lineNumber: 228,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 206,
+                                    lineNumber: 223,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 205,
+                                lineNumber: 222,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                            lineNumber: 204,
+                            lineNumber: 221,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 203,
+                        lineNumber: 220,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                lineNumber: 136,
+                lineNumber: 144,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarInset"], {
@@ -2472,7 +2627,7 @@ function DashboardShell({ children }) {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarTrigger"], {}, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 221,
+                                lineNumber: 238,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -2482,12 +2637,13 @@ function DashboardShell({ children }) {
                                     role === "leader" && "Team",
                                     role === "poc" && "POC",
                                     role === "admin" && "Admin",
+                                    role === "volunteer" && "Volunteer",
                                     !role && "Guest",
                                     " Dashboard"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 222,
+                                lineNumber: 239,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2498,18 +2654,18 @@ function DashboardShell({ children }) {
                                     children: user.email
                                 }, void 0, false, {
                                     fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                    lineNumber: 231,
+                                    lineNumber: 249,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                                lineNumber: 229,
+                                lineNumber: 247,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 220,
+                        lineNumber: 237,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2517,19 +2673,19 @@ function DashboardShell({ children }) {
                         children: children
                     }, void 0, false, {
                         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                        lineNumber: 237,
+                        lineNumber: 255,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/navigation/dashboard-shell.tsx",
-                lineNumber: 219,
+                lineNumber: 236,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/navigation/dashboard-shell.tsx",
-        lineNumber: 134,
+        lineNumber: 142,
         columnNumber: 5
     }, this);
 }
@@ -3151,7 +3307,11 @@ __turbopack_context__.s([
     "getCachedPOCTeams",
     ()=>getCachedPOCTeams,
     "getCachedTeamDetails",
-    ()=>getCachedTeamDetails
+    ()=>getCachedTeamDetails,
+    "getCachedVolunteerTeamDetail",
+    ()=>getCachedVolunteerTeamDetail,
+    "getCachedVolunteerTeams",
+    ()=>getCachedVolunteerTeams
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth-service.ts [app-client] (ecmascript)");
 ;
@@ -3159,6 +3319,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts
 const TEAM_TTL_MS = 2 * 60 * 1000 // 2 minutes
 ;
 const POC_TEAMS_TTL_MS = 60 * 1000 // 1 minute
+;
+const VOLUNTEER_TEAMS_TTL_MS = 60 * 1000 // 1 minute
 ;
 let teamCache = {
     data: null,
@@ -3168,6 +3330,11 @@ let pocTeamsCache = {
     data: [],
     ts: 0
 };
+let volunteerTeamsCache = {
+    data: [],
+    ts: 0
+};
+const volunteerTeamDetailsCache = {};
 async function getCachedTeamDetails(force = false) {
     const now = Date.now();
     if (!force && teamCache.data && now - teamCache.ts < TEAM_TTL_MS) {
@@ -3192,6 +3359,31 @@ async function getCachedPOCTeams(force = false) {
     };
     return data;
 }
+async function getCachedVolunteerTeams(force = false) {
+    const now = Date.now();
+    if (!force && volunteerTeamsCache.data.length && now - volunteerTeamsCache.ts < VOLUNTEER_TEAMS_TTL_MS) {
+        return volunteerTeamsCache.data;
+    }
+    const data = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getVolunteerTeams();
+    volunteerTeamsCache = {
+        data,
+        ts: now
+    };
+    return data;
+}
+async function getCachedVolunteerTeamDetail(teamId, force = false) {
+    const now = Date.now();
+    const cacheEntry = volunteerTeamDetailsCache[teamId];
+    if (!force && cacheEntry && now - cacheEntry.ts < TEAM_TTL_MS) {
+        return cacheEntry.data;
+    }
+    const detail = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getVolunteerTeamDetail(teamId);
+    volunteerTeamDetailsCache[teamId] = {
+        data: detail,
+        ts: now
+    };
+    return detail;
+}
 function clearDashboardCaches() {
     teamCache = {
         data: null,
@@ -3201,6 +3393,11 @@ function clearDashboardCaches() {
         data: [],
         ts: 0
     };
+    volunteerTeamsCache = {
+        data: [],
+        ts: 0
+    };
+    Object.keys(volunteerTeamDetailsCache).forEach((key)=>delete volunteerTeamDetailsCache[key]);
 }
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
@@ -3295,14 +3492,14 @@ const DOCUMENT_SECTIONS = [
         accept: "application/pdf,image/*"
     },
     {
-        id: "beneficiary-forms",
-        title: "Beneficiary Forms",
+        id: "mandate-form",
+        title: "Mandate Form",
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$pen$2d$line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSignature$3e$__["FileSignature"],
-        description: "Duly filled beneficiary forms with signatures.",
+        description: "Download the official mandate form and submit a signed copy with bank verification.",
         requirements: [
-            "Latest template provided by organisers",
-            "Signature of beneficiary and verifier",
-            "Date and contact information"
+            "Use the mandate form template available in the portal",
+            "Bank seal and authorised signature",
+            "Team leader name and account details confirmed"
         ],
         documentType: "beneficiary_form",
         accept: "application/pdf"
@@ -3344,7 +3541,7 @@ function normalizeBasePath(pathname) {
     return pathname.replace(/\/+$/, "");
 }
 function buildDocumentsBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8002/");
+    const raw = ("TURBOPACK compile-time value", "https://sih.gitam.edu/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -3688,7 +3885,7 @@ function resolveStatusVariant(status) {
     ].includes(normalized)) return "secondary";
     return "outline";
 }
-function ViewDocumentsPage() {
+function ViewDocumentsPageContent() {
     _s();
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
@@ -3699,21 +3896,21 @@ function ViewDocumentsPage() {
     const [teamDetailsMap, setTeamDetailsMap] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const [teamError, setTeamError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [selectedTeamId, setSelectedTeamId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "ViewDocumentsPage.useState": ()=>searchParams?.get("teamId") ?? ""
-    }["ViewDocumentsPage.useState"]);
+        "ViewDocumentsPageContent.useState": ()=>searchParams?.get("teamId") ?? ""
+    }["ViewDocumentsPageContent.useState"]);
     const [documents, setDocuments] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [documentsLoading, setDocumentsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [documentsError, setDocumentsError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [downloadingId, setDownloadingId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [bulkDownloading, setBulkDownloading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const timestampFormatter = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "ViewDocumentsPage.useMemo[timestampFormatter]": ()=>new Intl.DateTimeFormat(undefined, {
+        "ViewDocumentsPageContent.useMemo[timestampFormatter]": ()=>new Intl.DateTimeFormat(undefined, {
                 dateStyle: "medium",
                 timeStyle: "short"
             })
-    }["ViewDocumentsPage.useMemo[timestampFormatter]"], []);
+    }["ViewDocumentsPageContent.useMemo[timestampFormatter]"], []);
     const syncTeamParam = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "ViewDocumentsPage.useCallback[syncTeamParam]": (teamId)=>{
+        "ViewDocumentsPageContent.useCallback[syncTeamParam]": (teamId)=>{
             if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
             ;
             const params = new URLSearchParams(window.location.search);
@@ -3729,48 +3926,48 @@ function ViewDocumentsPage() {
                 scroll: false
             });
         }
-    }["ViewDocumentsPage.useCallback[syncTeamParam]"], [
+    }["ViewDocumentsPageContent.useCallback[syncTeamParam]"], [
         router
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "ViewDocumentsPage.useEffect": ()=>{
+        "ViewDocumentsPageContent.useEffect": ()=>{
             const currentUser = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getCurrentUser();
             const detectedRole = currentUser?.is_admin ? "admin" : currentUser?.is_poc ? "poc" : currentUser ? "leader" : null;
             setRole(detectedRole);
             const loadTeams = {
-                "ViewDocumentsPage.useEffect.loadTeams": async ()=>{
+                "ViewDocumentsPageContent.useEffect.loadTeams": async ()=>{
                     setLoadingTeams(true);
                     setTeamError(null);
                     try {
                         if (detectedRole === "admin") {
                             const items = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAdminTeams();
                             const options = items.map({
-                                "ViewDocumentsPage.useEffect.loadTeams.options": (team)=>({
+                                "ViewDocumentsPageContent.useEffect.loadTeams.options": (team)=>({
                                         id: team.id,
                                         label: team.name,
                                         subtitle: team.institution,
                                         code: team.team_id
                                     })
-                            }["ViewDocumentsPage.useEffect.loadTeams.options"]);
+                            }["ViewDocumentsPageContent.useEffect.loadTeams.options"]);
                             setTeams(options);
                             setTeamDetailsMap(items.reduce({
-                                "ViewDocumentsPage.useEffect.loadTeams": (acc, team)=>{
+                                "ViewDocumentsPageContent.useEffect.loadTeams": (acc, team)=>{
                                     acc[team.id] = team;
                                     return acc;
                                 }
-                            }["ViewDocumentsPage.useEffect.loadTeams"], {}));
+                            }["ViewDocumentsPageContent.useEffect.loadTeams"], {}));
                             let cleared = false;
                             setSelectedTeamId({
-                                "ViewDocumentsPage.useEffect.loadTeams": (prev)=>{
+                                "ViewDocumentsPageContent.useEffect.loadTeams": (prev)=>{
                                     if (prev && options.some({
-                                        "ViewDocumentsPage.useEffect.loadTeams": (team)=>team.id === prev
-                                    }["ViewDocumentsPage.useEffect.loadTeams"])) {
+                                        "ViewDocumentsPageContent.useEffect.loadTeams": (team)=>team.id === prev
+                                    }["ViewDocumentsPageContent.useEffect.loadTeams"])) {
                                         return prev;
                                     }
                                     cleared = Boolean(prev);
                                     return "";
                                 }
-                            }["ViewDocumentsPage.useEffect.loadTeams"]);
+                            }["ViewDocumentsPageContent.useEffect.loadTeams"]);
                             if (cleared) {
                                 syncTeamParam("");
                                 setDocuments([]);
@@ -3778,26 +3975,26 @@ function ViewDocumentsPage() {
                         } else if (detectedRole === "poc") {
                             const pocTeams = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$dashboard$2d$cache$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCachedPOCTeams"])();
                             const options = pocTeams.map({
-                                "ViewDocumentsPage.useEffect.loadTeams.options": (team)=>({
+                                "ViewDocumentsPageContent.useEffect.loadTeams.options": (team)=>({
                                         id: String(team.id),
                                         label: team.name,
                                         subtitle: team.institution,
                                         code: team.team_id
                                     })
-                            }["ViewDocumentsPage.useEffect.loadTeams.options"]);
+                            }["ViewDocumentsPageContent.useEffect.loadTeams.options"]);
                             setTeams(options);
                             let cleared = false;
                             setSelectedTeamId({
-                                "ViewDocumentsPage.useEffect.loadTeams": (prev)=>{
+                                "ViewDocumentsPageContent.useEffect.loadTeams": (prev)=>{
                                     if (prev && options.some({
-                                        "ViewDocumentsPage.useEffect.loadTeams": (team)=>team.id === prev
-                                    }["ViewDocumentsPage.useEffect.loadTeams"])) {
+                                        "ViewDocumentsPageContent.useEffect.loadTeams": (team)=>team.id === prev
+                                    }["ViewDocumentsPageContent.useEffect.loadTeams"])) {
                                         return prev;
                                     }
                                     cleared = Boolean(prev);
                                     return "";
                                 }
-                            }["ViewDocumentsPage.useEffect.loadTeams"]);
+                            }["ViewDocumentsPageContent.useEffect.loadTeams"]);
                             if (cleared) {
                                 syncTeamParam("");
                                 setDocuments([]);
@@ -3817,14 +4014,14 @@ function ViewDocumentsPage() {
                             });
                             let cleared = false;
                             setSelectedTeamId({
-                                "ViewDocumentsPage.useEffect.loadTeams": (prev)=>{
+                                "ViewDocumentsPageContent.useEffect.loadTeams": (prev)=>{
                                     if (prev && prev === team.id) {
                                         return prev;
                                     }
                                     cleared = Boolean(prev);
                                     return "";
                                 }
-                            }["ViewDocumentsPage.useEffect.loadTeams"]);
+                            }["ViewDocumentsPageContent.useEffect.loadTeams"]);
                             if (cleared) {
                                 syncTeamParam("");
                                 setDocuments([]);
@@ -3833,12 +4030,12 @@ function ViewDocumentsPage() {
                             setTeams([]);
                             let cleared = false;
                             setSelectedTeamId({
-                                "ViewDocumentsPage.useEffect.loadTeams": (prev)=>{
+                                "ViewDocumentsPageContent.useEffect.loadTeams": (prev)=>{
                                     if (!prev) return prev;
                                     cleared = true;
                                     return "";
                                 }
-                            }["ViewDocumentsPage.useEffect.loadTeams"]);
+                            }["ViewDocumentsPageContent.useEffect.loadTeams"]);
                             if (cleared) {
                                 syncTeamParam("");
                                 setDocuments([]);
@@ -3856,30 +4053,30 @@ function ViewDocumentsPage() {
                         setLoadingTeams(false);
                     }
                 }
-            }["ViewDocumentsPage.useEffect.loadTeams"];
+            }["ViewDocumentsPageContent.useEffect.loadTeams"];
             void loadTeams();
         }
-    }["ViewDocumentsPage.useEffect"], [
+    }["ViewDocumentsPageContent.useEffect"], [
         toast,
         syncTeamParam
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "ViewDocumentsPage.useEffect": ()=>{
+        "ViewDocumentsPageContent.useEffect": ()=>{
             const queryTeamId = searchParams?.get("teamId") ?? "";
             setSelectedTeamId({
-                "ViewDocumentsPage.useEffect": (prev)=>prev === queryTeamId ? prev : queryTeamId
-            }["ViewDocumentsPage.useEffect"]);
+                "ViewDocumentsPageContent.useEffect": (prev)=>prev === queryTeamId ? prev : queryTeamId
+            }["ViewDocumentsPageContent.useEffect"]);
         }
-    }["ViewDocumentsPage.useEffect"], [
+    }["ViewDocumentsPageContent.useEffect"], [
         searchParams
     ]);
     const hasTeamDetails = selectedTeamId ? Boolean(teamDetailsMap[selectedTeamId]) : false;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "ViewDocumentsPage.useEffect": ()=>{
+        "ViewDocumentsPageContent.useEffect": ()=>{
             if (!selectedTeamId) return;
             let cancelled = false;
             const loadDocuments = {
-                "ViewDocumentsPage.useEffect.loadDocuments": async ()=>{
+                "ViewDocumentsPageContent.useEffect.loadDocuments": async ()=>{
                     setDocumentsLoading(true);
                     setDocumentsError(null);
                     try {
@@ -3888,21 +4085,21 @@ function ViewDocumentsPage() {
                                 const detail = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getPOCTeamDetail(selectedTeamId);
                                 if (!cancelled) {
                                     setTeamDetailsMap({
-                                        "ViewDocumentsPage.useEffect.loadDocuments": (prev)=>({
+                                        "ViewDocumentsPageContent.useEffect.loadDocuments": (prev)=>({
                                                 ...prev,
                                                 [selectedTeamId]: detail
                                             })
-                                    }["ViewDocumentsPage.useEffect.loadDocuments"]);
+                                    }["ViewDocumentsPageContent.useEffect.loadDocuments"]);
                                 }
                             } else if (role === "leader") {
                                 const detail = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getTeamDetails();
                                 if (!cancelled) {
                                     setTeamDetailsMap({
-                                        "ViewDocumentsPage.useEffect.loadDocuments": (prev)=>({
+                                        "ViewDocumentsPageContent.useEffect.loadDocuments": (prev)=>({
                                                 ...prev,
                                                 [detail.id]: detail
                                             })
-                                    }["ViewDocumentsPage.useEffect.loadDocuments"]);
+                                    }["ViewDocumentsPageContent.useEffect.loadDocuments"]);
                                 }
                             }
                         }
@@ -3919,44 +4116,44 @@ function ViewDocumentsPage() {
                         }
                     }
                 }
-            }["ViewDocumentsPage.useEffect.loadDocuments"];
+            }["ViewDocumentsPageContent.useEffect.loadDocuments"];
             void loadDocuments();
             return ({
-                "ViewDocumentsPage.useEffect": ()=>{
+                "ViewDocumentsPageContent.useEffect": ()=>{
                     cancelled = true;
                 }
-            })["ViewDocumentsPage.useEffect"];
+            })["ViewDocumentsPageContent.useEffect"];
         }
-    }["ViewDocumentsPage.useEffect"], [
+    }["ViewDocumentsPageContent.useEffect"], [
         hasTeamDetails,
         role,
         selectedTeamId
     ]);
     const selectedTeam = selectedTeamId ? teamDetailsMap[selectedTeamId] : undefined;
     const approvedDocuments = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "ViewDocumentsPage.useMemo[approvedDocuments]": ()=>{
+        "ViewDocumentsPageContent.useMemo[approvedDocuments]": ()=>{
             if (!documents.length) return [];
             return documents.map({
-                "ViewDocumentsPage.useMemo[approvedDocuments]": (document1)=>{
+                "ViewDocumentsPageContent.useMemo[approvedDocuments]": (document1)=>{
                     const versions = [
                         ...document1.versions ?? []
                     ];
                     if (document1.latest_version && !versions.find({
-                        "ViewDocumentsPage.useMemo[approvedDocuments]": (version)=>version.id === document1.latest_version?.id
-                    }["ViewDocumentsPage.useMemo[approvedDocuments]"])) {
+                        "ViewDocumentsPageContent.useMemo[approvedDocuments]": (version)=>version.id === document1.latest_version?.id
+                    }["ViewDocumentsPageContent.useMemo[approvedDocuments]"])) {
                         versions.unshift(document1.latest_version);
                     }
                     versions.sort({
-                        "ViewDocumentsPage.useMemo[approvedDocuments]": (a, b)=>{
+                        "ViewDocumentsPageContent.useMemo[approvedDocuments]": (a, b)=>{
                             const aTime = a.uploaded_at ? new Date(a.uploaded_at).getTime() : 0;
                             const bTime = b.uploaded_at ? new Date(b.uploaded_at).getTime() : 0;
                             if (bTime !== aTime) return bTime - aTime;
                             return (b.version ?? 0) - (a.version ?? 0);
                         }
-                    }["ViewDocumentsPage.useMemo[approvedDocuments]"]);
+                    }["ViewDocumentsPageContent.useMemo[approvedDocuments]"]);
                     const approvedVersion = versions.find({
-                        "ViewDocumentsPage.useMemo[approvedDocuments].approvedVersion": (version)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$document$2d$metadata$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isApprovedStatus"])(version.status)
-                    }["ViewDocumentsPage.useMemo[approvedDocuments].approvedVersion"]);
+                        "ViewDocumentsPageContent.useMemo[approvedDocuments].approvedVersion": (version)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$document$2d$metadata$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isApprovedStatus"])(version.status)
+                    }["ViewDocumentsPageContent.useMemo[approvedDocuments].approvedVersion"]);
                     if (!approvedVersion) return null;
                     return {
                         documentType: document1.document_type,
@@ -3964,33 +4161,33 @@ function ViewDocumentsPage() {
                         latestStatus: approvedVersion.status
                     };
                 }
-            }["ViewDocumentsPage.useMemo[approvedDocuments]"]).filter({
-                "ViewDocumentsPage.useMemo[approvedDocuments]": (entry)=>entry !== null
-            }["ViewDocumentsPage.useMemo[approvedDocuments]"]);
+            }["ViewDocumentsPageContent.useMemo[approvedDocuments]"]).filter({
+                "ViewDocumentsPageContent.useMemo[approvedDocuments]": (entry)=>entry !== null
+            }["ViewDocumentsPageContent.useMemo[approvedDocuments]"]);
         }
-    }["ViewDocumentsPage.useMemo[approvedDocuments]"], [
+    }["ViewDocumentsPageContent.useMemo[approvedDocuments]"], [
         documents
     ]);
     const handleTeamChange = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "ViewDocumentsPage.useCallback[handleTeamChange]": (value)=>{
+        "ViewDocumentsPageContent.useCallback[handleTeamChange]": (value)=>{
             let changed = false;
             setSelectedTeamId({
-                "ViewDocumentsPage.useCallback[handleTeamChange]": (prev)=>{
+                "ViewDocumentsPageContent.useCallback[handleTeamChange]": (prev)=>{
                     if (prev === value) return prev;
                     changed = true;
                     return value;
                 }
-            }["ViewDocumentsPage.useCallback[handleTeamChange]"]);
+            }["ViewDocumentsPageContent.useCallback[handleTeamChange]"]);
             syncTeamParam(value);
             if (changed) {
                 setDocuments([]);
             }
         }
-    }["ViewDocumentsPage.useCallback[handleTeamChange]"], [
+    }["ViewDocumentsPageContent.useCallback[handleTeamChange]"], [
         syncTeamParam
     ]);
     const handleDownload = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "ViewDocumentsPage.useCallback[handleDownload]": async (versionId)=>{
+        "ViewDocumentsPageContent.useCallback[handleDownload]": async (versionId)=>{
             if (!versionId) return;
             setDownloadingId(versionId);
             try {
@@ -4009,11 +4206,11 @@ function ViewDocumentsPage() {
                 setDownloadingId(null);
             }
         }
-    }["ViewDocumentsPage.useCallback[handleDownload]"], [
+    }["ViewDocumentsPageContent.useCallback[handleDownload]"], [
         toast
     ]);
     const handleBulkDownload = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "ViewDocumentsPage.useCallback[handleBulkDownload]": async ()=>{
+        "ViewDocumentsPageContent.useCallback[handleBulkDownload]": async ()=>{
             if (!selectedTeam || !approvedDocuments.length) {
                 return;
             }
@@ -4054,8 +4251,8 @@ function ViewDocumentsPage() {
                 link.click();
                 document.body.removeChild(link);
                 setTimeout({
-                    "ViewDocumentsPage.useCallback[handleBulkDownload]": ()=>URL.revokeObjectURL(zipUrl)
-                }["ViewDocumentsPage.useCallback[handleBulkDownload]"], 4000);
+                    "ViewDocumentsPageContent.useCallback[handleBulkDownload]": ()=>URL.revokeObjectURL(zipUrl)
+                }["ViewDocumentsPageContent.useCallback[handleBulkDownload]"], 4000);
                 toast({
                     title: "Download ready",
                     description: `Downloaded ${approvedDocuments.length} approved documents.`
@@ -4071,7 +4268,7 @@ function ViewDocumentsPage() {
                 setBulkDownloading(false);
             }
         }
-    }["ViewDocumentsPage.useCallback[handleBulkDownload]"], [
+    }["ViewDocumentsPageContent.useCallback[handleBulkDownload]"], [
         approvedDocuments,
         selectedTeam,
         toast
@@ -4681,16 +4878,45 @@ function ViewDocumentsPage() {
         columnNumber: 5
     }, this);
 }
-_s(ViewDocumentsPage, "Pq8ylMJ33uBWQdFJOHDUzpXds+E=", false, function() {
+_s(ViewDocumentsPageContent, "Pq8ylMJ33uBWQdFJOHDUzpXds+E=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"]
     ];
 });
-_c = ViewDocumentsPage;
-var _c;
-__turbopack_context__.k.register(_c, "ViewDocumentsPage");
+_c = ViewDocumentsPageContent;
+function ViewDocumentsPage() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Suspense"], {
+        fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "flex min-h-[50vh] w-full items-center justify-center p-6",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                className: "h-6 w-6 animate-spin text-[#f75700]"
+            }, void 0, false, {
+                fileName: "[project]/app/view-documents/page.tsx",
+                lineNumber: 630,
+                columnNumber: 11
+            }, void 0)
+        }, void 0, false, {
+            fileName: "[project]/app/view-documents/page.tsx",
+            lineNumber: 629,
+            columnNumber: 9
+        }, void 0),
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ViewDocumentsPageContent, {}, void 0, false, {
+            fileName: "[project]/app/view-documents/page.tsx",
+            lineNumber: 634,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/app/view-documents/page.tsx",
+        lineNumber: 627,
+        columnNumber: 5
+    }, this);
+}
+_c1 = ViewDocumentsPage;
+var _c, _c1;
+__turbopack_context__.k.register(_c, "ViewDocumentsPageContent");
+__turbopack_context__.k.register(_c1, "ViewDocumentsPage");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

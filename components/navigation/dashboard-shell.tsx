@@ -30,6 +30,7 @@ import {
   FileSignature,
   Plane,
   Phone,
+  ClipboardCheck,
 } from "lucide-react"
 
 interface DashboardShellProps {
@@ -43,19 +44,22 @@ export function DashboardShell({ children }: DashboardShellProps) {
   const user = authService.getCurrentUser()
   const pathname = usePathname()
 
-  const role: "leader" | "poc" | "admin" | null = user?.is_admin
+  const role: "leader" | "poc" | "admin" | "volunteer" | null = user?.is_admin
     ? "admin"
     : user?.is_poc
       ? "poc"
-      : user
-        ? "leader"
-        : null
+      : user?.is_volunteer
+        ? "volunteer"
+        : user
+          ? "leader"
+          : null
 
   const navItems = useMemo(() => {
     if (role === "admin") {
       return [
         { href: "/dashboard", label: "Overview", icon: <LayoutDashboard /> },
         { href: "/dashboard/teams", label: "Teams Directory", icon: <Users /> },
+        { href: "/dashboard/check-in", label: "Check-In Center", icon: <ClipboardCheck /> },
         { href: "/dashboard/requests-tracking", label: "Requests Tracking", icon: <ListTodo /> },
         { href: "/queue", label: "Global Queue", icon: <Network /> },
         { href: "/dashboard/documents-verification", label: "Documents Verification", icon: <FileText /> },
@@ -71,8 +75,12 @@ export function DashboardShell({ children }: DashboardShellProps) {
         { href: "/view-documents", label: "View Documents", icon: <Eye /> },
         { href: "/poc/ta-form", label: "TA & Mandate Form", icon: <FileSignature /> },
         { href: "/dashboard/jury-forms", label: "Jury Forms", icon: <Plane /> },
+        { href: "/dashboard/check-in", label: "Check-In Center", icon: <ClipboardCheck /> },
         { href: "/dashboard/contacts-directory", label: "Contacts Directory", icon: <Phone /> },
       ]
+    }
+    if (role === "volunteer") {
+      return [{ href: "/dashboard", label: "Volunteer Dashboard", icon: <LayoutDashboard /> }]
     }
     // leader default
     return [
@@ -144,9 +152,11 @@ export function DashboardShell({ children }: DashboardShellProps) {
                 ? "Administrator"
                 : role === "poc"
                   ? "POC"
-                  : role === "leader"
-                    ? "Team Leader"
-                    : "Guest"}
+                  : role === "volunteer"
+                    ? "Volunteer"
+                    : role === "leader"
+                      ? "Team Leader"
+                      : "Guest"}
             </p>
             <p className="text-[11px] mt-1 text-muted-foreground" suppressHydrationWarning>
               {user?.email || "guest@example.com"}
@@ -198,6 +208,13 @@ export function DashboardShell({ children }: DashboardShellProps) {
                 </Link>
               </SidebarMenuItem>
             )}
+            {role === "volunteer" && (
+              <SidebarMenuItem>
+                <Link href="/dashboard">
+                  <SidebarMenuButton asChild isActive={isActive("/dashboard")}>Volunteer Workspace</SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+            )}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
@@ -223,6 +240,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
             {role === "leader" && "Team"}
             {role === "poc" && "POC"}
             {role === "admin" && "Admin"}
+            {role === "volunteer" && "Volunteer"}
             {!role && "Guest"}
             &nbsp;Dashboard
           </h2>

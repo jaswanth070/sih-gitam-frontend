@@ -30,7 +30,7 @@ export function DashboardNavbar() {
         {/* Right: Title cluster */}
         <div className="flex flex-col items-center text-center sm:items-center sm:text-right">
           <h1 className="text-base font-extrabold leading-5 tracking-tight text-[#002449] sm:text-lg">
-            SIH <span className="text-[#f75700]">2025</span> Grand Final
+            SIH <span className="text-[#f75700]">2025</span> GRAND FINAL
           </h1>
           <div className="mt-1 flex items-center gap-2">
             <span className="h-px w-5 sm:w-6 bg-[#f75700]" />

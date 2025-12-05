@@ -1,0 +1,31 @@
+/* [project]/components/infrastructure/scroll-stack.css [app-client] (css) */
+.scroll-stack-scroller {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.scroll-stack-inner {
+  position: relative;
+}
+
+.scroll-stack-card {
+  width: min(100%, 720px);
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+  margin: 0 auto;
+  transition: filter .3s;
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .scroll-stack-card {
+    width: min(100%, 760px);
+  }
+}
+
+.scroll-stack-end {
+  height: 35vh;
+}
+
+/*# sourceMappingURL=components_infrastructure_scroll-stack_76219067.css.map*/

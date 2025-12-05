@@ -6,9 +6,14 @@ import {
   AlertCircle,
   ArrowUpRight,
   Building2,
+  CheckCircle2,
+  ClipboardCheck,
+  Clock3,
+  LogOut,
   Layers,
   Loader2,
   Mail,
+  MapPin,
   Phone,
   ShieldCheck,
   User2,
@@ -219,6 +224,39 @@ export default function AdminTeamsPage() {
   }, [selectedTeam])
 
   const teamOptions = useMemo(() => teams.map((team) => ({ id: team.id, label: team.name, subtitle: team.institution })), [teams])
+  const dateFormatter = useMemo(
+    () => new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }),
+    [],
+  )
+  const formatTimestamp = useCallback(
+    (value?: string | null) => {
+      if (!value) return null
+      const date = new Date(value)
+      if (Number.isNaN(date.getTime())) return null
+      return dateFormatter.format(date)
+    },
+    [dateFormatter],
+  )
+  const formatRecordedBy = useCallback((contact?: TeamContact | null) => contact?.name || contact?.email || "—", [])
+  const isCheckedOut = Boolean(selectedTeam?.members_checked_out)
+  const isCheckedIn = Boolean(selectedTeam?.members_checked_in)
+  const statusBadgeClass = isCheckedOut
+    ? "bg-slate-100/20 text-slate-100 border-slate-100/30"
+    : isCheckedIn
+      ? "bg-emerald-100/20 text-emerald-50 border-emerald-100/30"
+      : "bg-amber-100/20 text-amber-50 border-amber-100/30"
+  const statusLabel = isCheckedOut ? "Checked out" : isCheckedIn ? "Checked in" : "Check-in pending"
+  const statusIndicatorBg = isCheckedOut
+    ? "bg-slate-100 text-slate-700"
+    : isCheckedIn
+      ? "bg-emerald-100 text-emerald-700"
+      : "bg-amber-100 text-amber-700"
+  const statusIcon = isCheckedOut ? <LogOut className="h-4 w-4" /> : isCheckedIn ? <CheckCircle2 className="h-4 w-4" /> : <Clock3 className="h-4 w-4" />
+  const statusHelper = isCheckedOut
+    ? "Team has completed checkout"
+    : isCheckedIn
+      ? "Volunteers confirmed arrival"
+      : "Awaiting arrival confirmation"
 
   return (
     <DashboardShell>
@@ -295,10 +333,16 @@ export default function AdminTeamsPage() {
                           Problem Statement • {selectedTeam.problem_statement.id}
                         </Badge>
                       )}
+                      <Badge variant="secondary" className={statusBadgeClass}>
+                        {statusLabel}
+                      </Badge>
                     </div>
                     <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{selectedTeam.name}</h2>
                     <p className="flex items-center gap-2 text-sm text-white/80">
                       <Building2 className="h-4 w-4" /> {selectedTeam.institution}
+                    </p>
+                    <p className="flex items-center gap-2 text-xs text-white/80">
+                      <MapPin className="h-3.5 w-3.5" /> {selectedTeam.room_allocation || "Room not assigned"}
                     </p>
                     {selectedTeam.problem_statement?.title && (
                       <p className="text-sm text-white/80 flex items-start gap-2">
@@ -319,6 +363,16 @@ export default function AdminTeamsPage() {
                         Open Documents <ArrowUpRight className="h-4 w-4" />
                       </Link>
                     </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      variant="outline"
+                      className="border border-white/30 bg-white/10 text-white hover:bg-white hover:text-[#002449]"
+                    >
+                      <Link href={`/dashboard/check-in/${selectedTeam.id}`} className="flex items-center gap-2">
+                        Manage Check-In <ClipboardCheck className="h-4 w-4" />
+                      </Link>
+                    </Button>
                     {leader && (
                       <div className="rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-xs text-white/80">
                         <p className="uppercase tracking-wide text-[11px] text-white/60">Team Leader</p>
@@ -330,6 +384,55 @@ export default function AdminTeamsPage() {
                 </div>
               </div>
             </section>
+
+            <Card className="border border-gray-200 shadow-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#002449" }}>
+                  <ClipboardCheck className="h-4 w-4 text-[#002449]" /> Check-in overview
+                </CardTitle>
+                <CardDescription className="text-xs text-muted-foreground">
+                  Track on-site arrival, room allocation, and checkout confirmations.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="rounded-lg border border-muted/40 bg-muted/10 p-3">
+                  <div className="flex items-center gap-3">
+                    <span className={`inline-flex h-9 w-9 items-center justify-center rounded-full ${statusIndicatorBg}`}>
+                      {statusIcon}
+                    </span>
+                    <div className="text-sm">
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Check-in status</p>
+                      <p className="font-semibold" style={{ color: "#002449" }}>{statusLabel}</p>
+                      <p className="text-[11px] text-muted-foreground">{statusHelper}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-muted/40 bg-muted/10 p-3">
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">Room allocation</p>
+                  <p className="mt-1 flex items-center gap-2 text-sm font-semibold" style={{ color: "#002449" }}>
+                    <MapPin className="h-4 w-4" /> {selectedTeam.room_allocation || "Not assigned"}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-muted/40 bg-muted/10 p-3">
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">Checked in</p>
+                  <p className="mt-1 text-sm font-semibold" style={{ color: "#002449" }}>
+                    {formatTimestamp(selectedTeam.check_in_timestamp) ?? "Not recorded"}
+                  </p>
+                  <p className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
+                    <User2 className="h-3.5 w-3.5" /> {formatRecordedBy(selectedTeam.check_in_recorded_by)}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-muted/40 bg-muted/10 p-3">
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">Checked out</p>
+                  <p className="mt-1 text-sm font-semibold" style={{ color: "#002449" }}>
+                    {formatTimestamp(selectedTeam.check_out_timestamp) ?? "Not recorded"}
+                  </p>
+                  <p className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
+                    <User2 className="h-3.5 w-3.5" /> {formatRecordedBy(selectedTeam.check_out_recorded_by)}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
             <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               <ContactSummary label="Point of Contact" contact={selectedTeam.poc} fallback="POC details not available." />

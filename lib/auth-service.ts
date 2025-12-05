@@ -9,11 +9,15 @@ import {
   getStoredLeaderTeam,
   getStoredPOCTeamDetail,
   getStoredPOCTeams,
+  getStoredVolunteerTeamDetail,
+  getStoredVolunteerTeams,
   storeAdminTeams,
   storeCurrentUser,
   storeLeaderTeam,
   storePOCTeamDetail,
   storePOCTeams,
+  storeVolunteerTeamDetail,
+  storeVolunteerTeams,
 } from "./session-store"
 
 const ACCESS_TOKEN_KEY = "sih_access_token"
@@ -126,6 +130,14 @@ export interface TeamDetails {
   mentors?: TeamContact[]
   problem_statement?: ProblemStatementSummary | null
   members: TeamMemberSummary[]
+  members_checked_in?: boolean
+  check_in_remarks?: string | null
+  room_allocation?: string | null
+  check_in_timestamp?: string | null
+  check_in_recorded_by?: TeamContact | null
+  members_checked_out?: boolean
+  check_out_timestamp?: string | null
+  check_out_recorded_by?: TeamContact | null
   [key: string]: any
 }
 
@@ -133,7 +145,23 @@ export interface POCTeam {
   id: string
   name: string
   institution: string
+  team_id?: string
+  members_checked_in?: boolean
+  check_in_remarks?: string | null
+  room_allocation?: string | null
+  members_checked_out?: boolean
+  check_in_timestamp?: string | null
+  check_in_recorded_by?: TeamContact | null
+  check_out_timestamp?: string | null
+  check_out_recorded_by?: TeamContact | null
   [key: string]: any
+}
+
+export interface CheckInUpdatePayload {
+  members_checked_in?: boolean
+  members_checked_out?: boolean
+  check_in_remarks?: string | null
+  room_allocation?: string | null
 }
 
 export interface AdminTeamSummary extends TeamDetails {
@@ -149,6 +177,7 @@ export interface CurrentUser {
   is_admin?: boolean
   is_poc?: boolean
   is_leader?: boolean
+  is_volunteer?: boolean
   [key: string]: any
 }
 
@@ -368,6 +397,77 @@ class AuthService {
     // return this.request("/poc/teams/")
   }
 
+  async getVolunteerTeams(): Promise<TeamDetails[]> {
+    const cached = getStoredVolunteerTeams()
+    if (cached.length) return cached
+    const data = await this.request<TeamDetails[]>("/volunteer/teams/")
+    storeVolunteerTeams(data)
+    return data
+  }
+
+  async getVolunteerTeamDetail(teamId: string): Promise<TeamDetails> {
+    const cached = getStoredVolunteerTeamDetail(teamId)
+    if (cached) return cached
+    const data = await this.request<TeamDetails>(`/volunteer/teams/${teamId}/`)
+    storeVolunteerTeamDetail(data)
+    return data
+  }
+
+  async updateTeamCheckIn(
+    teamId: string,
+    payload: CheckInUpdatePayload,
+    method: "PATCH" | "PUT" = "PATCH",
+  ): Promise<TeamDetails> {
+    let body: Record<string, unknown>
+    if (method === "PATCH") {
+      body = { ...payload }
+    } else {
+      body = {
+        members_checked_in: Boolean(payload.members_checked_in),
+        members_checked_out: Boolean(payload.members_checked_out),
+        check_in_remarks: payload.check_in_remarks ?? "",
+        room_allocation: payload.room_allocation ?? "",
+      }
+    }
+
+    Object.keys(body).forEach((key) => {
+      if (body[key] === undefined) {
+        delete body[key]
+      }
+    })
+
+    const response = await this.request<TeamDetails>(`/teams/${teamId}/check-in/`, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    })
+
+    // Update session caches for all relevant user roles
+    storeVolunteerTeamDetail(response)
+    const volunteerTeams = getStoredVolunteerTeams()
+    if (volunteerTeams.length) {
+      storeVolunteerTeams(volunteerTeams.map((team) => (team.id === response.id ? { ...team, ...response } : team)))
+    }
+
+    storePOCTeamDetail(response)
+    const pocTeams = getStoredPOCTeams()
+    if (pocTeams.length) {
+      storePOCTeams(pocTeams.map((team) => (team.id === response.id ? { ...team, ...response } : team)))
+    }
+
+    const adminTeams = getStoredAdminTeams()
+    if (adminTeams.length) {
+      storeAdminTeams(adminTeams.map((team) => (team.id === response.id ? { ...team, ...response } : team)))
+    }
+
+    const leaderTeam = getStoredLeaderTeam()
+    if (leaderTeam?.id === response.id) {
+      storeLeaderTeam(response)
+    }
+
+    return response
+  }
+
   async logout(): Promise<{ detail: string }> {
     const refreshToken = this.getRefreshToken()
     if (!refreshToken) {
@@ -445,6 +545,17 @@ class AuthService {
         )
       } catch (error: unknown) {
         console.warn("[auth-service] unable to cache POC teams", error)
+      }
+      return
+    }
+
+    if (user.is_volunteer) {
+      if (!force && getStoredVolunteerTeams().length) return
+      try {
+        const teams = await this.request<TeamDetails[]>("/volunteer/teams/")
+        storeVolunteerTeams(teams)
+      } catch (error: unknown) {
+        console.warn("[auth-service] unable to cache volunteer teams", error)
       }
       return
     }

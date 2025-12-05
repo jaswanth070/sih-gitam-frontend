@@ -556,6 +556,10 @@ __turbopack_context__.s([
     ()=>getStoredPOCTeamDetail,
     "getStoredPOCTeams",
     ()=>getStoredPOCTeams,
+    "getStoredVolunteerTeamDetail",
+    ()=>getStoredVolunteerTeamDetail,
+    "getStoredVolunteerTeams",
+    ()=>getStoredVolunteerTeams,
     "storeAdminTeams",
     ()=>storeAdminTeams,
     "storeCurrentUser",
@@ -565,7 +569,11 @@ __turbopack_context__.s([
     "storePOCTeamDetail",
     ()=>storePOCTeamDetail,
     "storePOCTeams",
-    ()=>storePOCTeams
+    ()=>storePOCTeams,
+    "storeVolunteerTeamDetail",
+    ()=>storeVolunteerTeamDetail,
+    "storeVolunteerTeams",
+    ()=>storeVolunteerTeams
 ]);
 const SESSION_KEY = "sih_session_cache_v1";
 function isBrowser() {
@@ -648,6 +656,32 @@ function getStoredAdminTeams() {
     const session = readSession();
     return Array.isArray(session.adminTeams) ? session.adminTeams : [];
 }
+function storeVolunteerTeams(teams) {
+    mergeSession({
+        volunteerTeams: teams
+    });
+}
+function getStoredVolunteerTeams() {
+    const session = readSession();
+    return Array.isArray(session.volunteerTeams) ? session.volunteerTeams : [];
+}
+function storeVolunteerTeamDetail(team) {
+    if (!team?.id) return;
+    const session = readSession();
+    const nextDetails = {
+        ...session.volunteerTeamDetails ?? {},
+        [team.id]: team
+    };
+    mergeSession({
+        volunteerTeamDetails: nextDetails
+    });
+}
+function getStoredVolunteerTeamDetail(teamId) {
+    if (!teamId) return null;
+    const session = readSession();
+    const lookup = session.volunteerTeamDetails ?? {};
+    return lookup[teamId] ?? null;
+}
 function getSessionSnapshot() {
     return readSession();
 }
@@ -679,7 +713,7 @@ function normalizeAuthPath(pathname) {
     return `${normalized}/auth/api`;
 }
 function buildAuthBaseUrl() {
-    const raw = ("TURBOPACK compile-time value", "https://sih.gitam.edu/auth/");
+    const raw = ("TURBOPACK compile-time value", "http://127.0.0.1:8000/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (raw.startsWith("/")) {
@@ -874,6 +908,76 @@ class AuthService {
         return data;
     // return this.request("/poc/teams/")
     }
+    async getVolunteerTeams() {
+        const cached = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getStoredVolunteerTeams"])();
+        if (cached.length) return cached;
+        const data = await this.request("/volunteer/teams/");
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storeVolunteerTeams"])(data);
+        return data;
+    }
+    async getVolunteerTeamDetail(teamId) {
+        const cached = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getStoredVolunteerTeamDetail"])(teamId);
+        if (cached) return cached;
+        const data = await this.request(`/volunteer/teams/${teamId}/`);
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storeVolunteerTeamDetail"])(data);
+        return data;
+    }
+    async updateTeamCheckIn(teamId, payload, method = "PATCH") {
+        let body;
+        if (method === "PATCH") {
+            body = {
+                ...payload
+            };
+        } else {
+            body = {
+                members_checked_in: Boolean(payload.members_checked_in),
+                members_checked_out: Boolean(payload.members_checked_out),
+                check_in_remarks: payload.check_in_remarks ?? "",
+                room_allocation: payload.room_allocation ?? ""
+            };
+        }
+        Object.keys(body).forEach((key)=>{
+            if (body[key] === undefined) {
+                delete body[key];
+            }
+        });
+        const response = await this.request(`/teams/${teamId}/check-in/`, {
+            method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+        // Update session caches for all relevant user roles
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storeVolunteerTeamDetail"])(response);
+        const volunteerTeams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getStoredVolunteerTeams"])();
+        if (volunteerTeams.length) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storeVolunteerTeams"])(volunteerTeams.map((team)=>team.id === response.id ? {
+                    ...team,
+                    ...response
+                } : team));
+        }
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storePOCTeamDetail"])(response);
+        const pocTeams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getStoredPOCTeams"])();
+        if (pocTeams.length) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storePOCTeams"])(pocTeams.map((team)=>team.id === response.id ? {
+                    ...team,
+                    ...response
+                } : team));
+        }
+        const adminTeams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getStoredAdminTeams"])();
+        if (adminTeams.length) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storeAdminTeams"])(adminTeams.map((team)=>team.id === response.id ? {
+                    ...team,
+                    ...response
+                } : team));
+        }
+        const leaderTeam = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getStoredLeaderTeam"])();
+        if (leaderTeam?.id === response.id) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["storeLeaderTeam"])(response);
+        }
+        return response;
+    }
     async logout() {
         const refreshToken = this.getRefreshToken();
         if (!refreshToken) {
@@ -1028,7 +1132,7 @@ function LoginPage() {
             setFeedback({
                 type: "success",
                 title: "OTP Sent",
-                message: "Check your email for the OTP (also visible in dev logs)"
+                message: "Check your email for the OTP"
             });
         } catch (err) {
             setFeedback({

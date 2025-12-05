@@ -1,0 +1,28 @@
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.scroll-stack-inner {
+  position: relative;
+}
+
+.scroll-stack-card {
+  position: relative;
+  width: min(100%, 720px);
+  margin: 0 auto;
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+  transition: filter 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .scroll-stack-card {
+    width: min(100%, 760px);
+  }
+}
+
+.scroll-stack-end {
+  height: 35vh;
+}

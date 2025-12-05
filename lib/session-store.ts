@@ -8,6 +8,8 @@ type SessionPayload = {
   pocTeams?: POCTeam[]
   pocTeamDetails?: Record<string, TeamDetails>
   adminTeams?: AdminTeamSummary[]
+  volunteerTeams?: TeamDetails[]
+  volunteerTeamDetails?: Record<string, TeamDetails>
   updatedAt?: number
 }
 
@@ -101,6 +103,29 @@ export function storeAdminTeams(teams: AdminTeamSummary[]): void {
 export function getStoredAdminTeams(): AdminTeamSummary[] {
   const session = readSession()
   return Array.isArray(session.adminTeams) ? session.adminTeams : []
+}
+
+export function storeVolunteerTeams(teams: TeamDetails[]): void {
+  mergeSession({ volunteerTeams: teams })
+}
+
+export function getStoredVolunteerTeams(): TeamDetails[] {
+  const session = readSession()
+  return Array.isArray(session.volunteerTeams) ? session.volunteerTeams : []
+}
+
+export function storeVolunteerTeamDetail(team: TeamDetails): void {
+  if (!team?.id) return
+  const session = readSession()
+  const nextDetails = { ...(session.volunteerTeamDetails ?? {}), [team.id]: team }
+  mergeSession({ volunteerTeamDetails: nextDetails })
+}
+
+export function getStoredVolunteerTeamDetail(teamId: string | null | undefined): TeamDetails | null {
+  if (!teamId) return null
+  const session = readSession()
+  const lookup = session.volunteerTeamDetails ?? {}
+  return lookup[teamId] ?? null
 }
 
 export function getSessionSnapshot(): SessionPayload {
