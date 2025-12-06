@@ -38,8 +38,8 @@ export default function QueuePage() {
 
   // Hook: snapshot + websocket live queue
   const token = authService.getAccessToken()
-  const { requests, live, loading, error: hookError, refresh, forceReconnect, recentlyChangedIds } = useRequestsQueue({
-    token,
+  const { requests, live, loading, error: hookError, refresh, forceReconnect, recentlyChangedIds, upsertById } = useRequestsQueue({
+    token: token ?? undefined,
     pageSize: 50,
     activeOnly: false,
     resyncIntervalMs: 300000,
@@ -69,7 +69,8 @@ export default function QueuePage() {
     const finalNote = `Status changed to ${newStatus}`
 
     try {
-      await requestsService.changeRequestStatus(requestId, newStatus, finalNote, remarks)
+      const updated = await requestsService.changeRequestStatus(requestId, newStatus, finalNote, remarks)
+      upsertById(updated)
       setError("")
       setPendingStatusChange(null)
     } catch (err) {
@@ -190,7 +191,7 @@ export default function QueuePage() {
                       request={r}
                       position={idx + 1}
                       onAdvance={initiateStatusChange}
-                      canAdvance={!!user && (user.is_poc || user.is_admin)}
+                      canAdvance={Boolean(user?.is_poc || user?.is_admin)}
                       highlight={recentlyChangedIds.includes(r.id)}
                       loading={loadingIds.includes(r.id)}
                     />

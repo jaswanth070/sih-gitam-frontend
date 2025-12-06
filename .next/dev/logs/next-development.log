@@ -1,223 +1,40 @@
-[00:00:22.822] Server  LOG      ✓ Ready in 16.4s
-[00:08:54.995] Server  LOG      ○ Compiling / ...
-[00:09:05.352] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:09:05.520] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:09:05.520] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:09:05.520] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765001805461}
-[00:09:13.944] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765001813880}
-[00:09:15.205] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765001815133}
-[00:09:17.143] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765001817077}
-[00:09:27.076] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:00:12.937] Server  LOG      ✓ Ready in 10.2s
+[00:00:15.989] Server  LOG      ○ Compiling / ...
+[00:00:21.125] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:21.812] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:22.122] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:22.122] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:00:22.122] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765019436594}
+[00:00:34.394] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:09:27.076] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:09:27.076] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:00:34.394] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:34.394] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:09:27.076] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:09:28.618] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765001828545}
-[00:09:31.165] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765001831087}
-[00:10:45.521] Server  LOG      ✓ Compiled in 306ms
-[00:10:49.877] Server  LOG      ✓ Compiled in 318ms
-[00:10:59.658] Server  LOG      ✓ Compiled in 312ms
-[00:11:07.474] Server  LOG      ✓ Compiled in 285ms
-[00:11:10.099] Server  LOG      ✓ Compiled in 319ms
-[00:12:19.743] Server  LOG      ✓ Compiled in 289ms
-[00:12:21.985] Server  LOG      ✓ Compiled in 284ms
-[00:12:24.860] Server  LOG      ✓ Compiled in 288ms
-[00:12:29.010] Server  LOG      ✓ Compiled in 296ms
-[00:12:46.733] Server  LOG      ✓ Compiled in 287ms
-[00:12:47.117] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. aallamse@student.gitam.edu
-[00:12:54.271] Server  LOG      ✓ Compiled in 295ms
-[00:12:55.117] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. aallamse@student.gitam.edu
-[00:12:57.193] Server  LOG      ✓ Compiled in 321ms
-[00:12:58.131] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. aallamse@student.gitam.edu
-[00:13:06.771] Server  LOG      ✓ Compiled in 299ms
-[00:13:14.539] Server  LOG      ✓ Compiled in 284ms
-[00:13:18.919] Server  LOG      ✓ Compiled in 300ms
-[00:13:19.123] Browser ERROR   ./app/dashboard/contacts-directory/page.tsx:69:18
-Parsing ecmascript source code failed
-  67 |     email: "asheik1@gitam.in",
-  68 |     phone: "9347520660",
-> 69 |     undertaking: "POC for SIH2521\",
-     |                  ^^^^^^^^^^^^^^^^^^^
-  70 |   },
-  71 | ]
-  72 |
+[00:00:34.394] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:35.998] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765019450446}
+[00:00:49.790] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765019464235}
+[00:00:55.746] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
-Unterminated string constant
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component Browser]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:00:55.746] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:55.746] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
-  Client Component SSR:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component SSR]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-[00:13:26.353] Server  LOG      ✓ Compiled in 298ms
-[00:13:27.130] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. asheik1@gitam.in
-[00:13:37.715] Server  LOG      ✓ Compiled in 282ms
-[00:13:38.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. asheik1@gitam.in
-[00:13:42.575] Server  LOG      ✓ Compiled in 287ms
-[00:13:44.915] Server  LOG      ✓ Compiled in 281ms
-[00:13:48.971] Server  LOG      ✓ Compiled in 347ms
-[00:13:51.305] Server  LOG      ✓ Compiled in 290ms
-[00:13:52.332] Server  LOG      ✓ Compiled in 291ms
-[00:14:58.471] Server  LOG      ✓ Compiled in 284ms
-[00:15:01.574] Server  LOG      ✓ Compiled in 287ms
-[00:15:04.588] Server  LOG      ✓ Compiled in 287ms
-[00:20:57.644] Server  LOG      ✓ Compiled in 293ms
-[00:20:59.382] Server  LOG      ✓ Compiled in 305ms
-[00:21:00.603] Server  LOG      ✓ Compiled in 331ms
-[00:21:49.703] Server  LOG      ✓ Compiled in 303ms
-[00:21:50.118] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. sabbaiah@gitam.in
-[00:22:00.879] Server  LOG      ✓ Compiled in 287ms
-[00:22:06.328] Server  LOG      ✓ Compiled in 298ms
-[00:22:08.373] Server  LOG      ✓ Compiled in 284ms
-[00:22:11.942] Server  LOG      ✓ Compiled in 297ms
-[00:22:50.054] Server  LOG      ✓ Compiled in 313ms
-[00:23:03.298] Server  LOG      ✓ Compiled in 295ms
-[00:23:12.543] Server  LOG      ✓ Compiled in 292ms
-[00:23:14.394] Server  LOG      ✓ Compiled in 287ms
-[00:23:16.836] Server  LOG      ✓ Compiled in 316ms
-[00:23:19.120] Server  LOG      ✓ Compiled in 298ms
-[00:23:26.804] Server  LOG      ✓ Compiled in 298ms
-[00:23:27.129] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:02.088] Server  LOG      ✓ Compiled in 304ms
-[00:24:03.130] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:03.130] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:06.100] Server  LOG      ✓ Compiled in 285ms
-[00:24:07.117] Browser ERROR   ./app/dashboard/contacts-directory/page.tsx:90:11
-Parsing ecmascript source code failed
-  88 |   },
-  89 |   {
-> 90 |     name: "GOTTUMUKKALA SAI SURYA
-     |           ^^^^^^^^^^^^^^^^^^^^^^^
-  91 | VARMA",
-  92 |     email: "schittin@student.gitam.edu",
-  93 |     phone: "6301699403",
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
-Unterminated string constant
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component Browser]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component SSR]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-[00:24:10.119] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:10.119] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:10.119] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:10.119] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:15.227] Server  LOG      ✓ Compiled in 291ms
-[00:24:16.120] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:16.121] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:18.438] Server  LOG      ✓ Compiled in 294ms
-[00:24:19.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:19.124] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:19.673] Server  LOG      ✓ Compiled in 291ms
-[00:24:20.125] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:20.125] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:22.797] Server  LOG      ✓ Compiled in 303ms
-[00:24:23.129] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:23.129] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:23.808] Server  LOG      ✓ Compiled in 295ms
-[00:24:24.121] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:24.121] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:26.182] Server  LOG      ✓ Compiled in 284ms
-[00:24:27.127] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:27.127] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:29.069] Server  LOG      ✓ Compiled in 294ms
-[00:24:30.117] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:30.117] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:34.551] Server  LOG      ✓ Compiled in 294ms
-[00:24:35.125] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:35.946] Server  LOG      ✓ Compiled in 314ms
-[00:24:36.115] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:24:38.086] Server  LOG      ✓ Compiled in 317ms
-[00:24:39.119] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:25:19.111] Server  LOG      ✓ Compiled in 294ms
-[00:25:20.125] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:25:20.535] Server  LOG      ✓ Compiled in 302ms
-[00:25:21.130] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:25:23.468] Server  LOG      ✓ Compiled in 286ms
-[00:25:24.125] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:25:36.463] Server  LOG      ✓ Compiled in 285ms
-[00:25:37.131] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. schittin@student.gitam.edu
-[00:25:40.659] Server  LOG      ✓ Compiled in 283ms
-[00:25:54.216] Server  LOG      ✓ Compiled in 286ms
-[00:26:00.408] Server  LOG      ✓ Compiled in 285ms
-[00:26:02.177] Server  LOG      ✓ Compiled in 294ms
-[00:26:03.589] Server  LOG      ✓ Compiled in 328ms
-[00:26:04.935] Server  LOG      ✓ Compiled in 296ms
-[00:38:53.792] Server  LOG      ✓ Compiled in 338ms
-[00:40:30.201] Server  LOG      ✓ Compiled in 319ms
-[00:40:30.246] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. rbollem@gitam.edu
-[00:40:53.193] Server  LOG      ✓ Compiled in 290ms
-[00:40:54.122] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. rbollem@gitam.edu
-[00:41:00.247] Server  LOG      ✓ Compiled in 299ms
-[00:41:01.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. rbollem@gitam.edu
-[00:41:01.771] Server  LOG      ✓ Compiled in 340ms
-[00:41:02.120] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. rbollem@gitam.edu
-[00:41:04.751] Server  LOG      ✓ Compiled in 290ms
-[00:41:05.117] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. rbollem@gitam.edu
-[00:41:12.765] Server  LOG      ✓ Compiled in 305ms
-[00:41:17.510] Server  LOG      ✓ Compiled in 289ms
-[00:41:19.714] Server  LOG      ✓ Compiled in 293ms
-[00:41:21.161] Server  LOG      ✓ Compiled in 291ms
-[00:41:24.902] Server  LOG      ✓ Compiled in 282ms
-[00:41:28.998] Server  LOG      ✓ Compiled in 302ms
-[00:41:29.116] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:34.700] Server  LOG      ✓ Compiled in 285ms
-[00:41:35.122] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:37.944] Server  LOG      ✓ Compiled in 284ms
-[00:41:38.116] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:40.307] Server  LOG      ✓ Compiled in 282ms
-[00:41:41.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:42.701] Server  LOG      ✓ Compiled in 293ms
-[00:41:43.125] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:45.671] Server  LOG      ✓ Compiled in 285ms
-[00:41:46.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:47.189] Server  LOG      ✓ Compiled in 290ms
-[00:41:48.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:50.930] Server  LOG      ✓ Compiled in 312ms
-[00:41:51.122] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. vvemulap2@gitam.in
-[00:41:57.357] Server  LOG      ✓ Compiled in 286ms
-[00:42:01.706] Server  LOG      ✓ Compiled in 285ms
-[00:42:25.013] Server  LOG      ✓ Compiled in 297ms
-[00:42:35.691] Server  LOG      ✓ Compiled in 285ms
-[00:42:41.718] Server  LOG      ✓ Compiled in 283ms
-[00:42:51.010] Server  LOG      ✓ Compiled in 286ms
-[00:42:55.540] Server  LOG      ✓ Compiled in 293ms
-[00:42:56.122] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. wabhitej@gitam.in
-[00:42:58.360] Server  LOG      ✓ Compiled in 289ms
-[00:42:59.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. wabhitej@gitam.in
-[00:43:03.169] Server  LOG      ✓ Compiled in 294ms
-[00:43:04.123] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. wabhitej@gitam.in
-[00:43:05.008] Server  LOG      ✓ Compiled in 290ms
-[00:43:05.117] Browser ERROR   Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. wabhitej@gitam.in
-[00:43:09.622] Server  LOG      ✓ Compiled in 288ms
-[00:43:12.928] Server  LOG      ✓ Compiled in 286ms
-[00:43:16.231] Server  LOG      ✓ Compiled in 286ms
-[00:43:20.299] Server  LOG      ✓ Compiled in 291ms
-[00:43:21.855] Server  LOG      ✓ Compiled in 289ms
-[00:43:23.974] Server  LOG      ✓ Compiled in 280ms
-[00:43:34.968] Server  LOG      ✓ Compiled in 305ms
-[00:43:36.164] Server  LOG      ✓ Compiled in 289ms
-[00:43:39.460] Server  LOG      ✓ Compiled in 290ms
-[00:43:41.109] Server  LOG      ✓ Compiled in 292ms
-[00:47:17.042] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765004096847}
-[00:47:27.609] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765004107527}
-[00:48:46.528] Server  LOG      ✓ Compiled in 397ms
-[00:50:43.272] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:50:43.569] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:00:55.746] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:57.342] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765019471765}
+[00:01:23.910] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765019498269}
+[00:01:33.732] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:33.978] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -230,92 +47,16 @@ It can also happen if the client has a browser extension installed which messes 
 https://react.dev/link/hydration-mismatch
 
   ...
-    <SegmentViewNode type="page" pagePath="poc/docume...">
-      <SegmentTrieNode>
-      <ClientPageRoot Component={function DocumentSubmissionPage} serverProvidedParams={{...}}>
-        <DocumentSubmissionPage params={Promise} searchParams={Promise}>
-          <Suspense fallback={<DashboardShell>}>
-            <DocumentSubmissionContent>
-              <DashboardShell>
-                <SidebarProvider className="bg-white">
-                  <TooltipProvider delayDuration={0}>
-                    <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                      <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                       <div
-+                         data-slot="sidebar-wrapper"
-+                         style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                         className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full b..."
-+                       >
-    ...
-
-[00:50:43.570] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:50:43.570] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/document-submission","route":"/poc/document-submission"}
-[00:50:43.570] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765004303490}
-[01:03:29.181] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:03:29.181] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:03:29.181] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[01:03:29.181] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005068852}
-[01:03:31.336] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005071278}
-[01:03:48.243] Browser WARN    [auth-service] unable to cache leader team {}
-[01:03:48.243] Browser WARN    [auth-service] unable to cache leader team {}
-[01:03:48.243] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:03:48.243] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:03:48.243] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:03:48.243] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:03:50.016] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005089934}
-[01:04:55.686] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005155627}
-[01:04:59.629] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005159559}
-[01:05:42.817] Browser ERROR   [v0] Error submitting request: {}
-[01:05:47.331] Browser ERROR   [v0] Error submitting request: {}
-[01:06:02.982] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005222869}
-[01:08:19.421] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005359364}
-[01:08:20.664] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005360595}
-[01:08:43.858] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/11 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/11","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005383801}
-[01:08:51.070] Server  LOG      ✓ Compiled in 337ms
-[01:09:01.192] Server  LOG      ✓ Compiled in 349ms
-[01:09:04.535] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005404412}
-[01:09:07.047] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005406991}
-[01:09:13.789] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005413723}
-[01:09:20.727] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005420665}
-[01:09:21.762] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005421688}
-[01:09:53.512] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005453443}
-[01:13:13.573] Server  LOG      ✓ Compiled in 337ms
-[01:13:29.274] Server  LOG      ✓ Compiled in 313ms
-[01:13:37.595] Server  LOG      ✓ Compiled in 306ms
-[01:13:55.671] Server  LOG      ✓ Compiled in 589ms
-[01:14:05.823] Server  LOG      ✓ Compiled in 587ms
-[01:14:16.198] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005716089}
-[01:14:17.404] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005717338}
-[01:14:18.030] Server  LOG      ✓ Compiled in 564ms
-[01:14:26.509] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:14:26.713] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="my-request...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function NewRequestPage} serverProvidedParams={{...}}>
-              <NewRequestPage params={Promise} searchParams={Promise}>
+    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+      <RedirectBoundary>
+        <RedirectErrorBoundary router={{...}}>
+          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"FL4G2"}} cacheNode={{lazyData:null, ...}} ...>
+            <SegmentViewNode type="layout" pagePath="my-request...">
+              <SegmentTrieNode>
+              <script>
+              <script>
+              <script>
+              <RequestDetailsLayout>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -326,30 +67,15 @@ https://react.dev/link/hydration-mismatch
 +                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
 +                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
 +                         >
--                         <Suspense>
           ...
-        ...
 
-[01:14:26.713] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:14:26.713] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/new","route":"/my-requests/new"}
-[01:14:26.714] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/new","route":"/my-requests/new"}
-[01:14:26.714] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005726654}
-[01:14:26.714] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005726654}
-[01:14:37.426] Server  LOG      ✓ Compiled in 563ms
-[01:14:53.133] Server  LOG      ✓ Compiled in 338ms
-[01:15:11.025] Server  LOG      ✓ Compiled in 612ms
-[01:15:57.491] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005817366}
-[01:15:59.160] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005819100}
-[01:16:00.663] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005820591}
-[01:16:01.998] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005821925}
-[01:16:03.199] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765005823126}
-[01:24:09.948] Server  LOG      ✓ Compiled in 373ms
-[01:24:10.129] Browser ERROR   uncaughtError: ReferenceError: fabName is not defined
-[01:26:15.077] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[01:26:15.515] Server  LOG      ✓ Compiled in 354ms
-[01:26:15.516] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765006435159}
-[01:26:15.729] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:26:15.949] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:01:33.978] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:01:33.978] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/FL4G2","route":"/my-requests/[id]"}
+[00:01:33.978] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/FL4G2","route":"/my-requests/[id]"}
+[00:01:33.978] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/FL4G2 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/FL4G2","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765019508452}
+[00:01:33.978] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/FL4G2 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/FL4G2","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765019508452}
+[00:15:25.969] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:26.179] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -362,13 +88,16 @@ It can also happen if the client has a browser extension installed which messes 
 https://react.dev/link/hydration-mismatch
 
   ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="my-request...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function NewRequestPage} serverProvidedParams={{...}}>
-              <NewRequestPage params={Promise} searchParams={Promise}>
+    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+      <RedirectBoundary>
+        <RedirectErrorBoundary router={{...}}>
+          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"FL4G2"}} cacheNode={{lazyData:null, ...}} ...>
+            <SegmentViewNode type="layout" pagePath="my-request...">
+              <SegmentTrieNode>
+              <script>
+              <script>
+              <script>
+              <RequestDetailsLayout>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -379,66 +108,16 @@ https://react.dev/link/hydration-mismatch
 +                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
 +                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
 +                         >
--                         <Suspense>
           ...
-        ...
 
-[01:26:15.949] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:26:15.949] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/new","route":"/my-requests/new"}
-[01:26:15.949] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/new","route":"/my-requests/new"}
-[01:26:15.949] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765006435890}
-[01:26:15.949] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765006435890}
-[01:26:51.908] Server  LOG      ✓ Compiled in 401ms
-[01:27:57.912] Server  LOG      ✓ Compiled in 378ms
-[01:33:38.806] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:33:39.031] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:33:39.031] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[01:33:39.031] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765006878970}
-[01:33:55.855] Server  LOG      ✓ Compiled in 358ms
-[01:38:30.160] Server  LOG        Reload env: .env.local
-[01:38:32.578] Server  LOG        Reload env: .env.local
-[01:38:33.321] Server  LOG      ✓ Compiled in 337ms
-[01:39:45.393] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007245253}
-[01:39:45.698] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007245627}
-[01:39:54.630] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007254372}
-[01:40:38.814] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007298756}
-[01:41:36.665] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:41:36.853] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:41:36.853] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[01:41:36.853] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007356797}
-[01:41:42.787] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007362729}
-[01:42:04.428] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:42:04.428] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:42:04.428] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:42:04.428] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:42:06.025] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007385946}
-[01:42:10.239] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007390166}
-[01:42:16.213] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007396105}
-[01:42:18.053] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007397962}
-[01:42:21.878] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007401805}
-[01:42:28.239] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007408169}
-[01:48:26.114] Server  LOG      ✓ Compiled in 496ms
-[01:48:43.402] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765007783344}
-[01:50:23.206] Server  LOG      ✓ Compiled in 436ms
-[01:51:13.927] Server  LOG      ✓ Compiled in 824ms
-[01:52:13.876] Server  LOG      ✓ Compiled in 333ms
-[01:53:17.211] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008056977}
-[01:53:51.143] Server  LOG      ✓ Compiled in 331ms
-[01:54:03.070] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008103005}
-[01:54:05.910] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/7 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008105838}
-[02:00:27.982] Server  LOG      ✓ Compiled in 349ms
-[02:01:12.849] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008532778}
-[02:06:49.442] Server  LOG      ✓ Compiled in 25.6s
-[02:07:23.656] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:07:25.835] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:15:26.179] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:15:26.179] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/FL4G2","route":"/my-requests/[id]"}
+[00:15:26.179] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/FL4G2","route":"/my-requests/[id]"}
+[00:15:26.179] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/FL4G2 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/FL4G2","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020340655}
+[00:15:26.179] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/FL4G2 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/FL4G2","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020340655}
+[00:19:41.156] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020595561}
+[00:20:31.448] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:31.637] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -453,11 +132,11 @@ https://react.dev/link/hydration-mismatch
   ...
     <RedirectBoundary>
       <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/dashboard" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+        <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
           <SegmentViewNode type="page" pagePath="dashboard/...">
             <SegmentTrieNode>
-            <ClientPageRoot Component={function DashboardPage} serverProvidedParams={{...}}>
-              <DashboardPage params={Promise} searchParams={Promise}>
+            <ClientPageRoot Component={function RequestsTrackingPage} serverProvidedParams={{...}}>
+              <RequestsTrackingPage params={Promise} searchParams={Promise}>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -472,40 +151,16 @@ https://react.dev/link/hydration-mismatch
           ...
         ...
 
-[02:07:26.754] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:07:26.754] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
-[02:07:26.754] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
-[02:07:26.755] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008906562}
-[02:07:26.755] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008906564}
-[02:07:30.546] Server  LOG      ✓ Compiled in 602ms
-[02:07:32.377] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008912320}
-[02:07:51.080] Browser ERROR   [v0] Error submitting request: {}
-[02:07:54.210] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765008934149}
-[02:09:24.532] Server  LOG      ✓ Compiled in 486ms
-[02:50:16.397] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[02:50:16.397] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[02:50:16.397] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[02:50:16.397] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[02:50:18.195] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011478049}
-[02:50:19.973] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011479904}
-[02:50:24.049] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011483979}
-[02:50:46.806] Browser ERROR   [v0] Error submitting request: {}
-[02:51:50.223] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011570058}
-[02:52:06.980] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011586911}
-[02:52:07.963] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011587905}
-[02:52:10.937] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011590876}
-[02:52:49.349] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011629205}
-[02:52:49.515] Browser ERROR   [team] Error fetching team requests snapshot {}
-[02:53:00.777] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:53:01.560] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:20:31.637] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:20:31.637] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/requests-tracking","route":"/dashboard/requests-tracking"}
+[00:20:31.637] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/requests-tracking","route":"/dashboard/requests-tracking"}
+[00:20:31.637] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020646111}
+[00:20:31.637] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020646111}
+[00:20:52.886] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020667300}
+[00:20:56.263] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020670651}
+[00:21:10.709] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020685070}
+[00:22:16.764] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:17.465] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -520,11 +175,11 @@ https://react.dev/link/hydration-mismatch
   ...
     <RedirectBoundary>
       <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/poc/teams..." tree={[...]} params={{id:"35bb3e..."}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="poc/teams/...">
+        <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
+          <SegmentViewNode type="page" pagePath="dashboard/...">
             <SegmentTrieNode>
-            <ClientPageRoot Component={function POCTeamDetailsPage} serverProvidedParams={{...}}>
-              <POCTeamDetailsPage params={Promise} searchParams={Promise}>
+            <ClientPageRoot Component={function RequestsTrackingPage} serverProvidedParams={{...}}>
+              <RequestsTrackingPage params={Promise} searchParams={Promise}>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -539,29 +194,119 @@ https://react.dev/link/hydration-mismatch
           ...
         ...
 
-[02:53:01.560] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:53:01.560] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[02:53:01.560] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[02:53:01.560] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011641371}
-[02:53:01.560] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011641373}
-[02:53:01.763] Browser ERROR   [team] Error fetching team requests snapshot {}
-[02:53:23.367] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011663303}
-[02:53:26.313] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:22:17.465] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:22:17.465] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/requests-tracking","route":"/dashboard/requests-tracking"}
+[00:22:17.465] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/requests-tracking","route":"/dashboard/requests-tracking"}
+[00:22:17.465] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020751748}
+[00:22:17.465] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020751749}
+[00:24:47.386] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:47.386] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:24:47.386] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:24:47.386] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020900888}
+[00:24:49.303] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020903780}
+[00:25:18.913] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[02:53:26.313] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[02:53:26.313] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:25:18.913] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:25:18.913] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[02:53:26.313] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[02:53:27.916] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011667842}
-[02:53:29.585] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011669521}
-[02:53:44.876] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:53:45.317] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:25:18.913] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:25:20.527] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020934982}
+[00:25:22.475] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765020936950}
+[00:28:08.181] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:28:08.416] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+      <RedirectBoundary>
+        <RedirectErrorBoundary router={{...}}>
+          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"PZTZZ"}} cacheNode={{lazyData:null, ...}} ...>
+            <SegmentViewNode type="layout" pagePath="my-request...">
+              <SegmentTrieNode>
+              <script>
+              <script>
+              <script>
+              <RequestDetailsLayout>
+                <DashboardShell>
+                  <SidebarProvider className="bg-white">
+                    <TooltipProvider delayDuration={0}>
+                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
+                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
++                         <div
++                           data-slot="sidebar-wrapper"
++                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
++                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
++                         >
+          ...
+
+[00:28:08.416] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:28:08.416] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/PZTZZ","route":"/my-requests/[id]"}
+[00:28:08.416] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/PZTZZ","route":"/my-requests/[id]"}
+[00:28:08.416] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/PZTZZ color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/PZTZZ","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021102894}
+[00:28:08.416] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/PZTZZ color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/PZTZZ","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021102895}
+[00:29:03.071] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/PZTZZ color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/PZTZZ","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021157538}
+[00:36:14.291] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:36:14.707] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+      <RedirectBoundary>
+        <RedirectErrorBoundary router={{...}}>
+          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"PZTZZ"}} cacheNode={{lazyData:null, ...}} ...>
+            <SegmentViewNode type="layout" pagePath="my-request...">
+              <SegmentTrieNode>
+              <script>
+              <script>
+              <script>
+              <RequestDetailsLayout>
+                <DashboardShell>
+                  <SidebarProvider className="bg-white">
+                    <TooltipProvider delayDuration={0}>
+                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
+                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
++                         <div
++                           data-slot="sidebar-wrapper"
++                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
++                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
++                         >
+          ...
+
+[00:36:14.707] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:36:14.707] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/PZTZZ","route":"/my-requests/[id]"}
+[00:36:14.707] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/PZTZZ","route":"/my-requests/[id]"}
+[00:36:14.707] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/PZTZZ color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/PZTZZ","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021589179}
+[00:36:14.707] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/PZTZZ color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/PZTZZ","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021589179}
+[00:36:18.498] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021592965}
+[00:36:37.744] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/teams color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/teams","o":"http://localhost:3000/dashboard/teams","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021612195}
+[00:36:39.216] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021613670}
+[00:36:52.585] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021627050}
+[00:37:10.401] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:37:10.630] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -576,11 +321,11 @@ https://react.dev/link/hydration-mismatch
   ...
     <RedirectBoundary>
       <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/poc/teams..." tree={[...]} params={{id:"35bb3e..."}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="poc/teams/...">
+        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="queue/page...">
             <SegmentTrieNode>
-            <ClientPageRoot Component={function POCTeamDetailsPage} serverProvidedParams={{...}}>
-              <POCTeamDetailsPage params={Promise} searchParams={Promise}>
+            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
+              <QueuePage params={Promise} searchParams={Promise}>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -595,431 +340,13 @@ https://react.dev/link/hydration-mismatch
           ...
         ...
 
-[02:53:45.490] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:53:45.490] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[02:53:45.490] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[02:53:45.490] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011685365}
-[02:53:45.490] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011685366}
-[02:54:03.646] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011703586}
-[02:56:01.455] Server  LOG      ✓ Compiled in 438ms
-[02:56:57.812] Server  LOG      ✓ Compiled in 369ms
-[02:57:06.445] Server  LOG      ✓ Compiled in 352ms
-[02:57:10.086] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:57:10.308] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"8"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[02:57:10.308] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:57:10.308] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[02:57:10.308] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[02:57:10.308] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011890248}
-[02:57:10.308] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011890248}
-[02:57:27.300] Server  LOG      ✓ Compiled in 327ms
-[02:58:12.554] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:58:12.801] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"13"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[02:58:12.801] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:58:12.801] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[02:58:12.801] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[02:58:12.801] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011952741}
-[02:58:12.801] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011952742}
-[02:58:16.386] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011956308}
-[02:58:18.553] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765011958492}
-[03:00:05.012] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012064955}
-[03:00:08.416] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012068353}
-[03:00:12.914] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:00:13.231] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"13"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:00:13.231] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:00:13.231] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[03:00:13.231] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[03:00:13.231] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012073174}
-[03:00:13.231] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012073175}
-[03:02:17.938] Server  LOG      ✓ Compiled in 379ms
-[03:02:19.120] Browser ERROR   React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://react.dev/link/rules-of-hooks
-
-   Previous render            Next render
-   ------------------------------------------------------
-%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- RequestDetailPage 1. useContext                 useContext
-2. useContext                 useContext
-3. useState                   useState
-4. useState                   useState
-5. useState                   useState
-6. useState                   useState
-7. useState                   useState
-8. useEffect                  useEffect
-9. useEffect                  useEffect
-10. useCallback               useCallback
-11. useCallback               useCallback
-12. useCallback               useCallback
-13. undefined                 useCallback
-
-[03:02:19.120] Browser ERROR   uncaughtError: Error: Rendered more hooks than during the previous render.
-[03:02:19.121] Browser ERROR   React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://react.dev/link/rules-of-hooks
-
-   Previous render            Next render
-   ------------------------------------------------------
-%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- RequestDetailPage 1. useContext                 useContext
-2. useContext                 useContext
-3. useState                   useState
-4. useState                   useState
-5. useState                   useState
-6. useState                   useState
-7. useState                   useState
-8. useEffect                  useEffect
-9. useEffect                  useEffect
-10. useCallback               useCallback
-11. useCallback               useCallback
-12. useCallback               useCallback
-13. undefined                 useCallback
-
-[03:02:19.121] Browser ERROR   uncaughtError: Error: Rendered more hooks than during the previous render.
-[03:02:36.861] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:02:37.127] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"8"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:02:37.127] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:02:37.127] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[03:02:37.127] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[03:02:37.127] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012217071}
-[03:02:37.127] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012217071}
-[03:02:37.770] Browser ERROR   React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://react.dev/link/rules-of-hooks
-
-   Previous render            Next render
-   ------------------------------------------------------
-%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- RequestDetailPage 1. useContext                 useContext
-2. useContext                 useContext
-3. useState                   useState
-4. useState                   useState
-5. useState                   useState
-6. useState                   useState
-7. useState                   useState
-8. useEffect                  useEffect
-9. useEffect                  useEffect
-10. useCallback               useCallback
-11. useCallback               useCallback
-12. useCallback               useCallback
-13. undefined                 useCallback
-
-[03:02:37.770] Browser ERROR   uncaughtError: Error: Rendered more hooks than during the previous render.
-[03:03:39.674] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[03:03:39.687] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[03:03:39.973] Server  LOG      ✓ Compiled in 371ms
-[03:03:40.387] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:03:40.398] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:03:41.118] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"8"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/8","route":"/my-requests/[id]"}
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012280597}
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/8 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/8","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012280597}
-[03:03:41.118] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"13"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012280643}
-[03:03:41.118] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012280643}
-[03:04:02.664] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:04:02.989] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"13"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:04:02.989] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:04:02.989] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[03:04:02.989] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/13","route":"/my-requests/[id]"}
-[03:04:02.989] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012302933}
-[03:04:02.989] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/13 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/13","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012302934}
-[03:04:25.565] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012325499}
-[03:04:25.937] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012325873}
-[03:04:47.684] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/14 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/14","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012347624}
-[03:09:54.870] Server  LOG      ✓ Compiled in 342ms
-[03:10:07.848] Server  LOG      ✓ Compiled in 343ms
-[03:11:18.004] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012737937}
-[03:11:41.187] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/15 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/15","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012761127}
-[03:12:03.860] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:12:04.181] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"15"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:12:04.182] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:12:04.182] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/15","route":"/my-requests/[id]"}
-[03:12:04.182] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/15","route":"/my-requests/[id]"}
-[03:12:04.182] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/15 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/15","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012784113}
-[03:12:04.182] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/15 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/15","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012784114}
-[03:13:21.049] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012860931}
-[03:13:22.695] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012862626}
-[03:13:51.033] Server  LOG      ✓ Compiled in 339ms
-[03:14:05.671] Server  LOG      ✓ Compiled in 429ms
-[03:14:41.721] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012941658}
-[03:14:42.801] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012942724}
-[03:15:00.831] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/16 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/16","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765012960770}
-[03:18:33.926] Server  LOG      ✓ Compiled in 431ms
-[03:19:22.949] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013222864}
-[03:19:43.194] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/17 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/17","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013243133}
-[03:23:02.032] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:23:02.362] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:37:10.630] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:37:10.630] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:37:10.630] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:37:10.630] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021645109}
+[00:37:10.630] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021645109}
+[00:37:22.304] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:37:22.493] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -1034,11 +361,11 @@ https://react.dev/link/hydration-mismatch
   ...
     <RedirectBoundary>
       <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/poc/teams..." tree={[...]} params={{id:"35bb3e..."}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="poc/teams/...">
+        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="queue/page...">
             <SegmentTrieNode>
-            <ClientPageRoot Component={function POCTeamDetailsPage} serverProvidedParams={{...}}>
-              <POCTeamDetailsPage params={Promise} searchParams={Promise}>
+            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
+              <QueuePage params={Promise} searchParams={Promise}>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -1053,13 +380,147 @@ https://react.dev/link/hydration-mismatch
           ...
         ...
 
-[03:23:02.362] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:23:02.362] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[03:23:02.362] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[03:23:02.362] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013442301}
-[03:23:02.362] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013442301}
-[03:23:13.829] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:23:14.372] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:37:22.494] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:37:22.494] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:37:22.494] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:37:22.494] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021656972}
+[00:37:22.494] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765021656972}
+[00:39:51.207] Server  LOG      ✓ Compiled in 458ms
+[00:39:51.325] Browser ERROR   ./app/queue/page.tsx:7:1
+Export dashboardCache doesn't exist in target module
+   5 | import { authService } from "@/lib/auth-service"
+   6 | import { requestsService, type RequestData } from "@/lib/requests-service"
+>  7 | import { dashboardCache } from "@/lib/dashboard-cache"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { formatRequestTitle, summarizeFabrication, formatFileSize, cn } from "@/lib/utils"
+   9 | import { useRequestsQueue } from "@/hooks/use-requests-queue"
+  10 | import { DashboardShell } from "@/components/navigation/dashboard-shell"
+
+The export dashboardCache was not found in module [project]/lib/dashboard-cache.ts [app-client] (ecmascript).
+Did you mean to import clearDashboardCaches?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/queue/page.tsx [Client Component Browser]
+    ./app/queue/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/queue/page.tsx [Client Component SSR]
+    ./app/queue/page.tsx [Server Component]
+[00:39:51.325] Browser ERROR   ./app/queue/page.tsx:7:1
+Export dashboardCache doesn't exist in target module
+   5 | import { authService } from "@/lib/auth-service"
+   6 | import { requestsService, type RequestData } from "@/lib/requests-service"
+>  7 | import { dashboardCache } from "@/lib/dashboard-cache"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { formatRequestTitle, summarizeFabrication, formatFileSize, cn } from "@/lib/utils"
+   9 | import { useRequestsQueue } from "@/hooks/use-requests-queue"
+  10 | import { DashboardShell } from "@/components/navigation/dashboard-shell"
+
+The export dashboardCache was not found in module [project]/lib/dashboard-cache.ts [app-ssr] (ecmascript).
+Did you mean to import clearDashboardCaches?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/queue/page.tsx [Client Component Browser]
+    ./app/queue/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/queue/page.tsx [Client Component SSR]
+    ./app/queue/page.tsx [Server Component]
+[00:39:51.584] Browser ERROR   ./app/queue/page.tsx:7:1
+Export dashboardCache doesn't exist in target module
+   5 | import { authService } from "@/lib/auth-service"
+   6 | import { requestsService, type RequestData } from "@/lib/requests-service"
+>  7 | import { dashboardCache } from "@/lib/dashboard-cache"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { formatRequestTitle, summarizeFabrication, formatFileSize, cn } from "@/lib/utils"
+   9 | import { useRequestsQueue } from "@/hooks/use-requests-queue"
+  10 | import { DashboardShell } from "@/components/navigation/dashboard-shell"
+
+The export dashboardCache was not found in module [project]/lib/dashboard-cache.ts [app-client] (ecmascript).
+Did you mean to import clearDashboardCaches?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/queue/page.tsx [Client Component Browser]
+    ./app/queue/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/queue/page.tsx [Client Component SSR]
+    ./app/queue/page.tsx [Server Component]
+[00:39:51.584] Browser ERROR   ./app/queue/page.tsx:7:1
+Export dashboardCache doesn't exist in target module
+   5 | import { authService } from "@/lib/auth-service"
+   6 | import { requestsService, type RequestData } from "@/lib/requests-service"
+>  7 | import { dashboardCache } from "@/lib/dashboard-cache"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { formatRequestTitle, summarizeFabrication, formatFileSize, cn } from "@/lib/utils"
+   9 | import { useRequestsQueue } from "@/hooks/use-requests-queue"
+  10 | import { DashboardShell } from "@/components/navigation/dashboard-shell"
+
+The export dashboardCache was not found in module [project]/lib/dashboard-cache.ts [app-ssr] (ecmascript).
+Did you mean to import clearDashboardCaches?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/queue/page.tsx [Client Component Browser]
+    ./app/queue/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/queue/page.tsx [Client Component SSR]
+    ./app/queue/page.tsx [Server Component]
+[00:39:51.584] Browser ERROR   ./app/queue/page.tsx:7:1
+Export dashboardCache doesn't exist in target module
+   5 | import { authService } from "@/lib/auth-service"
+   6 | import { requestsService, type RequestData } from "@/lib/requests-service"
+>  7 | import { dashboardCache } from "@/lib/dashboard-cache"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { formatRequestTitle, summarizeFabrication, formatFileSize, cn } from "@/lib/utils"
+   9 | import { useRequestsQueue } from "@/hooks/use-requests-queue"
+  10 | import { DashboardShell } from "@/components/navigation/dashboard-shell"
+
+The export dashboardCache was not found in module [project]/lib/dashboard-cache.ts [app-client] (ecmascript).
+Did you mean to import clearDashboardCaches?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/queue/page.tsx [Client Component Browser]
+    ./app/queue/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/queue/page.tsx [Client Component SSR]
+    ./app/queue/page.tsx [Server Component]
+[00:39:51.584] Browser ERROR   ./app/queue/page.tsx:7:1
+Export dashboardCache doesn't exist in target module
+   5 | import { authService } from "@/lib/auth-service"
+   6 | import { requestsService, type RequestData } from "@/lib/requests-service"
+>  7 | import { dashboardCache } from "@/lib/dashboard-cache"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { formatRequestTitle, summarizeFabrication, formatFileSize, cn } from "@/lib/utils"
+   9 | import { useRequestsQueue } from "@/hooks/use-requests-queue"
+  10 | import { DashboardShell } from "@/components/navigation/dashboard-shell"
+
+The export dashboardCache was not found in module [project]/lib/dashboard-cache.ts [app-ssr] (ecmascript).
+Did you mean to import clearDashboardCaches?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/queue/page.tsx [Client Component Browser]
+    ./app/queue/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/queue/page.tsx [Client Component SSR]
+    ./app/queue/page.tsx [Server Component]
+[00:41:31.066] Server  LOG      ✓ Compiled in 601ms
+[00:45:15.309] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:45:15.483] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -1074,11 +535,11 @@ https://react.dev/link/hydration-mismatch
   ...
     <RedirectBoundary>
       <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/poc/teams..." tree={[...]} params={{id:"35bb3e..."}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="poc/teams/...">
+        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="queue/page...">
             <SegmentTrieNode>
-            <ClientPageRoot Component={function POCTeamDetailsPage} serverProvidedParams={{...}}>
-              <POCTeamDetailsPage params={Promise} searchParams={Promise}>
+            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
+              <QueuePage params={Promise} searchParams={Promise}>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -1093,76 +554,13 @@ https://react.dev/link/hydration-mismatch
           ...
         ...
 
-[03:23:14.372] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:23:14.372] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[03:23:14.372] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","route":"/poc/teams/[id]"}
-[03:23:14.372] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013454250}
-[03:23:14.372] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013454250}
-[03:23:25.827] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013465754}
-[03:24:58.049] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:24:58.406] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"17"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:24:58.406] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:24:58.407] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/17","route":"/my-requests/[id]"}
-[03:24:58.407] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/17","route":"/my-requests/[id]"}
-[03:24:58.407] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/17 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/17","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013558351}
-[03:24:58.407] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/17 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/17","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013558351}
-[03:24:58.848] Browser ERROR   [v0] Error fetching request: {}
-[03:24:59.234] Browser ERROR   [v0] Error fetching request: {}
-[03:25:02.219] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013562154}
-[03:25:04.087] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013564022}
-[03:25:29.836] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/18 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/18","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013589773}
-[03:29:35.537] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013835451}
-[03:30:04.506] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/19 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/19","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013864445}
-[03:31:50.001] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765013969909}
-[03:32:38.079] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/20 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/20","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014018018}
-[03:34:14.208] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014114148}
-[03:34:37.138] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/21 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/21","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014137078}
-[03:36:45.855] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014265684}
-[03:36:47.896] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014267832}
-[03:36:48.859] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014268772}
-[03:36:49.717] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014269645}
-[03:36:52.274] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014272192}
-[03:36:53.166] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765014273099}
-[03:46:56.123] Browser ERROR   [queue-hook] snapshot error {}
-[03:49:18.061] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015017999}
-[03:49:20.075] Browser ERROR   [requests] single fetch error {}
-[03:49:20.075] Browser ERROR   [requests] single fetch error {}
-[03:50:52.362] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:50:52.617] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:45:15.483] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:45:15.483] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:45:15.483] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:45:15.483] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022129957}
+[00:45:15.483] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022129957}
+[00:45:19.637] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:45:19.822] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -1177,11 +575,11 @@ https://react.dev/link/hydration-mismatch
   ...
     <RedirectBoundary>
       <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/my-requests" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="my-request...">
+        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="queue/page...">
             <SegmentTrieNode>
-            <ClientPageRoot Component={function MyRequestsPage} serverProvidedParams={{...}}>
-              <MyRequestsPage params={Promise} searchParams={Promise}>
+            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
+              <QueuePage params={Promise} searchParams={Promise}>
                 <DashboardShell>
                   <SidebarProvider className="bg-white">
                     <TooltipProvider delayDuration={0}>
@@ -1196,51 +594,94 @@ https://react.dev/link/hydration-mismatch
           ...
         ...
 
-[03:50:52.617] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:50:52.617] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests","route":"/my-requests"}
-[03:50:52.617] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests","route":"/my-requests"}
-[03:50:52.617] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015112514}
-[03:50:52.617] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015112514}
-[03:50:52.617] Browser ERROR   [requests] single fetch error {}
-[03:50:52.617] Browser ERROR   [requests] single fetch error {}
-[03:50:55.166] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015114997}
-[03:51:17.051] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:45:19.822] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:45:19.822] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:45:19.822] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:45:19.822] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022134296}
+[00:45:19.822] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022134296}
+[00:47:46.913] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:47:47.101] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
 
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[03:51:17.051] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[03:51:17.051] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
 
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+https://react.dev/link/hydration-mismatch
 
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[03:51:17.051] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[03:51:18.645] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015138559}
-[03:51:21.965] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015141904}
-[03:51:22.597] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015142521}
-[03:51:23.395] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015143327}
-[03:51:25.946] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015145870}
-[03:51:50.610] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015170549}
-[03:51:51.082] Browser ERROR   [v0] Error fetching request: {}
-[03:51:51.604] Browser ERROR   [v0] Error fetching request: {}
-[03:54:27.261] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015327140}
-[03:54:30.230] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="queue/page...">
+            <SegmentTrieNode>
+            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
+              <QueuePage params={Promise} searchParams={Promise}>
+                <DashboardShell>
+                  <SidebarProvider className="bg-white">
+                    <TooltipProvider delayDuration={0}>
+                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
+                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
++                         <div
++                           data-slot="sidebar-wrapper"
++                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
++                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
++                         >
+-                         <Suspense>
+          ...
+        ...
 
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+[00:47:47.101] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:47:47.101] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:47:47.101] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:47:47.101] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022281574}
+[00:47:47.101] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022281574}
+[00:48:25.308] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:48:25.470] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[03:54:30.230] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[03:54:30.230] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
 
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
 
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[03:54:30.230] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[03:54:31.796] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015331728}
-[03:54:34.002] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015333936}
-[03:54:42.639] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:54:42.890] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="queue/page...">
+            <SegmentTrieNode>
+            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
+              <QueuePage params={Promise} searchParams={Promise}>
+                <DashboardShell>
+                  <SidebarProvider className="bg-white">
+                    <TooltipProvider delayDuration={0}>
+                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
+                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
++                         <div
++                           data-slot="sidebar-wrapper"
++                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
++                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
++                         >
+-                         <Suspense>
+          ...
+        ...
+
+[00:48:25.470] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:48:25.470] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:48:25.470] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:48:25.470] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022319949}
+[00:48:25.470] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022319949}
+[00:49:01.043] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022355404}
+[00:49:10.596] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:49:10.908] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -1256,7 +697,7 @@ https://react.dev/link/hydration-mismatch
     <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
       <RedirectBoundary>
         <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"5J4R5"}} cacheNode={{lazyData:null, ...}} ...>
+          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"VTAKM"}} cacheNode={{lazyData:null, ...}} ...>
             <SegmentViewNode type="layout" pagePath="my-request...">
               <SegmentTrieNode>
               <script>
@@ -1275,193 +716,8 @@ https://react.dev/link/hydration-mismatch
 +                         >
           ...
 
-[03:54:42.890] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:54:42.890] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[03:54:42.890] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[03:54:42.890] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015342833}
-[03:54:42.890] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015342833}
-[03:54:44.235] Browser ERROR   [v0] Error fetching request: {}
-[03:54:44.665] Browser ERROR   [v0] Error fetching request: {}
-[03:54:52.726] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:54:53.041] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"5J4R5"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:54:53.041] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:54:53.041] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[03:54:53.041] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[03:54:53.041] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015352986}
-[03:54:53.041] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015352986}
-[03:54:53.568] Browser ERROR   [v0] Error fetching request: {}
-[03:54:54.026] Browser ERROR   [v0] Error fetching request: {}
-[03:58:05.293] Server  LOG      ✓ Compiled in 352ms
-[03:59:07.614] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[03:59:07.813] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"5J4R5"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[03:59:07.813] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[03:59:07.813] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[03:59:07.813] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[03:59:07.813] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015607756}
-[03:59:07.813] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015607757}
-[04:00:41.769] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[04:00:42.293] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-      <RedirectBoundary>
-        <RedirectErrorBoundary router={{...}}>
-          <InnerLayoutRouter url="/my-reques..." tree={[...]} params={{id:"5J4R5"}} cacheNode={{lazyData:null, ...}} ...>
-            <SegmentViewNode type="layout" pagePath="my-request...">
-              <SegmentTrieNode>
-              <script>
-              <script>
-              <script>
-              <RequestDetailsLayout>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
-          ...
-
-[04:00:42.293] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[04:00:42.293] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[04:00:42.293] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/5J4R5","route":"/my-requests/[id]"}
-[04:00:42.293] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015702237}
-[04:00:42.293] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/5J4R5 color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/5J4R5","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015702238}
-[04:00:45.164] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015705104}
-[04:00:46.821] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015706754}
-[04:00:58.691] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015718561}
-[04:01:00.466] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015720320}
-[04:01:01.997] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015721913}
-[04:03:48.926] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015888854}
-[04:03:59.490] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015899401}
-[04:04:02.595] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015902537}
-[04:04:08.455] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015908394}
-[04:04:50.477] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/VTAKM color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/VTAKM","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765015950418}
-[04:06:12.826] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016032642}
-[04:06:16.947] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016036804}
-[04:06:17.951] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016037884}
-[04:08:33.042] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016172971}
-[04:09:04.976] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016204901}
-[04:09:05.723] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016205653}
-[04:09:06.551] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/document-submission color: rgb(120, 120, 120) color: inherit {"dp":"/poc/document-submission","o":"http://localhost:3000/poc/document-submission","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016206455}
-[04:09:15.637] Server  LOG      ✓ Compiled in 437ms
-[04:09:24.601] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[04:09:24.808] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[04:09:24.808] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/requests","route":"/requests"}
-[04:09:24.808] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/requests color: rgb(120, 120, 120) color: inherit {"dp":"/requests","o":"http://localhost:3000/requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016224747}
-[04:09:26.777] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[04:09:26.979] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[04:09:26.979] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[04:09:26.979] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016226923}
-[04:09:28.109] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016228045}
-[04:09:28.271] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016228186}
-[04:09:30.509] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016230452}
-[04:09:45.648] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[04:09:45.648] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[04:09:45.648] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[04:09:45.648] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[04:09:47.206] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016247127}
-[04:09:51.554] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/documents-verification color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/documents-verification","o":"http://localhost:3000/dashboard/documents-verification","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016251450}
-[04:10:10.287] Server  LOG      ✓ Compiled in 473ms
-[04:10:28.295] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765016288078}
-[04:10:48.119] Server  LOG      ✓ Compiled in 437ms
-[04:12:22.135] Server  LOG      ✓ Compiled in 574ms
-[04:13:21.857] Server  LOG      ✓ Compiled in 438ms
-[04:13:23.494] Server  LOG      ✓ Compiled in 516ms
-[04:16:39.591] Server  LOG      ✓ Compiled in 427ms
-[04:20:21.034] Server  LOG      ✓ Compiled in 359ms
-[04:20:30.947] Server  LOG      ✓ Compiled in 407ms
-[04:21:05.577] Server  LOG      ✓ Compiled in 485ms
-[04:22:23.764] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765017003658}
-[04:22:25.008] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765017004937}
-[04:22:28.722] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765017008651}
-[04:22:57.624] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765017037542}
+[00:49:10.908] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:49:10.908] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/VTAKM","route":"/my-requests/[id]"}
+[00:49:10.908] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests/VTAKM","route":"/my-requests/[id]"}
+[00:49:10.908] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/VTAKM color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/VTAKM","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022365384}
+[00:49:10.908] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/VTAKM color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/VTAKM","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765022365384}
