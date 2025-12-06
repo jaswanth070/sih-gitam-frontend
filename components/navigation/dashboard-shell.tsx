@@ -94,7 +94,11 @@ export function DashboardShell({ children }: DashboardShellProps) {
     (href: string) => {
       const cleanHref = href.split("#")[0]
       if (cleanHref === "/") return pathname === cleanHref
-      if (cleanHref === "/my-requests") return pathname.startsWith("/my-requests")
+      if (cleanHref === "/my-requests/new") return pathname === "/my-requests/new"
+      if (cleanHref === "/my-requests") {
+        if (pathname === "/my-requests") return true
+        return pathname.startsWith("/my-requests/") && !pathname.startsWith("/my-requests/new")
+      }
       if (cleanHref === "/dashboard") {
         return pathname === "/dashboard" || pathname === "/dashboard/"
       }

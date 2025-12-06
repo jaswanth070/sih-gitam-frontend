@@ -26,6 +26,7 @@ import {
 import { authService, type TeamDetails, type TeamContact } from "@/lib/auth-service"
 import { getStoredPOCTeamDetail } from "@/lib/session-store"
 import { requestsService, type RequestData } from "@/lib/requests-service"
+import { summarizeFabrication, formatFileSize } from "@/lib/utils"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { RequestProgress } from "@/components/requests/request-progress"
 import { Button } from "@/components/ui/button"
@@ -57,7 +58,7 @@ export default function POCTeamDetailsPage() {
     request: RequestData
     nextStatus: string
   } | null>(null)
-  const [updatingRequestId, setUpdatingRequestId] = useState<number | null>(null)
+  const [updatingRequestId, setUpdatingRequestId] = useState<string | null>(null)
 
   const timestampFormatter = useMemo(
     () => new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }),
@@ -208,7 +209,7 @@ export default function POCTeamDetailsPage() {
   }, [])
 
   const handleStatusChange = useCallback(
-    async (requestId: number, newStatus: string, remarks?: string) => {
+    async (requestId: string, newStatus: string, remarks?: string) => {
       setUpdatingRequestId(requestId)
       const noteToSend = `Status changed to ${newStatus}`
 
@@ -732,6 +733,12 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
       : "text-[#002449]"
 
   const requestTitle = request.notes?.trim() || request.description?.trim() || "Untitled request"
+  const fabricationSummary = summarizeFabrication(request.fabrication)
+  const fabricationPreviewUrl = fabricationSummary?.fileUrl ?? null
+  const openFabricationPreview = () => {
+    if (!fabricationPreviewUrl) return
+    window.open(fabricationPreviewUrl, "_blank", "noopener,noreferrer")
+  }
 
   return (
     <Card className="border border-border/70 shadow-sm hover:shadow-md transition">
@@ -751,12 +758,49 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
         <CardDescription className={`${accent} text-xs font-medium capitalize`}>{request.status.toLowerCase()}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3 text-xs text-muted-foreground">
-        {request.fabrication && (
-          <div className="flex items-center gap-2 rounded-md border border-dashed border-border/60 bg-muted/30 px-3 py-2">
-            <Layers className="h-3.5 w-3.5 text-[#002449]" />
-            <span className="font-medium text-[#002449]">{request.fabrication.fab_type}</span>
-            <Separator orientation="vertical" className="h-3/4" />
-            <span>{request.fabrication.name}</span>
+        {fabricationSummary && (
+          <div className="flex flex-wrap items-start gap-3 rounded-md border border-dashed border-border/60 bg-muted/30 px-3 py-2">
+            <Layers className="mt-0.5 h-3.5 w-3.5 text-[#002449]" />
+            <div className="flex-1 space-y-1 text-xs">
+              <p className="font-medium text-[#002449]">
+                {fabricationSummary.secondary ? `${fabricationSummary.base} • ${fabricationSummary.secondary}` : fabricationSummary.base}
+              </p>
+              {fabricationSummary.filename && (
+                <p className="text-[11px] text-muted-foreground">
+                  {fabricationSummary.filename}
+                  {fabricationSummary.fileSize != null ? ` (${formatFileSize(fabricationSummary.fileSize)})` : ""}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-3 text-[10px] text-muted-foreground">
+                {fabricationSummary.mimeType && <span>Type: {fabricationSummary.mimeType}</span>}
+                {fabricationSummary.uploadedAt && (
+                  <span>Uploaded: {new Date(fabricationSummary.uploadedAt).toLocaleString()}</span>
+                )}
+              </div>
+            </div>
+            {fabricationSummary.fileUrl && (
+              <div className="flex flex-col gap-1">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="default"
+                  onClick={openFabricationPreview}
+                  disabled={!fabricationPreviewUrl}
+                  className="px-3 py-1 text-[11px]"
+                  style={{ backgroundColor: "#f75700" }}
+                >
+                  Preview
+                </Button>
+                <Button asChild size="sm" variant="outline" className="px-2 py-1 text-[11px]">
+                  <a
+                    href={fabricationSummary.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download={fabricationSummary.filename || undefined}
+                  >Download</a>
+                </Button>
+              </div>
+            )}
           </div>
         )}
 

@@ -6,6 +6,7 @@ import {
   Banknote,
   Plane,
   FileSignature,
+  Receipt,
 } from "lucide-react"
 
 import type { DocumentType } from "@/utils/upload"
@@ -67,6 +68,19 @@ export const DOCUMENT_SECTIONS: DocumentSection[] = [
       "Bank IFSC and account number clearly visible",
     ],
     documentType: "bank_details",
+    accept: "application/pdf,image/*",
+  },
+  {
+    id: "bills",
+    title: "Bills",
+    icon: Receipt,
+    description: "Itemised bills supporting reimbursement and allowance claims.",
+    requirements: [
+      "Upload individual bills or a consolidated PDF",
+      "Ensure bill dates align with event timelines",
+      "Highlight payable amounts and vendor details",
+    ],
+    documentType: "bills",
     accept: "application/pdf,image/*",
   },
   {

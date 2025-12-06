@@ -149,13 +149,55 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$
 ;
 const metadata = {
     // <CHANGE> Updated metadata for SIH GITAM application
-    title: "Smart India Hackathon - GITAM",
-    description: "SIH Portal for Hardware Track Management",
-    generator: "v0.app",
+    metadataBase: new URL("https://sih-gitam-frontend.vercel.app"),
+    title: {
+        default: "SIH GRAND FINAL - GITAM",
+        template: "%s | SIH GRAND FINAL - GITAM"
+    },
+    applicationName: "Smart India Hackathon Portal",
+    description: "Official Smart India Hackathon Grand Final portal by GITAM, Visakhapatnam for managing technology initiatives and team logistics.",
+    keywords: [
+        "Smart India Hackathon",
+        "SIH",
+        "AICTE",
+        "GITAM",
+        "Visakhapatnam",
+        "Gandhi Institute of Technology and Management",
+        "Technology",
+        "Innovation",
+        "Hackathon",
+        "Engineering",
+        "Student Projects"
+    ],
+    robots: {
+        index: true,
+        follow: true
+    },
+    category: "Technology",
+    authors: [
+        {
+            name: "Jaswanth Madiya"
+        }
+    ],
+    publisher: "Gandhi Institute of Technology and Management",
+    creator: "Jaswanth Madiya",
+    referrer: "origin-when-cross-origin",
+    formatDetection: {
+        telephone: false,
+        address: false,
+        email: false
+    },
+    alternates: {
+        canonical: "/"
+    },
     icons: {
         icon: "/SIH.png",
         apple: "/SIH.png",
         shortcut: "/SIH.png"
+    },
+    other: {
+        "distribution": "global",
+        "rating": "general"
     }
 };
 function RootLayout({ children }) {
@@ -166,30 +208,30 @@ function RootLayout({ children }) {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$global$2d$header$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["GlobalHeader"], {}, void 0, false, {
                     fileName: "[project]/app/layout.tsx",
-                    lineNumber: 32,
+                    lineNumber: 70,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$page$2d$container$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["PageContainer"], {
                     children: children
                 }, void 0, false, {
                     fileName: "[project]/app/layout.tsx",
-                    lineNumber: 33,
+                    lineNumber: 71,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$vercel$2b$analytics$40$1$2e$5$2e$0_nex_f4d98341598b232ca6324861b6525ecb$2f$node_modules$2f40$vercel$2f$analytics$2f$dist$2f$next$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Analytics"], {}, void 0, false, {
                     fileName: "[project]/app/layout.tsx",
-                    lineNumber: 34,
+                    lineNumber: 72,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/layout.tsx",
-            lineNumber: 31,
+            lineNumber: 69,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/layout.tsx",
-        lineNumber: 30,
+        lineNumber: 68,
         columnNumber: 5
     }, this);
 }

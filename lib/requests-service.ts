@@ -23,12 +23,20 @@ export interface AdditionalItem {
 
 export interface FabricationDetails {
   fab_type: "3D" | "LASER" | "OTHER"
-  name: string
-  file?: string
+  custom_type?: string | null
+  name?: string | null
+  file?: string | null
+  storage_path?: string | null
+  original_filename?: string | null
+  file_mime_type?: string | null
+  file_size?: number | null
+  uploaded_at?: string | null
+  file_url?: string | null
 }
 
 export interface RequestData {
-  id: number
+  id: string
+  internal_id?: number
   team_id: string
   team_name?: string
   submitted_by_id: string
@@ -170,7 +178,7 @@ export const requestsService = {
   },
 
   // Get single request
-  async getRequest(id: number): Promise<RequestData> {
+  async getRequest(id: string): Promise<RequestData> {
     return apiCall<RequestData>(`/requests/${id}/`)
   },
 
@@ -210,9 +218,11 @@ export const requestsService = {
     file?: File,
   ): Promise<RequestData> {
     const formData = new FormData()
+    const trimmedNotes = notes.trim()
     formData.append("team_id", teamId)
     formData.append("category", "FABRICATION")
-    formData.append("notes", notes)
+    formData.append("notes", trimmedNotes)
+    formData.append("description", trimmedNotes)
     formData.append("fabrication", JSON.stringify(fabDetails))
     if (file) {
       formData.append("file", file)
@@ -234,12 +244,28 @@ export const requestsService = {
       const error = await response.json().catch(() => ({}))
       throw new Error(error.detail || error.message || `API Error: ${response.status}`)
     }
+    const created: RequestData = await response.json()
 
-    return response.json()
+    if (!created?.id) {
+      return created
+    }
+
+    // Newly created fabrication requests may require a follow-up fetch to include storage metadata.
+    if (created.fabrication) {
+      return created
+    }
+
+    try {
+      const hydrated = await this.getRequest(created.id)
+      return hydrated
+    } catch (err) {
+      console.warn("[requestsService] Unable to hydrate fabrication request", err)
+      return created
+    }
   },
 
   // Change request status
-  async changeRequestStatus(id: number, toStatus: string, note?: string, remarks?: string): Promise<RequestData> {
+  async changeRequestStatus(id: string, toStatus: string, note?: string, remarks?: string): Promise<RequestData> {
     return apiCall<RequestData>(`/requests/${id}/change_status/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

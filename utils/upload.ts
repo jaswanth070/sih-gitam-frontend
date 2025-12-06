@@ -78,6 +78,7 @@ export type DocumentType =
   | "bank_details"
   | "travel_allowance"
   | "beneficiary_form"
+  | "bills"
   | (string & {})
 
 export interface PrepareUploadResponse {

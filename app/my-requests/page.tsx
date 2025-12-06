@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { authService } from "@/lib/auth-service"
 import { requestsService, type RequestData } from "@/lib/requests-service"
+import { summarizeFabrication, formatFileSize } from "@/lib/utils"
 import { RequestProgress } from "@/components/requests/request-progress"
 import { RequestFilters } from "@/components/requests/request-filters"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
@@ -186,9 +187,21 @@ export default function MyRequestsPage() {
                     <RequestProgress status={request.status} />
                   </div>
                   <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2">{request.notes || "Untitled"}</h3>
-                  {request.fabrication && (
-                    <p className="text-xs text-gray-600 mb-2">{request.fabrication.fab_type} • {request.fabrication.name}</p>
-                  )}
+                  {(() => {
+                    const fab = summarizeFabrication(request.fabrication)
+                    if (!fab) return null
+                    const sizeLabel = fab.fileSize != null ? ` (${formatFileSize(fab.fileSize)})` : ""
+                    return (
+                      <div className="mb-2 text-xs text-gray-600">
+                        <p>
+                          {fab.secondary ? `${fab.base} • ${fab.secondary}` : fab.base}
+                        </p>
+                        {fab.filename && (
+                          <p className="text-[11px] text-gray-500">{fab.filename}{sizeLabel}</p>
+                        )}
+                      </div>
+                    )
+                  })()}
                   {(request.bom_items?.length || 0) > 0 && (
                     <div className="mb-2 space-y-1 max-h-24 overflow-auto pr-0.5">
                       {request.bom_items!.map((i) => (

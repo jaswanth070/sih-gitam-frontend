@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { authService } from "@/lib/auth-service"
 import { requestsService, type BOMItem, type AdditionalItem, type FabricationDetails } from "@/lib/requests-service"
+import { formatFileSize } from "@/lib/utils"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
-import { Check } from "lucide-react"
+import { Check, Loader2 } from "lucide-react"
 
 type RequestType = "BOM" | "ADDITIONAL" | "FABRICATION" | null
 
@@ -24,9 +25,15 @@ export default function NewRequestPage() {
   const [newItemQuantity, setNewItemQuantity] = useState("1")
 
   const [fabType, setFabType] = useState<"3D" | "LASER" | "OTHER">("3D")
-  const [fabName, setFabName] = useState("")
+  const [customFabType, setCustomFabType] = useState("")
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [filePreviewUrl, setFilePreviewUrl] = useState<string | null>(null)
   const draftKey = "request_wizard_draft_v1"
+
+  const stepLabels = useMemo(
+    () => ["Type", "Details", requestType === "FABRICATION" ? "Fabrication" : "Items", "Review"],
+    [requestType],
+  )
 
   const user = authService.getCurrentUser()
 
@@ -52,7 +59,8 @@ export default function NewRequestPage() {
         if (d.notes) setNotes(d.notes)
         if (Array.isArray(d.items)) setItems(d.items)
         if (d.fabType) setFabType(d.fabType)
-        if (d.fabName) setFabName(d.fabName)
+        if (d.customFabType) setCustomFabType(d.customFabType)
+        else if (d.fabName) setCustomFabType(d.fabName)
         if (typeof d.step === "number") setStep(d.step)
         if (d.selectedTeam) setSelectedTeam(d.selectedTeam)
       }
@@ -60,11 +68,23 @@ export default function NewRequestPage() {
   }, [])
 
   useEffect(() => {
-    const draft = { requestType, notes, items, fabType, fabName, step, selectedTeam }
+    const draft = { requestType, notes, items, fabType, customFabType, step, selectedTeam }
     try {
       localStorage.setItem(draftKey, JSON.stringify(draft))
     } catch {}
-  }, [requestType, notes, items, fabType, fabName, step, selectedTeam])
+  }, [requestType, notes, items, fabType, customFabType, step, selectedTeam])
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setFilePreviewUrl(null)
+      return
+    }
+    const url = URL.createObjectURL(selectedFile)
+    setFilePreviewUrl(url)
+    return () => {
+      URL.revokeObjectURL(url)
+    }
+  }, [selectedFile])
 
   const addItem = () => {
     if (!newItemName.trim()) return
@@ -83,8 +103,9 @@ export default function NewRequestPage() {
     if (step === 2) {
       if (requestType === "BOM" || requestType === "ADDITIONAL") return items.length > 0
       if (requestType === "FABRICATION") {
-        if (!fabName.trim()) return false
-        if (fabType === "3D" && !selectedFile) return false
+        if (fabType === "OTHER") {
+          return customFabType.trim().length > 0
+        }
         return true
       }
     }
@@ -100,8 +121,7 @@ export default function NewRequestPage() {
     if (step === 2) {
       if ((requestType === "BOM" || requestType === "ADDITIONAL") && items.length === 0) return "Add at least one item"
       if (requestType === "FABRICATION") {
-        if (!fabName.trim()) return "Enter model name"
-        if (fabType === "3D" && !selectedFile) return "Upload STL/OBJ file"
+        if (fabType === "OTHER" && !customFabType.trim()) return "Name your fabrication type"
       }
     }
     return ""
@@ -117,8 +137,11 @@ export default function NewRequestPage() {
     setRequestType(null)
     setNotes("")
     setItems([])
-    setFabName("")
+    setFabType("3D")
+    setCustomFabType("")
     setSelectedFile(null)
+    setNewItemName("")
+    setNewItemQuantity("1")
     setStep(0)
     try {
       localStorage.removeItem(draftKey)
@@ -155,18 +178,20 @@ export default function NewRequestPage() {
         }
         result = await requestsService.createAdditionalRequest(selectedTeam, notes, items as AdditionalItem[])
       } else if (requestType === "FABRICATION") {
-        if (!fabName.trim()) {
-          setError("Please enter fabrication name")
-          return
-        }
-        if (fabType === "3D" && !selectedFile) {
-          setError("Please upload a file for 3D fabrication")
+        if (fabType === "OTHER" && !customFabType.trim()) {
+          setError("Please name the fabrication type")
           return
         }
 
+        const trimmedCustom = customFabType.trim()
+        const fallbackName =
+          fabType === "OTHER"
+            ? trimmedCustom
+            : selectedFile?.name || (fabType === "3D" ? "3D Fabrication" : "Laser Fabrication")
         const fabDetails: FabricationDetails = {
           fab_type: fabType,
-          name: fabName,
+          ...(fabType === "OTHER" ? { custom_type: trimmedCustom } : {}),
+          ...(fallbackName ? { name: fallbackName } : {}),
         }
 
         result = await requestsService.createFabricationRequest(
@@ -178,6 +203,7 @@ export default function NewRequestPage() {
       }
 
       if (result) {
+        resetWizard()
         router.push(`/my-requests/${result.id}`)
       }
     } catch (err) {
@@ -186,6 +212,11 @@ export default function NewRequestPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const openFilePreview = () => {
+    if (!filePreviewUrl) return
+    window.open(filePreviewUrl, "_blank", "noopener,noreferrer")
   }
 
   if (user?.is_poc && !user?.is_admin) {
@@ -209,18 +240,35 @@ export default function NewRequestPage() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2" style={{ color: "#002449" }}>New Request</h1>
         <p className="text-gray-600 mb-6">Multi-step creation for BOM, Additional or Fabrication requests.</p>
-        <div className="flex flex-wrap items-center gap-3 mb-8">
-          {["Type", "Details", requestType === "FABRICATION" ? "Fabrication" : "Items", "Review"].map((label, idx) => {
-            const active = idx === step
-            const done = idx < step
-            return (
-              <div key={idx} className="flex items-center gap-2">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border ${active ? "bg-[#f75700] text-white border-[#f75700]" : ""} ${done ? "bg-[#078e31] text-white border-[#078e31]" : ""} ${!active && !done ? "bg-white text-gray-500 border-gray-300" : ""}`}>{idx + 1}</div>
-                <span className={`text-xs font-medium ${active ? "text-[#f75700]" : "text-gray-600"}`}>{label}</span>
-                {idx < 3 && <span className="w-8 h-px bg-gray-300" />}
-              </div>
-            )
-          })}
+        <div className="mb-8 rounded-2xl border border-gray-200 bg-white/80 p-4 shadow-sm backdrop-blur">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            {stepLabels.map((label, idx) => {
+              const active = idx === step
+              const done = idx < step
+              return (
+                <div key={label} className="flex items-center gap-3 text-xs font-medium">
+                  <span
+                    aria-current={active ? "step" : undefined}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold transition-all duration-200 ${
+                      active
+                        ? "border-[#f75700] bg-gradient-to-br from-[#f75700] to-[#f98b42] text-white shadow"
+                        : done
+                          ? "border-[#078e31] bg-gradient-to-br from-[#078e31] to-[#0ba06f] text-white shadow"
+                          : "border-gray-300 bg-white text-gray-500"
+                    }`}
+                  >
+                    {idx + 1}
+                  </span>
+                  <span className={`uppercase tracking-wide ${active ? "text-[#f75700]" : done ? "text-[#078e31]" : "text-gray-500"}`}>
+                    {label}
+                  </span>
+                  {idx < stepLabels.length - 1 && (
+                    <span className="hidden h-px w-12 shrink-0 bg-gradient-to-r from-[#002449]/20 via-[#f75700]/30 to-[#078e31]/20 sm:block" />
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
@@ -236,7 +284,9 @@ export default function NewRequestPage() {
                   <button
                     key={type}
                     onClick={() => setRequestType(type as RequestType)}
-                    className={`relative p-6 border-2 rounded-lg transition-all text-left group focus:outline-none focus:ring-2 focus:ring-offset-2 ${isSelected ? "shadow-lg" : "hover:shadow-md"}`}
+                    className={`relative rounded-2xl border-2 bg-white p-6 text-left shadow-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                      isSelected ? "-translate-y-0.5 shadow-lg" : "hover:-translate-y-0.5 hover:shadow-md"
+                    }`}
                     style={{
                       borderColor: isSelected
                         ? "#f75700"
@@ -290,32 +340,36 @@ export default function NewRequestPage() {
         {step === 1 && (
           <div className="space-y-6">
             <input type="hidden" value={selectedTeam} readOnly />
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description / Notes</label>
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <label className="mb-2 block text-sm font-semibold text-[#002449]">Description / Notes</label>
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Describe what you need (min 5 chars)..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 resize-none"
+                className="w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm transition focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
                 rows={4}
               />
-              <p className="text-[11px] mt-1 text-gray-500">{notes.length < 5 ? `Minimum 5 characters (${notes.length})` : "Looks good"}</p>
+              <p className="mt-2 text-[11px] text-gray-500">{notes.length < 5 ? `Minimum 5 characters (${notes.length})` : "Looks good"}</p>
             </div>
           </div>
         )}
         {step === 2 && requestType && (
           <div className="space-y-6">
             {(requestType === "BOM" || requestType === "ADDITIONAL") && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-4">Items</label>
-                <div className="space-y-3 mb-4">
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <label className="mb-4 block text-sm font-semibold text-[#002449]">Items</label>
+                <div className="mb-4 space-y-3">
                   {items.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div key={index} className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/80 p-3">
                       <div className="flex-1">
                         <p className="font-medium text-gray-900">{item.item_name}</p>
                         <p className="text-xs text-gray-600">Qty: {item.quantity}</p>
                       </div>
-                      <button onClick={() => removeItem(index)} className="px-3 py-1 text-xs font-semibold text-white rounded-lg" style={{ backgroundColor: "#f75700" }}>Remove</button>
+                      <button
+                        onClick={() => removeItem(index)}
+                        className="rounded-lg px-3 py-1 text-xs font-semibold text-white transition-opacity hover:opacity-90"
+                        style={{ backgroundColor: "#f75700" }}
+                      >Remove</button>
                     </div>
                   ))}
                   {items.length === 0 && <p className="text-xs text-gray-500">No items added yet.</p>}
@@ -326,19 +380,19 @@ export default function NewRequestPage() {
                     placeholder="Item name"
                     value={newItemName}
                     onChange={(e) => setNewItemName(e.target.value)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                    className="rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-700 shadow-sm focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
                   />
                   <input
                     type="number"
                     placeholder="Qty"
                     value={newItemQuantity}
                     onChange={(e) => setNewItemQuantity(e.target.value)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                    className="rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-700 shadow-sm focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
                     min="1"
                   />
                   <button
                     onClick={addItem}
-                    className="px-4 py-2 text-white font-medium rounded-lg disabled:opacity-50"
+                    className="rounded-xl px-4 py-2 text-sm font-semibold text-white transition-opacity disabled:opacity-50"
                     style={{ backgroundColor: "#078e31" }}
                     disabled={!newItemName.trim()}
                   >
@@ -349,38 +403,109 @@ export default function NewRequestPage() {
             )}
             {requestType === "FABRICATION" && (
               <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Fabrication Type</label>
+                <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                  <label className="mb-2 block text-sm font-semibold text-[#002449]">Fabrication Type</label>
                   <select
                     value={fabType}
                     onChange={(e) => setFabType(e.target.value as typeof fabType)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                    className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
                   >
                     <option value="3D">3D Printing</option>
                     <option value="LASER">Laser Cutting</option>
                     <option value="OTHER">Other</option>
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Part / Model Name</label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Chassis, Gear A"
-                    value={fabName}
-                    onChange={(e) => setFabName(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-                  />
-                </div>
+                {fabType === "OTHER" && (
+                  <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <label className="mb-2 block text-sm font-semibold text-[#002449]">Custom Fabrication Type</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., CNC Milling"
+                      value={customFabType}
+                      onChange={(e) => setCustomFabType(e.target.value)}
+                      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
+                    />
+                  </div>
+                )}
                 {fabType === "3D" && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Upload File (STL/OBJ)</label>
+                  <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <label className="mb-2 block text-sm font-semibold text-[#002449]">Upload File (Optional)</label>
                     <input
                       type="file"
-                      accept=".stl,.obj"
                       onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                      className="w-full rounded-xl border border-dashed border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-[#f75700] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#f96e1f] focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
                     />
-                    {!selectedFile && <p className="text-[11px] text-gray-500 mt-1">Required for 3D prints.</p>}
+                    {selectedFile ? (
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-700">
+                        <span className="truncate" title={selectedFile.name}>
+                          {selectedFile.name}
+                          {selectedFile.size ? ` (${formatFileSize(selectedFile.size)})` : ""}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={openFilePreview}
+                          disabled={!filePreviewUrl}
+                          className="rounded-md px-3 py-1 text-xs font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                          style={{ backgroundColor: "#f75700" }}
+                        >Preview</button>
+                      </div>
+                    ) : (
+                      <p className="mt-2 text-[11px] text-gray-500">Attach STL, OBJ, or any supporting file if available.</p>
+                    )}
+                  </div>
+                )}
+                {fabType === "LASER" && (
+                  <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <label className="mb-2 block text-sm font-semibold text-[#002449]">Upload File (Optional)</label>
+                    <input
+                      type="file"
+                      onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                      className="w-full rounded-xl border border-dashed border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-[#f75700] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#f96e1f] focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
+                    />
+                    {selectedFile ? (
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-700">
+                        <span className="truncate" title={selectedFile.name}>
+                          {selectedFile.name}
+                          {selectedFile.size ? ` (${formatFileSize(selectedFile.size)})` : ""}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={openFilePreview}
+                          disabled={!filePreviewUrl}
+                          className="rounded-md px-3 py-1 text-xs font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                          style={{ backgroundColor: "#f75700" }}
+                        >Preview</button>
+                      </div>
+                    ) : (
+                      <p className="mt-2 text-[11px] text-gray-500">Upload your cutting drawing or any reference file.</p>
+                    )}
+                  </div>
+                )}
+                {fabType === "OTHER" && (
+                  <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <label className="mb-2 block text-sm font-semibold text-[#002449]">Upload Reference File (Optional)</label>
+                    <input
+                      type="file"
+                      onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                      className="w-full rounded-xl border border-dashed border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-[#f75700] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#f96e1f] focus:border-[#f75700] focus:outline-none focus:ring-2 focus:ring-[#f75700]/30"
+                    />
+                    {selectedFile ? (
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-700">
+                        <span className="truncate" title={selectedFile.name}>
+                          {selectedFile.name}
+                          {selectedFile.size ? ` (${formatFileSize(selectedFile.size)})` : ""}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={openFilePreview}
+                          disabled={!filePreviewUrl}
+                          className="rounded-md px-3 py-1 text-xs font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                          style={{ backgroundColor: "#f75700" }}
+                        >Preview</button>
+                      </div>
+                    ) : (
+                      <p className="mt-2 text-[11px] text-gray-500">Optional but helpful to guide the fabrication team.</p>
+                    )}
                   </div>
                 )}
               </div>
@@ -388,12 +513,12 @@ export default function NewRequestPage() {
           </div>
         )}
         {step === 3 && requestType && (
-          <div className="space-y-6 bg-white border border-gray-200 rounded-lg p-6">
+          <div className="space-y-6 rounded-2xl border border-gray-200 bg-white/90 p-6 shadow-sm backdrop-blur">
             <h2 className="text-xl font-semibold" style={{ color: "#002449" }}>Review & Submit</h2>
             <div className="grid sm:grid-cols-2 gap-4 text-sm">
-              <div className="p-3 rounded-md bg-gray-50"><p className="font-medium mb-1">Type</p><p className="text-gray-700">{requestType}</p></div>
-              <div className="p-3 rounded-md bg-gray-50"><p className="font-medium mb-1">Team</p><p className="text-gray-700">{selectedTeam || "-"}</p></div>
-              <div className="p-3 rounded-md bg-gray-50 sm:col-span-2"><p className="font-medium mb-1">Notes</p><p className="text-gray-700 whitespace-pre-line">{notes || "(none)"}</p></div>
+              <div className="rounded-xl bg-gray-50/80 p-3"><p className="mb-1 font-medium">Type</p><p className="text-gray-700">{requestType}</p></div>
+              <div className="rounded-xl bg-gray-50/80 p-3"><p className="mb-1 font-medium">Team</p><p className="text-gray-700">{selectedTeam || "-"}</p></div>
+              <div className="rounded-xl bg-gray-50/80 p-3 sm:col-span-2"><p className="mb-1 font-medium">Notes</p><p className="whitespace-pre-line text-gray-700">{notes || "(none)"}</p></div>
             </div>
             {requestType !== "FABRICATION" && (
               <div>
@@ -408,33 +533,72 @@ export default function NewRequestPage() {
             )}
             {requestType === "FABRICATION" && (
               <div className="grid sm:grid-cols-2 gap-4 text-sm">
-                <div className="p-3 rounded-md bg-gray-50"><p className="font-medium mb-1">Fabrication Type</p><p className="text-gray-700">{fabType}</p></div>
-                <div className="p-3 rounded-md bg-gray-50"><p className="font-medium mb-1">Model Name</p><p className="text-gray-700">{fabName || "-"}</p></div>
-                <div className="p-3 rounded-md bg-gray-50 sm:col-span-2"><p className="font-medium mb-1">File</p><p className="text-gray-700">{selectedFile ? selectedFile.name : "(none)"}</p></div>
+                <div className="p-3 rounded-md bg-gray-50"><p className="font-medium mb-1">Fabrication Type</p><p className="text-gray-700">{fabType === "OTHER" ? customFabType || "(unspecified)" : fabType}</p></div>
+                <div className="p-3 rounded-md bg-gray-50 sm:col-span-2">
+                  <p className="font-medium mb-1">File</p>
+                  <p className="text-gray-700">{selectedFile ? `${selectedFile.name}${selectedFile.size ? ` (${formatFileSize(selectedFile.size)})` : ""}` : "(none)"}</p>
+                  {selectedFile && (
+                    <button
+                      type="button"
+                      onClick={openFilePreview}
+                      disabled={!filePreviewUrl}
+                      className="mt-3 inline-flex items-center justify-center rounded-md px-3 py-1 text-xs font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                      style={{ backgroundColor: "#f75700" }}
+                    >Preview</button>
+                  )}
+                </div>
               </div>
             )}
             <div className="flex flex-wrap gap-3">
-              <button onClick={prevStep} className="px-5 py-2 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50">Back</button>
-              <button onClick={handleSubmit} disabled={loading} className="px-6 py-2 text-white font-medium rounded-lg transition-opacity" style={{ backgroundColor: "#f75700" }}>{loading ? "Submitting..." : "Submit"}</button>
-              <button onClick={resetWizard} disabled={loading} className="px-5 py-2 text-gray-600 font-medium rounded-lg border border-gray-300 hover:bg-gray-50">Reset</button>
+              <button
+                onClick={prevStep}
+                className="rounded-xl border border-gray-300 px-5 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+              >Back</button>
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="rounded-xl px-6 py-2 text-sm font-semibold text-white shadow-sm transition disabled:opacity-60"
+                style={{ backgroundColor: "#f75700" }}
+              >{loading ? "Submitting..." : "Submit"}</button>
+              <button
+                onClick={resetWizard}
+                disabled={loading}
+                className="rounded-xl border border-gray-300 px-5 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-50 disabled:opacity-60"
+              >Reset</button>
             </div>
           </div>
         )}
         {step < 3 && (
           <div className="mt-8 flex flex-wrap gap-3">
             {step > 0 && (
-              <button onClick={prevStep} className="px-5 py-2 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50">Back</button>
+              <button
+                onClick={prevStep}
+                className="rounded-xl border border-gray-300 px-5 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+              >Back</button>
             )}
             {step === 0 && requestType && (
-              <button onClick={() => setRequestType(null)} className="px-5 py-2 text-gray-600 font-medium rounded-lg border border-gray-300 hover:bg-gray-50">Change Type</button>
+              <button
+                onClick={() => setRequestType(null)}
+                className="rounded-xl border border-gray-300 px-5 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+              >Change Type</button>
             )}
             <div className="flex flex-col">
-              <button onClick={nextStep} disabled={!canAdvance()} className="px-6 py-2 text-white font-medium rounded-lg disabled:opacity-50" style={{ backgroundColor: "#f75700" }}>Next</button>
+              <button
+                onClick={nextStep}
+                disabled={!canAdvance()}
+                className="rounded-xl px-6 py-2 text-sm font-semibold text-white shadow-sm transition disabled:opacity-50"
+                style={{ backgroundColor: "#f75700" }}
+              >Next</button>
               {!canAdvance() && <span className="text-[11px] mt-1 text-red-600">{validationMessage()}</span>}
             </div>
           </div>
         )}
       </div>
+      {loading && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-white/70 backdrop-blur-sm">
+          <Loader2 className="h-10 w-10 animate-spin text-[#f75700]" />
+        </div>
+      )}
     </DashboardShell>
   )
 }

@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react"
 import { useRouter, useParams } from "next/navigation"
 import { authService } from "@/lib/auth-service"
 import { requestsService, type RequestData } from "@/lib/requests-service"
+import { summarizeFabrication, formatFileSize } from "@/lib/utils"
 import { StatusChangeModal } from "@/components/modals/status-change-modal"
 import { RequestProgress } from "@/components/requests/request-progress"
 
@@ -31,7 +32,7 @@ export default function RequestDetailPage() {
     const fetchRequest = async () => {
       try {
         setLoading(true)
-        const data = await requestsService.getRequest(Number.parseInt(requestId))
+        const data = await requestsService.getRequest(requestId)
         setRequest(data)
       } catch (err) {
         console.error("[v0] Error fetching request:", err)
@@ -129,6 +130,13 @@ export default function RequestDetailPage() {
   const updatedAt = new Date(request.updated_at).toLocaleString()
   const queuePosition = request.position ? `#${request.position}` : "--"
   const teamName = request.team_name || "Unassigned Team"
+  const fabricationSummary = summarizeFabrication(request.fabrication)
+  const fabricationPreviewUrl = fabricationSummary?.fileUrl ?? null
+
+  const openFabricationPreview = () => {
+    if (!fabricationPreviewUrl) return
+    window.open(fabricationPreviewUrl, "_blank", "noopener,noreferrer")
+  }
 
   return (
     <>
@@ -250,23 +258,47 @@ export default function RequestDetailPage() {
               </Section>
             )}
 
-            {request.fabrication && (
+            {fabricationSummary && (
               <Section title="Fabrication Details">
                 <div className="grid gap-3 text-sm sm:grid-cols-2">
-                  <MetaBlock label="Type" value={request.fabrication.fab_type} />
-                  <MetaBlock label="Name" value={request.fabrication.name} />
+                  <MetaBlock
+                    label="Type"
+                    value={fabricationSummary.secondary ? `${fabricationSummary.base} • ${fabricationSummary.secondary}` : fabricationSummary.base}
+                  />
+                  {fabricationSummary.filename && (
+                    <MetaBlock label="Filename" value={fabricationSummary.filename} />
+                  )}
+                  {fabricationSummary.fileSize != null && (
+                    <MetaBlock label="Size" value={formatFileSize(fabricationSummary.fileSize)} />
+                  )}
+                  {fabricationSummary.mimeType && (
+                    <MetaBlock label="File Type" value={fabricationSummary.mimeType} />
+                  )}
+                  {fabricationSummary.uploadedAt && (
+                    <MetaBlock label="Uploaded" value={new Date(fabricationSummary.uploadedAt).toLocaleString()} />
+                  )}
                 </div>
-                {request.fabrication.file && (
+                {fabricationSummary.fileUrl && (
                   <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
                     <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Attachment</p>
-                    <a
-                      href={request.fabrication.file}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 inline-flex items-center gap-2 rounded-lg border border[#002449]/20 bg-[#002449]/5 px-3 py-2 text-sm font-semibold text-[#002449] transition hover:bg-[#002449]/10"
-                    >
-                      Download fabrication file
-                    </a>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={openFabricationPreview}
+                        className="inline-flex items-center justify-center rounded-lg bg-[#f75700] px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                      >
+                        Preview
+                      </button>
+                      <a
+                        href={fabricationSummary.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download={fabricationSummary.filename || undefined}
+                        className="inline-flex items-center gap-2 rounded-lg border border-[#002449]/20 bg-[#002449]/5 px-3 py-2 text-sm font-semibold text-[#002449] transition hover:bg-[#002449]/10"
+                      >
+                        Download
+                      </a>
+                    </div>
                   </div>
                 )}
               </Section>

@@ -54,6 +54,47 @@ export function buildAuthBaseUrl(): string {
 
 const BASE_URL = buildAuthBaseUrl()
 
+type DecodedTokenPayload = {
+  exp?: number | string
+  [key: string]: unknown
+}
+
+function base64UrlDecode(input: string): string {
+  let base64 = input.replace(/-/g, "+").replace(/_/g, "/")
+  const pad = base64.length % 4
+  if (pad) base64 += "=".repeat(4 - pad)
+  if (typeof window !== "undefined" && typeof window.atob === "function") {
+    return decodeURIComponent(
+      Array.prototype.map
+        .call(window.atob(base64), (c: string) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    )
+  }
+  return Buffer.from(base64, "base64").toString("utf-8")
+}
+
+function decodeTokenPayload(token: string): DecodedTokenPayload | null {
+  const parts = token.split(".")
+  if (parts.length < 2) return null
+  try {
+    return JSON.parse(base64UrlDecode(parts[1])) as DecodedTokenPayload
+  } catch (error) {
+    console.warn("[auth-service] Failed to decode token payload", error)
+    return null
+  }
+}
+
+function isTokenExpired(token: string, skewSeconds = 30): boolean {
+  const payload = decodeTokenPayload(token)
+  if (!payload) return true
+  const expValue = payload.exp
+  if (typeof expValue === "undefined" || expValue === null) return false
+  const exp = typeof expValue === "string" ? Number.parseInt(expValue, 10) : expValue
+  if (!Number.isFinite(exp)) return false
+  const now = Math.floor(Date.now() / 1000)
+  return exp <= now + skewSeconds
+}
+
 export interface LoginRequest {
   email: string
   password: string
@@ -194,14 +235,26 @@ class AuthService {
 
   getAccessToken(): string | null {
     if (typeof window !== "undefined") {
-      return localStorage.getItem(this.accessTokenKey)
+      const token = localStorage.getItem(this.accessTokenKey)
+      if (!token) return null
+      if (isTokenExpired(token)) {
+        this.handleSessionExpiration()
+        return null
+      }
+      return token
     }
     return null
   }
 
   getRefreshToken(): string | null {
     if (typeof window !== "undefined") {
-      return localStorage.getItem(this.refreshTokenKey)
+      const token = localStorage.getItem(this.refreshTokenKey)
+      if (!token) return null
+      if (isTokenExpired(token)) {
+        this.handleSessionExpiration()
+        return null
+      }
+      return token
     }
     return null
   }
@@ -210,6 +263,17 @@ class AuthService {
     if (typeof window !== "undefined") {
       localStorage.removeItem(this.accessTokenKey)
       localStorage.removeItem(this.refreshTokenKey)
+    }
+  }
+
+  private handleSessionExpiration() {
+    this.clearTokens()
+    clearSessionCache()
+    if (typeof window !== "undefined") {
+      const redirectTarget = "/login"
+      if (window.location.pathname !== redirectTarget) {
+        window.location.href = redirectTarget
+      }
     }
   }
 
@@ -236,20 +300,12 @@ class AuthService {
           await this.refreshAccessToken(refreshToken)
           return this.request<T>(endpoint, options, 1)
         } catch (error) {
-          this.clearTokens()
-          clearSessionCache()
-          if (typeof window !== "undefined") {
-            window.location.href = "/login"
-          }
+          this.handleSessionExpiration()
           throw new Error("Session expired. Please login again.")
         }
       }
 
-      this.clearTokens()
-      clearSessionCache()
-      if (typeof window !== "undefined") {
-        window.location.href = "/login"
-      }
+      this.handleSessionExpiration()
     }
 
     if (!response.ok) {
@@ -259,11 +315,7 @@ class AuthService {
         detailMessage.includes("token") &&
         (detailMessage.includes("expired") || detailMessage.includes("invalid"))
       ) {
-        this.clearTokens()
-        clearSessionCache()
-        if (typeof window !== "undefined") {
-          window.location.href = "/login"
-        }
+        this.handleSessionExpiration()
       }
       throw new Error(error.detail || error.message || `API Error: ${response.status}`)
     }
@@ -276,31 +328,9 @@ class AuthService {
     const token = this.getAccessToken()
     if (!token) return null
 
-    try {
-      const [, payload] = token.split(".")
-      if (!payload) return null
-      const json = JSON.parse(this.base64UrlDecode(payload))
-      return json as CurrentUser
-    } catch (e) {
-      return null
-    }
-  }
-
-  private base64UrlDecode(input: string): string {
-    // Convert from base64url to base64
-    let base64 = input.replace(/-/g, "+").replace(/_/g, "/")
-    // Pad with '=' to make length a multiple of 4
-    const pad = base64.length % 4
-    if (pad) base64 += "=".repeat(4 - pad)
-    if (typeof window !== "undefined" && typeof window.atob === "function") {
-      return decodeURIComponent(
-        Array.prototype.map
-          .call(window.atob(base64), (c: string) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-          .join("")
-      )
-    }
-    // Fallback for non-browser environments
-    return Buffer.from(base64, "base64").toString("utf-8")
+    const payload = decodeTokenPayload(token)
+    if (!payload) return null
+    return payload as CurrentUser
   }
 
   async login(request: LoginRequest): Promise<LoginResponse> {

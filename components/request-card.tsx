@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import type { RequestData } from "@/lib/requests-service"
-import { formatRequestTitle, cn } from "@/lib/utils"
+import { formatRequestTitle, cn, summarizeFabrication, formatFileSize } from "@/lib/utils"
 
 interface RequestCardProps {
   request: RequestData
@@ -58,9 +58,24 @@ export function RequestCard({ request, isClickable = true }: RequestCardProps) {
         )}
       </div>
       <div className="grid grid-cols-2 gap-2 text-[11px] text-gray-600">
-        {request.fabrication && (
-          <div className="truncate"><strong>{request.fabrication.fab_type}</strong> • {request.fabrication.name}</div>
-        )}
+        {(() => {
+          const fab = summarizeFabrication(request.fabrication)
+          if (!fab) return null
+          return (
+            <div className="space-y-0.5 truncate">
+              <div className="truncate">
+                <strong>{fab.base}</strong>
+                {fab.secondary && ` • ${fab.secondary}`}
+              </div>
+              {fab.filename && (
+                <div className="truncate text-gray-500">
+                  {fab.filename}
+                  {fab.fileSize != null ? ` (${formatFileSize(fab.fileSize)})` : ""}
+                </div>
+              )}
+            </div>
+          )
+        })()}
         {request.bom_items && request.bom_items.length > 0 && (
           <div>{request.bom_items.length} BOM items</div>
         )}

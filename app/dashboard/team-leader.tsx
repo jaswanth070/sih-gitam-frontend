@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import Link from "next/link"
 import { authService, type TeamContact, type TeamDetails } from "@/lib/auth-service"
 import { getStoredLeaderTeam } from "@/lib/session-store"
 import { GraduationCap, IdCard, Layers, Mail, Phone, Users } from "lucide-react"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 
 type TeamLeaderDashboardProps = {
   user?: any
@@ -132,6 +134,12 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
     )
   }
 
+  const normalizedError = error.trim().toLowerCase()
+  const needsTeamConfirmation =
+    normalizedError.includes("not verified") ||
+    normalizedError.includes("not yet verified") ||
+    normalizedError.includes("confirm team")
+
   return (
     <div className="space-y-8 pb-10">
       <section className="relative overflow-hidden rounded-3xl border border-[#002449]/15 bg-gradient-to-br from-[#002449]/10 via-white to-white p-8 shadow-sm md:p-12">
@@ -176,8 +184,15 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
       </section>
 
       {error && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 shadow-sm">
-          {error}
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 shadow-sm space-y-3">
+          <p>{error}</p>
+          {needsTeamConfirmation && (
+            <div className="flex flex-wrap gap-2">
+              <Button asChild size="sm" variant="secondary" className="bg-white text-[#002449] hover:bg-white/90">
+                <Link href="/confirm-team">Review &amp; confirm team details</Link>
+              </Button>
+            </div>
+          )}
         </div>
       )}
 

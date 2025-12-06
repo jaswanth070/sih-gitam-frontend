@@ -47,16 +47,62 @@ interface DirectoryMember {
 
 const ADMIN_CONTACTS: DirectoryContact[] = [
   {
-    name: "Bollem Raja Kumar",
-    email: "rbollem@gitam.edu",
-    phone: "9704645434",
+    name: "Mahesh",
+    email: "",
+    phone: "",
     undertaking: "",
   },
-  
+  {
+    name: "Vemulapalli Vivek",
+    email: "vvemulap2@gitam.in",
+    phone: "9030134444",
+    undertaking: "Logistics",
+  },
+  {
+    name: "Wukkalam Abhitej",
+    email: "wabhitej@gitam.in",
+    phone: "6300306069",
+    undertaking: "Operations",
+  },
+  {
+    name: "Jaswanth Madiya",
+    email: "jmadiya@gitam.in",
+    phone: "8011810081",
+    undertaking: "IT and Web",
+  },
 ]
 
 const POC_CONTACTS: DirectoryContact[] = [
-  
+  {
+    name: "Allamse Abhinav",
+    email: "aallamse@student.gitam.edu",
+    phone: "6304408339",
+    undertaking: "POC for SIH25214",
+  },
+  {
+    name: "Arafath Sheik",
+    email: "asheik1@gitam.in",
+    phone: "9347520660",
+    undertaking: "POC for SIH25211",
+  },
+  {
+    name: "Abbaiah Rithika",
+    email: "sabbaiah@gitam.in",
+    phone: "6301699403",
+    undertaking: "POC for SIH25212",
+  },
+  {
+    name: "Ch Sai Yatin",
+    email: "schittin@student.gitam.edu",
+    phone: "6301699403",
+    undertaking: "POC for SIH25213",
+  },
+  {
+    name: "G S Surya Varma",
+    email: "sgottumu3@student.gitam.edu",
+    phone: " 9000133334",
+    undertaking: "POC for SIH25256",
+  },
 ]
 
 const JURY_CONTACTS: DirectoryContact[] = [

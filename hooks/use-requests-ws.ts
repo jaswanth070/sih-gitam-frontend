@@ -14,7 +14,8 @@ import { buildRequestsWsUrl } from "@/lib/ws-url"
 export interface WSMessage {
   event: "request_created" | "request_updated" | "state_transition"
   request?: any
-  request_id?: number
+  request_id?: string
+  request_internal_id?: number
   from?: string
   to?: string
   changed_by?: string

@@ -4,11 +4,10 @@ import { useEffect, useState, useMemo, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { authService } from "@/lib/auth-service"
 import { requestsService, type RequestData } from "@/lib/requests-service"
-import { formatRequestTitle } from "@/lib/utils"
+import { formatRequestTitle, summarizeFabrication, formatFileSize, cn } from "@/lib/utils"
 import { useRequestsQueue } from "@/hooks/use-requests-queue"
 import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { RequestProgress } from "@/components/requests/request-progress"
-import { cn } from "@/lib/utils"
 import { StatusChangeModal } from "@/components/modals/status-change-modal"
 
 export default function QueuePage() {
@@ -49,7 +48,7 @@ export default function QueuePage() {
   useEffect(() => {
     if (hookError) setError(hookError)
   }, [hookError])
-  const [loadingIds, setLoadingIds] = useState<number[]>([])
+  const [loadingIds, setLoadingIds] = useState<string[]>([])
   const [pendingStatusChange, setPendingStatusChange] = useState<{
     request: RequestData
     nextStatus: string
@@ -61,7 +60,7 @@ export default function QueuePage() {
   }, [])
 
   const handleStatusChange = async (
-    requestId: number,
+    requestId: string,
     newStatus: string,
     remarks?: string,
   ) => {
@@ -251,6 +250,12 @@ function QueueRow({ request, position, onAdvance, canAdvance, highlight = false,
     : request.status === 'Processing'
       ? 'Issued'
       : ''
+  const fabricationSummary = summarizeFabrication(request.fabrication)
+  const fabricationPreviewUrl = fabricationSummary?.fileUrl ?? null
+  const openFabricationPreview = () => {
+    if (!fabricationPreviewUrl) return
+    window.open(fabricationPreviewUrl, '_blank', 'noopener,noreferrer')
+  }
 
   return (
     <div className={`relative bg-white border border-gray-200 rounded-lg p-4 flex flex-col gap-3 shadow-sm hover:shadow-md transition ${highlight ? 'flash-update' : ''} ${loading ? 'opacity-60 pointer-events-none' : ''}`}>
@@ -269,7 +274,12 @@ function QueueRow({ request, position, onAdvance, canAdvance, highlight = false,
       <div className="flex flex-wrap gap-4 text-[11px] text-gray-600">
         {(request.bom_items?.length || 0) > 0 && <span>BOM: {request.bom_items.length}</span>}
         {(request.additional_items?.length || 0) > 0 && <span>Additional: {request.additional_items.length}</span>}
-        {request.fabrication && <span>Fab: {request.fabrication.fab_type} • {request.fabrication.name}</span>}
+        {fabricationSummary && (
+          <span>
+            Fab: {fabricationSummary.secondary ? `${fabricationSummary.base} • ${fabricationSummary.secondary}` : fabricationSummary.base}
+            {fabricationSummary.filename && ` — ${fabricationSummary.filename}${fabricationSummary.fileSize != null ? ` (${formatFileSize(fabricationSummary.fileSize)})` : ''}`}
+          </span>
+        )}
         <span>Created: {new Date(request.created_at).toLocaleTimeString()}</span>
         <span>Updated: {new Date(request.updated_at).toLocaleTimeString()}</span>
       </div>
@@ -278,6 +288,15 @@ function QueueRow({ request, position, onAdvance, canAdvance, highlight = false,
           href={`/my-requests/${request.id}`}
           className="px-3 py-1.5 text-[11px] font-medium rounded-md border border-gray-300 hover:bg-gray-50"
         >View</a>
+        {fabricationSummary?.fileUrl && (
+          <button
+            type="button"
+            onClick={openFabricationPreview}
+            disabled={!fabricationPreviewUrl}
+            className="px-3 py-1.5 text-[11px] font-medium rounded-md text-white"
+            style={{ backgroundColor: '#f75700' }}
+          >Preview</button>
+        )}
         {canAdvance && nextStatus && (
           <button
             onClick={() => onAdvance(request, nextStatus)}

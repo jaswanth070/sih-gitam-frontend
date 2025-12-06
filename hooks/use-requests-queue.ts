@@ -16,7 +16,8 @@ import { buildRequestsWsUrl } from '@/lib/ws-url'
 export interface QueueEventMessage {
   event: 'request_created' | 'request_updated' | 'state_transition'
   request?: RequestData
-  request_id?: number
+  request_id?: string
+  request_internal_id?: number
   from?: string
   to?: string
   changed_by?: string
@@ -40,7 +41,7 @@ interface RequestsQueueState {
   refresh: () => Promise<void>
   upsertById: (req: RequestData) => void
   forceReconnect: () => void
-  recentlyChangedIds: number[]
+  recentlyChangedIds: string[]
 }
 
 export function useRequestsQueue(options: UseRequestsQueueOptions = {}): RequestsQueueState {
@@ -49,11 +50,11 @@ export function useRequestsQueue(options: UseRequestsQueueOptions = {}): Request
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [live, setLive] = useState(false)
-  const [recentlyChangedIds, setRecentlyChangedIds] = useState<number[]>([])
-  const highlightTimeoutsRef = useRef<Map<number, NodeJS.Timeout>>(new Map())
+  const [recentlyChangedIds, setRecentlyChangedIds] = useState<string[]>([])
+  const highlightTimeoutsRef = useRef<Map<string, NodeJS.Timeout>>(new Map<string, NodeJS.Timeout>())
 
   // Internal store (Map) for O(1) upsert
-  const storeRef = useRef<{ byId: Map<number, RequestData>; list: RequestData[] }>({ byId: new Map(), list: [] })
+  const storeRef = useRef<{ byId: Map<string, RequestData>; list: RequestData[] }>({ byId: new Map<string, RequestData>(), list: [] })
   const wsRef = useRef<WebSocket | null>(null)
   const backoffRef = useRef(1000)
   const reconnectingRef = useRef(false)
@@ -115,7 +116,7 @@ export function useRequestsQueue(options: UseRequestsQueueOptions = {}): Request
     setRequests(ordered)
   }, [activeOnly, computeOrdered])
 
-  const applyTransition = useCallback((id: number, to: string) => {
+  const applyTransition = useCallback((id: string, to: string) => {
     const store = storeRef.current
     const existing = store.byId.get(id)
     if (!existing) return
@@ -133,7 +134,7 @@ export function useRequestsQueue(options: UseRequestsQueueOptions = {}): Request
     setRequests(ordered)
   }, [activeOnly, computeOrdered])
 
-  const registerHighlight = useCallback((id: number) => {
+  const registerHighlight = useCallback((id: string) => {
     setRecentlyChangedIds(prev => prev.includes(id) ? prev : [...prev, id])
     // Clear existing timeout if re-triggered
     const existing = highlightTimeoutsRef.current.get(id)

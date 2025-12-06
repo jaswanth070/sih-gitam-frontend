@@ -633,7 +633,7 @@ export default function DocumentsVerificationPage() {
                           ) : (
                             <ShieldCheck className="h-4 w-4" />
                           )}
-                          Download
+                          View
                         </Button>
                         <Button
                           size="sm"
