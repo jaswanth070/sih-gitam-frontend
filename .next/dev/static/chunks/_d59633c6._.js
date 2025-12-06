@@ -638,7 +638,7 @@ function deriveRequestsPrefix(pathname) {
     return fullPath.replace(/\/api$/, "") || "/requests";
 }
 function buildRequestsBaseUrl() {
-    const envUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const envUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (envUrl.startsWith("/")) {
@@ -664,7 +664,7 @@ function buildRequestsWsUrl(token) {
             console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
         }
     }
-    const baseRestUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     let origin = "";
     let prefixPath = "/requests";
     if ("TURBOPACK compile-time truthy", 1) {

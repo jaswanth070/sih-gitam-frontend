@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { authService, type TeamDetails } from "@/lib/auth-service"
+import { DosDontsModal } from "@/components/modals/dos-donts-modal"
 
 export default function ConfirmTeamPage() {
   const router = useRouter()
@@ -11,6 +12,8 @@ export default function ConfirmTeamPage() {
   const [loading, setLoading] = useState(true)
   const [confirming, setConfirming] = useState(false)
   const [error, setError] = useState("")
+  const [guidelinesOpen, setGuidelinesOpen] = useState(false)
+  const [hasAcknowledgedGuidelines, setHasAcknowledgedGuidelines] = useState(false)
 
   useEffect(() => {
     const fetchTeamDetails = async () => {
@@ -27,7 +30,7 @@ export default function ConfirmTeamPage() {
     fetchTeamDetails()
   }, [])
 
-  const handleConfirm = async () => {
+  const confirmTeam = async () => {
     setConfirming(true)
 
     try {
@@ -37,6 +40,16 @@ export default function ConfirmTeamPage() {
       setError(err.message || "Failed to confirm team details")
       setConfirming(false)
     }
+  }
+
+  const handleConfirmClick = () => {
+    if (confirming) return
+    if (!hasAcknowledgedGuidelines) {
+      setGuidelinesOpen(true)
+      return
+    }
+
+    void confirmTeam()
   }
 
   if (loading) {
@@ -160,14 +173,19 @@ export default function ConfirmTeamPage() {
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
-                      onClick={handleConfirm}
+                      onClick={handleConfirmClick}
                       disabled={confirming}
-                      className="flex-1 py-3 text-white font-semibold rounded-lg transition-opacity disabled:opacity-50"
-                      style={{ backgroundColor: "#f75700" }}
-                      onMouseEnter={(e) => !confirming && (e.currentTarget.style.opacity = "0.9")}
-                      onMouseLeave={(e) => !confirming && (e.currentTarget.style.opacity = "1")}
+                      className={`flex-1 rounded-lg py-3 font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 ${
+                        hasAcknowledgedGuidelines
+                          ? "bg-[#005a52] text-white shadow-md hover:bg-[#00423e] focus-visible:ring-[#00423e]"
+                          : "bg-[#e5e7eb] text-gray-600 shadow-inner hover:bg-[#d7dce2] focus-visible:ring-[#cbd0d6]"
+                      }`}
                     >
-                      {confirming ? "Confirming..." : "Confirm & Continue"}
+                      {confirming
+                        ? "Confirming..."
+                        : hasAcknowledgedGuidelines
+                          ? "Confirm & Continue"
+                          : "Review Do's & Don'ts to confirm"}
                     </button>
                     <button
                       onClick={() => router.push("/")}
@@ -176,12 +194,25 @@ export default function ConfirmTeamPage() {
                       Cancel
                     </button>
                   </div>
+                  {!hasAcknowledgedGuidelines && (
+                    <p className="text-xs text-gray-600">
+                      You must review the Do&apos;s &amp; Don&apos;ts before confirmation. Click the confirm button to open the guidelines.
+                    </p>
+                  )}
                 </div>
               </div>
             </>
           )}
         </div>
       </main>
+      <DosDontsModal
+        open={guidelinesOpen}
+        onOpenChange={setGuidelinesOpen}
+        requireAcknowledgement
+        onAcknowledge={() => {
+          setHasAcknowledgedGuidelines(true)
+        }}
+      />
     </div>
   )
 }

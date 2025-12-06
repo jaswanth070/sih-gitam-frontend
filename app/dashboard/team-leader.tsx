@@ -7,6 +7,7 @@ import { getStoredLeaderTeam } from "@/lib/session-store"
 import { GraduationCap, IdCard, Layers, Mail, Phone, Users } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { DosDontsModal } from "@/components/modals/dos-donts-modal"
 
 type TeamLeaderDashboardProps = {
   user?: any
@@ -28,6 +29,7 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
   const [team, setTeam] = useState<TeamDetails | null>(cachedTeam)
   const [loading, setLoading] = useState(!cachedTeam)
   const [error, setError] = useState("")
+  const [guidelinesOpen, setGuidelinesOpen] = useState(false)
 
   useEffect(() => {
     const fetchTeam = async () => {
@@ -141,7 +143,8 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
     normalizedError.includes("confirm team")
 
   return (
-    <div className="space-y-8 pb-10">
+    <>
+      <div className="space-y-8 pb-10">
       <section className="relative overflow-hidden rounded-3xl border border-[#002449]/15 bg-gradient-to-br from-[#002449]/10 via-white to-white p-8 shadow-sm md:p-12">
         <div className="hidden lg:block absolute -right-0 top-1/2 -translate-y-1/2">
           <div className="relative h-40 w-40 opacity-60">
@@ -180,6 +183,15 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
               </span>
             </div>
           )}
+          <div className="flex flex-wrap gap-3">
+            <Button
+              type="button"
+              onClick={() => setGuidelinesOpen(true)}
+              className="bg-[#002449] text-white shadow-lg transition hover:bg-[#001b32] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002449] focus-visible:ring-offset-2"
+            >
+              View Do&apos;s &amp; Don&apos;ts
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -188,7 +200,11 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
           <p>{error}</p>
           {needsTeamConfirmation && (
             <div className="flex flex-wrap gap-2">
-              <Button asChild size="sm" variant="secondary" className="bg-white text-[#002449] hover:bg-white/90">
+              <Button
+                asChild
+                size="sm"
+                className="bg-[#007367] text-white shadow-sm hover:bg-[#005a52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005a52] focus-visible:ring-offset-2"
+              >
                 <Link href="/confirm-team">Review &amp; confirm team details</Link>
               </Button>
             </div>
@@ -369,7 +385,7 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
                 )}
               </div>
 
-             
+
             </div>
           </div>
         </>
@@ -380,6 +396,8 @@ export function TeamLeaderDashboard({ user: _user }: TeamLeaderDashboardProps = 
         </div>
       )}
     </div>
+      <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
+    </>
   )
 }
 
