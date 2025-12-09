@@ -2939,10 +2939,6 @@
     background-color: lab(42.9324% -31.1164 -1.63481 / .05);
   }
 
-  .bg-\[\#d1d5db\] {
-    background-color: #d1d5db;
-  }
-
   .bg-\[\#d9e2f2\] {
     background-color: #d9e2f2;
   }
@@ -3458,12 +3454,6 @@
     --tw-gradient-stops: var(--tw-gradient-via-stops);
   }
 
-  .via-\[\#007367\] {
-    --tw-gradient-via: #007367;
-    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-via-stops);
-  }
-
   .via-\[\#f75700\]\/30 {
     --tw-gradient-via: #f757004d;
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
@@ -3537,11 +3527,6 @@
 
   .to-\[\#f98b42\] {
     --tw-gradient-to: #f98b42;
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-
-  .to-\[\#f75700\] {
-    --tw-gradient-to: #f75700;
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
@@ -5601,12 +5586,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:bg-\[\#c5cad1\]:hover {
-      background-color: #c5cad1;
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:bg-\[\#d7dce2\]:hover {
       background-color: #d7dce2;
     }
@@ -6075,10 +6054,6 @@
 
   .focus-visible\:ring-\[\#005a52\]:focus-visible {
     --tw-ring-color: #005a52;
-  }
-
-  .focus-visible\:ring-\[\#9ca3af\]:focus-visible {
-    --tw-ring-color: #9ca3af;
   }
 
   .focus-visible\:ring-\[\#00423e\]:focus-visible {
@@ -7336,12 +7311,6 @@
   @media (min-width: 40rem) {
     .sm\:w-64 {
       width: calc(var(--spacing) * 64);
-    }
-  }
-
-  @media (min-width: 40rem) {
-    .sm\:w-80 {
-      width: calc(var(--spacing) * 80);
     }
   }
 

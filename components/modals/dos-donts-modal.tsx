@@ -35,6 +35,7 @@ const GUIDELINES_SECTIONS: GuidesSection[] = [
     icon: <ShieldCheck className="h-5 w-5 text-[#007367]" aria-hidden="true" />,
     bullets: [
       "Teams must abide by all AICTE Guidelines throughout the event.",
+      "",
       "Teams cannot change team members at the Nodal Center without prior MIC approval and the official approval letter.",
       "Teams must not assist or participate in other teams’ work; focus only on your assigned problem statement.",
       "RF-blocking devices may only be used outdoors to prevent interference with other teams.",

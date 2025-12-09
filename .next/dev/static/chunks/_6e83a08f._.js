@@ -3662,7 +3662,7 @@ function deriveRequestsPrefix(pathname) {
     return fullPath.replace(/\/api$/, "") || "/requests";
 }
 function buildRequestsBaseUrl() {
-    const envUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const envUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (envUrl.startsWith("/")) {
@@ -3688,7 +3688,7 @@ function buildRequestsWsUrl(token) {
             console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
         }
     }
-    const baseRestUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     let origin = "";
     let prefixPath = "/requests";
     if ("TURBOPACK compile-time truthy", 1) {
@@ -3733,8 +3733,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$
 ;
 const BASE_URL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["buildRequestsBaseUrl"])();
 const ACCESS_TOKEN_KEY = "sih_access_token";
+function resolveEndpoint(endpoint) {
+    if (/^https?:\/\//i.test(endpoint)) {
+        return endpoint;
+    }
+    if (endpoint.startsWith("/")) {
+        return `${BASE_URL}${endpoint}`;
+    }
+    return `${BASE_URL}/${endpoint}`;
+}
 async function apiCall(endpoint, options = {}) {
-    const url = `${BASE_URL}${endpoint}`;
+    const url = resolveEndpoint(endpoint);
     const headers = new Headers(options.headers || {});
     const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
     if (accessToken && !headers.has("Authorization")) {
@@ -3778,6 +3787,28 @@ async function apiCall(endpoint, options = {}) {
     }
     return response.json();
 }
+async function fetchFullList(endpoint) {
+    const first = await apiCall(endpoint);
+    const collected = Array.isArray(first.results) ? [
+        ...first.results
+    ] : [];
+    const visited = new Set();
+    let cursor = first.next || null;
+    while(cursor && !visited.has(cursor)){
+        visited.add(cursor);
+        const page = await apiCall(cursor);
+        if (Array.isArray(page.results)) {
+            collected.push(...page.results);
+        }
+        cursor = page.next || null;
+    }
+    return {
+        count: collected.length,
+        next: null,
+        previous: null,
+        results: collected
+    };
+}
 const requestsService = {
     // List requests with filters
     async listRequests (params) {
@@ -3788,14 +3819,14 @@ const requestsService = {
         if (params?.team_id) queryParams.append("team_id", params.team_id);
         if (params?.search) queryParams.append("search", params.search);
         if (params?.ordering) queryParams.append("ordering", params.ordering);
-        if (params?.page) queryParams.append("page", params.page.toString());
-        const endpoint = `/requests/?${queryParams.toString()}`;
-        return apiCall(endpoint);
+        const query = queryParams.toString();
+        const endpoint = `/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get queue snapshot
     async getQueueSnapshot (includePositions = true) {
         const endpoint = `/requests/queue/?include_positions=${includePositions}`;
-        return apiCall(endpoint);
+        return fetchFullList(endpoint);
     },
     // Filtered queue snapshot (canonical ordering, optional positions, pagination)
     async getFilteredQueueSnapshot (params) {
@@ -3804,10 +3835,9 @@ const requestsService = {
         if (params.status) qp.append("status", params.status);
         if (params.fab_type) qp.append("fab_type", params.fab_type);
         if (params.include_positions !== undefined) qp.append("include_positions", params.include_positions ? "true" : "false");
-        if (params.page) qp.append("page", params.page.toString());
-        if (params.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/requests/queue/?${qp.toString()}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/requests/queue/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get single request
     async getRequest (id) {
@@ -3909,10 +3939,9 @@ const requestsService = {
         if (params?.fab_type) qp.append("fab_type", params.fab_type);
         if (params?.search) qp.append("search", params.search);
         if (params?.ordering) qp.append("ordering", params.ordering);
-        if (params?.page) qp.append("page", params.page.toString());
-        if (params?.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/teams/${teamId}/requests/${qp.toString() ? `?${qp.toString()}` : ""}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/teams/${teamId}/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     }
 };
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
@@ -3977,10 +4006,6 @@ function formatDate(timestamp) {
         return "—";
     }
 }
-function derivePageSize(response, fallback) {
-    if (response.results?.length) return response.results.length;
-    return fallback;
-}
 function RequestsTrackingPage() {
     _s();
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
@@ -3990,14 +4015,7 @@ function RequestsTrackingPage() {
     const [teamError, setTeamError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [selectedTeamId, setSelectedTeamId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [searchTerm, setSearchTerm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
-    const [requestsPage, setRequestsPage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(1);
     const [requests, setRequests] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [requestsMeta, setRequestsMeta] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        count: 0,
-        next: null,
-        previous: null
-    });
-    const [pageSize, setPageSize] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(10);
     const [requestsLoading, setRequestsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [requestsError, setRequestsError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const loadTeams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
@@ -4035,33 +4053,19 @@ function RequestsTrackingPage() {
         toast
     ]);
     const loadRequests = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "RequestsTrackingPage.useCallback[loadRequests]": async (teamId, page = 1, search = "")=>{
+        "RequestsTrackingPage.useCallback[loadRequests]": async (teamId, search = "")=>{
             if (!teamId) {
                 setRequests([]);
-                setRequestsMeta({
-                    count: 0,
-                    next: null,
-                    previous: null
-                });
                 return;
             }
             setRequestsLoading(true);
             setRequestsError(null);
             try {
                 const response = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].listTeamRequests(teamId, {
-                    page,
                     ordering: REQUESTS_ORDERING,
                     search: search.trim() ? search.trim() : undefined
                 });
                 setRequests(response.results);
-                setRequestsMeta({
-                    count: response.count,
-                    next: response.next,
-                    previous: response.previous
-                });
-                setPageSize({
-                    "RequestsTrackingPage.useCallback[loadRequests]": (prev)=>derivePageSize(response, prev)
-                }["RequestsTrackingPage.useCallback[loadRequests]"]);
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Unable to load requests.";
                 setRequestsError(message);
@@ -4086,16 +4090,10 @@ function RequestsTrackingPage() {
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "RequestsTrackingPage.useEffect": ()=>{
-            setRequestsPage(1);
             if (selectedTeamId) {
-                void loadRequests(selectedTeamId, 1, searchTerm);
+                void loadRequests(selectedTeamId, searchTerm);
             } else {
                 setRequests([]);
-                setRequestsMeta({
-                    count: 0,
-                    next: null,
-                    previous: null
-                });
             }
         }
     }["RequestsTrackingPage.useEffect"], [
@@ -4122,37 +4120,8 @@ function RequestsTrackingPage() {
         selectedTeamId,
         teams
     ]);
-    const totalPages = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "RequestsTrackingPage.useMemo[totalPages]": ()=>{
-            if (!requestsMeta.count) return 1;
-            return Math.max(1, Math.ceil(requestsMeta.count / Math.max(pageSize, 1)));
-        }
-    }["RequestsTrackingPage.useMemo[totalPages]"], [
-        pageSize,
-        requestsMeta.count
-    ]);
-    const handlePagination = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "RequestsTrackingPage.useCallback[handlePagination]": (direction)=>{
-            setRequestsPage({
-                "RequestsTrackingPage.useCallback[handlePagination]": (previous)=>{
-                    const next = direction === "previous" ? previous - 1 : previous + 1;
-                    const clamped = Math.min(Math.max(next, 1), totalPages);
-                    if (clamped !== previous && selectedTeamId) {
-                        void loadRequests(selectedTeamId, clamped, searchTerm);
-                    }
-                    return clamped;
-                }
-            }["RequestsTrackingPage.useCallback[handlePagination]"]);
-        }
-    }["RequestsTrackingPage.useCallback[handlePagination]"], [
-        loadRequests,
-        selectedTeamId,
-        totalPages,
-        searchTerm
-    ]);
     const resetFilters = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "RequestsTrackingPage.useCallback[resetFilters]": ()=>{
-            setRequestsPage(1);
             setSearchTerm("");
         }
     }["RequestsTrackingPage.useCallback[resetFilters]"], []);
@@ -4170,7 +4139,7 @@ function RequestsTrackingPage() {
                         children: "Requests Tracking"
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 168,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4178,13 +4147,13 @@ function RequestsTrackingPage() {
                         children: "Monitor every supply and fabrication request raised by teams and keep tabs on their latest status updates."
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 171,
+                        lineNumber: 135,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                lineNumber: 167,
+                lineNumber: 131,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4194,47 +4163,47 @@ function RequestsTrackingPage() {
                         size: "sm",
                         variant: "outline",
                         className: "gap-2",
-                        onClick: ()=>selectedTeamId && void loadRequests(selectedTeamId, requestsPage, searchTerm),
+                        onClick: ()=>selectedTeamId && void loadRequests(selectedTeamId, searchTerm),
                         disabled: !selectedTeamId || requestsLoading,
                         children: [
                             requestsLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
                                 className: "h-4 w-4 animate-spin"
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 183,
+                                lineNumber: 147,
                                 columnNumber: 30
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$ccw$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCcw$3e$__["RefreshCcw"], {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 183,
+                                lineNumber: 147,
                                 columnNumber: 77
                             }, this),
                             " Refresh"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 176,
+                        lineNumber: 140,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-xs text-muted-foreground",
-                        children: requestsMeta.count ? `${requestsMeta.count} request${requestsMeta.count === 1 ? "" : "s"} tracked` : "No requests yet"
+                        children: requests.length ? `${requests.length} request${requests.length === 1 ? "" : "s"} tracked` : "No requests yet"
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 185,
+                        lineNumber: 149,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                lineNumber: 175,
+                lineNumber: 139,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-        lineNumber: 166,
+        lineNumber: 130,
         columnNumber: 5
     }, this);
     if (authorized === false) {
@@ -4255,14 +4224,14 @@ function RequestsTrackingPage() {
                                             className: "h-4 w-4"
                                         }, void 0, false, {
                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 202,
+                                            lineNumber: 166,
                                             columnNumber: 17
                                         }, this),
                                         " Access restricted"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 201,
+                                    lineNumber: 165,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -4270,29 +4239,29 @@ function RequestsTrackingPage() {
                                     children: "Only admin users can review team-wide request history."
                                 }, void 0, false, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 204,
+                                    lineNumber: 168,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                            lineNumber: 200,
+                            lineNumber: 164,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 199,
+                        lineNumber: 163,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                lineNumber: 197,
+                lineNumber: 161,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-            lineNumber: 196,
+            lineNumber: 160,
             columnNumber: 7
         }, this);
     }
@@ -4314,7 +4283,7 @@ function RequestsTrackingPage() {
                                     children: "Select team"
                                 }, void 0, false, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 185,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -4322,13 +4291,13 @@ function RequestsTrackingPage() {
                                     children: "Choose a team to view every request they raised along with status, notes, and timestamps."
                                 }, void 0, false, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 224,
+                                    lineNumber: 188,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                            lineNumber: 220,
+                            lineNumber: 184,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -4347,12 +4316,12 @@ function RequestsTrackingPage() {
                                                         placeholder: loadingTeams ? "Loading teams…" : "Pick a team"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                        lineNumber: 236,
+                                                        lineNumber: 200,
                                                         columnNumber: 19
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 235,
+                                                    lineNumber: 199,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -4368,28 +4337,28 @@ function RequestsTrackingPage() {
                                                                     children: team.label
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                    lineNumber: 242,
+                                                                    lineNumber: 206,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 241,
+                                                                lineNumber: 205,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, team.id, false, {
                                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                            lineNumber: 240,
+                                                            lineNumber: 204,
                                                             columnNumber: 21
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 238,
+                                                    lineNumber: 202,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 230,
+                                            lineNumber: 194,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4402,13 +4371,13 @@ function RequestsTrackingPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 251,
+                                            lineNumber: 215,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 229,
+                                    lineNumber: 193,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4420,7 +4389,7 @@ function RequestsTrackingPage() {
                                             children: "Search within requests"
                                         }, void 0, false, {
                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 255,
+                                            lineNumber: 219,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4430,7 +4399,7 @@ function RequestsTrackingPage() {
                                                     className: "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 259,
+                                                    lineNumber: 223,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -4442,13 +4411,13 @@ function RequestsTrackingPage() {
                                                     className: "pl-10"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 260,
+                                                    lineNumber: 224,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 258,
+                                            lineNumber: 222,
                                             columnNumber: 15
                                         }, this),
                                         searchTerm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -4459,25 +4428,25 @@ function RequestsTrackingPage() {
                                             children: "Clear search"
                                         }, void 0, false, {
                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 270,
+                                            lineNumber: 234,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 254,
+                                    lineNumber: 218,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                            lineNumber: 228,
+                            lineNumber: 192,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                    lineNumber: 219,
+                    lineNumber: 183,
                     columnNumber: 9
                 }, this),
                 teamError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -4492,14 +4461,14 @@ function RequestsTrackingPage() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                        lineNumber: 282,
+                                        lineNumber: 246,
                                         columnNumber: 17
                                     }, this),
                                     " Unable to load teams"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 281,
+                                lineNumber: 245,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -4507,18 +4476,18 @@ function RequestsTrackingPage() {
                                 children: teamError
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 284,
+                                lineNumber: 248,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 280,
+                        lineNumber: 244,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                    lineNumber: 279,
+                    lineNumber: 243,
                     columnNumber: 11
                 }, this),
                 requestsError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -4533,7 +4502,7 @@ function RequestsTrackingPage() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                        lineNumber: 293,
+                                        lineNumber: 257,
                                         columnNumber: 17
                                     }, this),
                                     " ",
@@ -4541,7 +4510,7 @@ function RequestsTrackingPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 292,
+                                lineNumber: 256,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -4549,18 +4518,18 @@ function RequestsTrackingPage() {
                                 children: "Try refreshing the list or adjust your filters."
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 295,
+                                lineNumber: 259,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 291,
+                        lineNumber: 255,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                    lineNumber: 290,
+                    lineNumber: 254,
                     columnNumber: 11
                 }, this),
                 requestsLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4572,19 +4541,19 @@ function RequestsTrackingPage() {
                                 className: "h-5 w-5 animate-spin"
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 305,
+                                lineNumber: 269,
                                 columnNumber: 15
                             }, this),
                             " Pulling the latest requests…"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 304,
+                        lineNumber: 268,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                    lineNumber: 303,
+                    lineNumber: 267,
                     columnNumber: 11
                 }, this) : !selectedTeamId ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                     className: "border border-dashed border-muted/50",
@@ -4601,14 +4570,14 @@ function RequestsTrackingPage() {
                                         className: "h-6 w-6 text-muted-foreground"
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                        lineNumber: 312,
+                                        lineNumber: 276,
                                         columnNumber: 17
                                     }, this),
                                     " Select a team to begin"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 311,
+                                lineNumber: 275,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -4616,18 +4585,18 @@ function RequestsTrackingPage() {
                                 children: "Pick a team above to review every request and stay on top of their requirements."
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 314,
+                                lineNumber: 278,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 310,
+                        lineNumber: 274,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                    lineNumber: 309,
+                    lineNumber: 273,
                     columnNumber: 11
                 }, this) : requests.length ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                     className: "border border-gray-200 shadow-sm",
@@ -4642,7 +4611,7 @@ function RequestsTrackingPage() {
                                                 children: "Request"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                lineNumber: 324,
+                                                lineNumber: 288,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -4650,7 +4619,7 @@ function RequestsTrackingPage() {
                                                 children: "Category"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                lineNumber: 325,
+                                                lineNumber: 289,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -4658,7 +4627,7 @@ function RequestsTrackingPage() {
                                                 children: "Status"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                lineNumber: 326,
+                                                lineNumber: 290,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -4666,7 +4635,7 @@ function RequestsTrackingPage() {
                                                 children: "Submitted"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                lineNumber: 327,
+                                                lineNumber: 291,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -4674,7 +4643,7 @@ function RequestsTrackingPage() {
                                                 children: "Notes"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                lineNumber: 328,
+                                                lineNumber: 292,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -4682,18 +4651,18 @@ function RequestsTrackingPage() {
                                                 children: "Actions"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                lineNumber: 329,
+                                                lineNumber: 293,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                        lineNumber: 323,
+                                        lineNumber: 287,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 322,
+                                    lineNumber: 286,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -4711,7 +4680,7 @@ function RequestsTrackingPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 337,
+                                                                lineNumber: 301,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4719,18 +4688,18 @@ function RequestsTrackingPage() {
                                                                 children: selectedTeam?.team_id ?? request.team_id
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 338,
+                                                                lineNumber: 302,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                        lineNumber: 336,
+                                                        lineNumber: 300,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 335,
+                                                    lineNumber: 299,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4738,12 +4707,12 @@ function RequestsTrackingPage() {
                                                         category: request.category
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                        lineNumber: 342,
+                                                        lineNumber: 306,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 341,
+                                                    lineNumber: 305,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4751,12 +4720,12 @@ function RequestsTrackingPage() {
                                                         status: request.status
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                        lineNumber: 345,
+                                                        lineNumber: 309,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 344,
+                                                    lineNumber: 308,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4767,7 +4736,7 @@ function RequestsTrackingPage() {
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 349,
+                                                                lineNumber: 313,
                                                                 columnNumber: 25
                                                             }, this),
                                                             " ",
@@ -4775,12 +4744,12 @@ function RequestsTrackingPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                        lineNumber: 348,
+                                                        lineNumber: 312,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 347,
+                                                    lineNumber: 311,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4792,13 +4761,13 @@ function RequestsTrackingPage() {
                                                                 children: request.description || request.notes
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 355,
+                                                                lineNumber: 319,
                                                                 columnNumber: 27
                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 children: "No notes provided."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 357,
+                                                                lineNumber: 321,
                                                                 columnNumber: 27
                                                             }, this),
                                                             request.remarks && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -4810,18 +4779,18 @@ function RequestsTrackingPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 360,
+                                                                lineNumber: 324,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                        lineNumber: 353,
+                                                        lineNumber: 317,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 352,
+                                                    lineNumber: 316,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -4836,7 +4805,7 @@ function RequestsTrackingPage() {
                                                                         className: "h-4 w-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                        lineNumber: 369,
+                                                                        lineNumber: 333,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     " ",
@@ -4844,7 +4813,7 @@ function RequestsTrackingPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 368,
+                                                                lineNumber: 332,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -4861,47 +4830,47 @@ function RequestsTrackingPage() {
                                                                             className: "h-4 w-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                            lineNumber: 378,
+                                                                            lineNumber: 342,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         " View request"
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                    lineNumber: 377,
+                                                                    lineNumber: 341,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                                lineNumber: 371,
+                                                                lineNumber: 335,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                        lineNumber: 367,
+                                                        lineNumber: 331,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                                    lineNumber: 366,
+                                                    lineNumber: 330,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, request.id, true, {
                                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 334,
+                                            lineNumber: 298,
                                             columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 332,
+                                    lineNumber: 296,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                            lineNumber: 321,
+                            lineNumber: 285,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4909,57 +4878,34 @@ function RequestsTrackingPage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     children: [
-                                        "Page ",
-                                        requestsPage,
-                                        " of ",
-                                        totalPages
+                                        "Showing ",
+                                        requests.length,
+                                        " request",
+                                        requests.length === 1 ? "" : "s"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 388,
+                                    lineNumber: 352,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex items-center gap-2",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                            variant: "outline",
-                                            size: "sm",
-                                            onClick: ()=>handlePagination("previous"),
-                                            disabled: requestsPage <= 1 || requestsLoading,
-                                            children: "Previous"
-                                        }, void 0, false, {
-                                            fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 392,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                            variant: "outline",
-                                            size: "sm",
-                                            onClick: ()=>handlePagination("next"),
-                                            disabled: requestsPage >= totalPages || requestsLoading,
-                                            children: "Next"
-                                        }, void 0, false, {
-                                            fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                            lineNumber: 400,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
+                                    className: "text-xs text-muted-foreground",
+                                    children: "Ordered by most recent submissions first."
+                                }, void 0, false, {
                                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                    lineNumber: 391,
+                                    lineNumber: 355,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                            lineNumber: 387,
+                            lineNumber: 351,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                    lineNumber: 320,
+                    lineNumber: 284,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                     className: "border border-dashed border-muted/50",
@@ -4976,14 +4922,14 @@ function RequestsTrackingPage() {
                                         className: "h-6 w-6 text-muted-foreground"
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                        lineNumber: 415,
+                                        lineNumber: 364,
                                         columnNumber: 17
                                     }, this),
                                     " No requests yet"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 414,
+                                lineNumber: 363,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -4991,33 +4937,33 @@ function RequestsTrackingPage() {
                                 children: "This team has not raised any requests. Once they do, entries will appear here automatically."
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                                lineNumber: 417,
+                                lineNumber: 366,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                        lineNumber: 413,
+                        lineNumber: 362,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-                    lineNumber: 412,
+                    lineNumber: 361,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-            lineNumber: 216,
+            lineNumber: 180,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/dashboard/requests-tracking/page.tsx",
-        lineNumber: 215,
+        lineNumber: 179,
         columnNumber: 5
     }, this);
 }
-_s(RequestsTrackingPage, "fvaXacpTBZ2DvmqnWqkPhuNI3Ro=", false, function() {
+_s(RequestsTrackingPage, "86aGh1BfJtMzpet9iV4TcaG2CGA=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];

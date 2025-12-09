@@ -131,7 +131,6 @@ export default function POCTeamDetailsPage() {
         try {
           const response = await requestsService.listTeamRequests(candidate, {
             ordering: "created_at",
-            page_size: 100,
           })
           if (cancelled) return
           const ordered = [...response.results].sort(

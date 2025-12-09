@@ -538,7 +538,7 @@ function deriveRequestsPrefix(pathname) {
     return fullPath.replace(/\/api$/, "") || "/requests";
 }
 function buildRequestsBaseUrl() {
-    const envUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const envUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (envUrl.startsWith("/")) {
@@ -564,7 +564,7 @@ function buildRequestsWsUrl(token) {
             console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
         }
     }
-    const baseRestUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     let origin = "";
     let prefixPath = "/requests";
     if ("TURBOPACK compile-time truthy", 1) {
@@ -606,8 +606,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$
 ;
 const BASE_URL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["buildRequestsBaseUrl"])();
 const ACCESS_TOKEN_KEY = "sih_access_token";
+function resolveEndpoint(endpoint) {
+    if (/^https?:\/\//i.test(endpoint)) {
+        return endpoint;
+    }
+    if (endpoint.startsWith("/")) {
+        return `${BASE_URL}${endpoint}`;
+    }
+    return `${BASE_URL}/${endpoint}`;
+}
 async function apiCall(endpoint, options = {}) {
-    const url = `${BASE_URL}${endpoint}`;
+    const url = resolveEndpoint(endpoint);
     const headers = new Headers(options.headers || {});
     const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
     if (accessToken && !headers.has("Authorization")) {
@@ -651,6 +660,28 @@ async function apiCall(endpoint, options = {}) {
     }
     return response.json();
 }
+async function fetchFullList(endpoint) {
+    const first = await apiCall(endpoint);
+    const collected = Array.isArray(first.results) ? [
+        ...first.results
+    ] : [];
+    const visited = new Set();
+    let cursor = first.next || null;
+    while(cursor && !visited.has(cursor)){
+        visited.add(cursor);
+        const page = await apiCall(cursor);
+        if (Array.isArray(page.results)) {
+            collected.push(...page.results);
+        }
+        cursor = page.next || null;
+    }
+    return {
+        count: collected.length,
+        next: null,
+        previous: null,
+        results: collected
+    };
+}
 const requestsService = {
     // List requests with filters
     async listRequests (params) {
@@ -661,14 +692,14 @@ const requestsService = {
         if (params?.team_id) queryParams.append("team_id", params.team_id);
         if (params?.search) queryParams.append("search", params.search);
         if (params?.ordering) queryParams.append("ordering", params.ordering);
-        if (params?.page) queryParams.append("page", params.page.toString());
-        const endpoint = `/requests/?${queryParams.toString()}`;
-        return apiCall(endpoint);
+        const query = queryParams.toString();
+        const endpoint = `/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get queue snapshot
     async getQueueSnapshot (includePositions = true) {
         const endpoint = `/requests/queue/?include_positions=${includePositions}`;
-        return apiCall(endpoint);
+        return fetchFullList(endpoint);
     },
     // Filtered queue snapshot (canonical ordering, optional positions, pagination)
     async getFilteredQueueSnapshot (params) {
@@ -677,10 +708,9 @@ const requestsService = {
         if (params.status) qp.append("status", params.status);
         if (params.fab_type) qp.append("fab_type", params.fab_type);
         if (params.include_positions !== undefined) qp.append("include_positions", params.include_positions ? "true" : "false");
-        if (params.page) qp.append("page", params.page.toString());
-        if (params.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/requests/queue/?${qp.toString()}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/requests/queue/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get single request
     async getRequest (id) {
@@ -782,10 +812,9 @@ const requestsService = {
         if (params?.fab_type) qp.append("fab_type", params.fab_type);
         if (params?.search) qp.append("search", params.search);
         if (params?.ordering) qp.append("ordering", params.ordering);
-        if (params?.page) qp.append("page", params.page.toString());
-        if (params?.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/teams/${teamId}/requests/${qp.toString() ? `?${qp.toString()}` : ""}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/teams/${teamId}/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     }
 };
 }),

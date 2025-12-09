@@ -1,32 +1,5 @@
 /* [next]/internal/font/google/geist_a7695b8e.module.css [app-client] (css) */
 @font-face {
-  font-family: Geist;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("../media/8a480f0b521d4e75-s.8e0177b5.woff2") format("woff2");
-  unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116;
-}
-
-@font-face {
-  font-family: Geist;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("../media/7178b3e590c64307-s.b97b3418.woff2") format("woff2");
-  unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: Geist;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("../media/caa3a2e1cccd8315-s.p.853070df.woff2") format("woff2");
-  unicode-range: U+??, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: Geist Fallback;
   src: local(Arial);
   ascent-override: 95.94%;
@@ -41,33 +14,6 @@
 }
 
 /* [next]/internal/font/google/geist_mono_354fc78.module.css [app-client] (css) */
-@font-face {
-  font-family: Geist Mono;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("../media/4fa387ec64143e14-s.c1fdd6c2.woff2") format("woff2");
-  unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116;
-}
-
-@font-face {
-  font-family: Geist Mono;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("../media/bbc41e54d2fcbd21-s.799d8ef8.woff2") format("woff2");
-  unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: Geist Mono;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("../media/797e433ab948586e-s.p.dbea232f.woff2") format("woff2");
-  unicode-range: U+??, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 @font-face {
   font-family: Geist Mono Fallback;
   src: local(Arial);
@@ -3023,10 +2969,6 @@
     background-color: lab(42.9324% -31.1164 -1.63481 / .05);
   }
 
-  .bg-\[\#d1d5db\] {
-    background-color: #d1d5db;
-  }
-
   .bg-\[\#d9e2f2\] {
     background-color: #d9e2f2;
   }
@@ -3542,12 +3484,6 @@
     --tw-gradient-stops: var(--tw-gradient-via-stops);
   }
 
-  .via-\[\#007367\] {
-    --tw-gradient-via: #007367;
-    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-via-stops);
-  }
-
   .via-\[\#f75700\]\/30 {
     --tw-gradient-via: #f757004d;
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
@@ -3621,11 +3557,6 @@
 
   .to-\[\#f98b42\] {
     --tw-gradient-to: #f98b42;
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-
-  .to-\[\#f75700\] {
-    --tw-gradient-to: #f75700;
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
@@ -5685,12 +5616,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:bg-\[\#c5cad1\]:hover {
-      background-color: #c5cad1;
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:bg-\[\#d7dce2\]:hover {
       background-color: #d7dce2;
     }
@@ -6159,10 +6084,6 @@
 
   .focus-visible\:ring-\[\#005a52\]:focus-visible {
     --tw-ring-color: #005a52;
-  }
-
-  .focus-visible\:ring-\[\#9ca3af\]:focus-visible {
-    --tw-ring-color: #9ca3af;
   }
 
   .focus-visible\:ring-\[\#00423e\]:focus-visible {
@@ -7420,12 +7341,6 @@
   @media (min-width: 40rem) {
     .sm\:w-64 {
       width: calc(var(--spacing) * 64);
-    }
-  }
-
-  @media (min-width: 40rem) {
-    .sm\:w-80 {
-      width: calc(var(--spacing) * 80);
     }
   }
 

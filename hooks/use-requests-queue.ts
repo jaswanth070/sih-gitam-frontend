@@ -25,8 +25,7 @@ export interface QueueEventMessage {
   note?: string
 }
 
-interface UseRequestsQueueOptions extends Omit<QueueSnapshotParams, 'include_positions' | 'page' | 'page_size'> {
-  pageSize?: number
+interface UseRequestsQueueOptions extends Omit<QueueSnapshotParams, 'include_positions'> {
   activeOnly?: boolean // If true, hide Issued / Cannot be Processed
   resyncIntervalMs?: number
   token?: string // optional explicit JWT override
@@ -45,7 +44,7 @@ interface RequestsQueueState {
 }
 
 export function useRequestsQueue(options: UseRequestsQueueOptions = {}): RequestsQueueState {
-  const { category, status, fab_type, pageSize = 50, activeOnly = false, resyncIntervalMs = 300000, token, dropUnfilteredEvents = true } = options
+  const { category, status, fab_type, activeOnly = false, resyncIntervalMs = 300000, token, dropUnfilteredEvents = true } = options
   const [requests, setRequests] = useState<RequestData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -79,8 +78,6 @@ export function useRequestsQueue(options: UseRequestsQueueOptions = {}): Request
       setError('')
       const params: QueueSnapshotParams = {
         include_positions: true,
-        page: 1,
-        page_size: pageSize,
         category,
         status,
         fab_type,
@@ -95,7 +92,7 @@ export function useRequestsQueue(options: UseRequestsQueueOptions = {}): Request
     } finally {
       setLoading(false)
     }
-  }, [applyList, computeOrdered, category, status, fab_type, pageSize, activeOnly])
+  }, [applyList, computeOrdered, category, status, fab_type, activeOnly])
 
   const upsert = useCallback((req: RequestData) => {
     const store = storeRef.current
@@ -231,7 +228,7 @@ export function useRequestsQueue(options: UseRequestsQueueOptions = {}): Request
       wsRef.current?.close()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, status, fab_type, pageSize, activeOnly])
+  }, [category, status, fab_type, activeOnly])
 
   // NOTE: For future optimistic create support:
   // Provide a function optimisticCreate(payload) that inserts temp entry with id `temp-<ts>`

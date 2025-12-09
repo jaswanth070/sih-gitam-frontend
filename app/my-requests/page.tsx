@@ -30,20 +30,47 @@ export default function MyRequestsPage() {
       }
       setLoading(true)
       setError("")
+
       if (!teamIds.length) {
-        setRequests([])
+        if (user?.is_admin || user?.is_poc) {
+          const response = await requestsService.listRequests({ ordering: "-created_at" })
+          setRequests(response.results)
+        } else {
+          setRequests([])
+        }
         return
       }
-      const response = await requestsService.listRequests({ ordering: "-created_at" })
-      const filtered = response.results.filter((r: RequestData) => teamIds.includes(r.team_id))
-      setRequests(filtered)
+
+      const settled = await Promise.allSettled(
+        teamIds.map((teamId) =>
+          requestsService.listTeamRequests(teamId, { ordering: "-created_at" }),
+        ),
+      )
+
+      const aggregated: RequestData[] = []
+      const failures: string[] = []
+
+      settled.forEach((result, index) => {
+        if (result.status === "fulfilled") {
+          aggregated.push(...result.value.results)
+        } else {
+          failures.push(teamIds[index])
+        }
+      })
+
+      aggregated.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      setRequests(aggregated)
+
+      if (failures.length) {
+        setError(failures.length === teamIds.length ? "Failed to load requests for your team. Please try again." : "Some team requests could not be loaded. Refresh to retry.")
+      }
     } catch (err) {
       console.error("[requests] single fetch error", err)
       setError(err instanceof Error ? err.message : "Failed to fetch requests")
     } finally {
       setLoading(false)
     }
-  }, [router, teamIds])
+  }, [router, teamIds, user?.is_admin, user?.is_poc])
 
   useEffect(() => {
     fetchOnce()
@@ -55,7 +82,10 @@ export default function MyRequestsPage() {
     return requests.filter((r) => {
       if (statusFilter && r.status !== statusFilter) return false
       if (categoryFilter && r.category !== categoryFilter) return false
-      if (searchQuery && !(r.notes || "Untitled").toLowerCase().includes(searchQuery.toLowerCase())) return false
+      if (searchQuery) {
+        const haystack = `${r.notes ?? ""} ${r.description ?? ""}`.toLowerCase()
+        if (!haystack.includes(searchQuery.toLowerCase())) return false
+      }
       return true
     })
   }, [requests, statusFilter, categoryFilter, searchQuery])
@@ -165,6 +195,11 @@ export default function MyRequestsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((request) => {
             const accent = statusAccent(request.status)
+            const title = request.notes?.trim()
+              ? request.notes
+              : request.description?.trim()
+                ? request.description
+                : "Untitled"
             return (
               <Link key={request.id} href={`/my-requests/${request.id}`}>
                 <div
@@ -186,7 +221,7 @@ export default function MyRequestsPage() {
                     >{request.category}</span>
                     <RequestProgress status={request.status} />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2">{request.notes || "Untitled"}</h3>
+                  <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2">{title}</h3>
                   {(() => {
                     const fab = summarizeFabrication(request.fabrication)
                     if (!fab) return null

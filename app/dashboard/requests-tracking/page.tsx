@@ -22,7 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useToast } from "@/components/ui/use-toast"
 import { authService, type AdminTeamSummary } from "@/lib/auth-service"
-import { requestsService, type RequestData, type RequestsListResponse } from "@/lib/requests-service"
+import { requestsService, type RequestData } from "@/lib/requests-service"
 
 const REQUESTS_ORDERING = "-created_at"
 
@@ -36,11 +36,6 @@ function formatDate(timestamp?: string | null) {
   }
 }
 
-function derivePageSize(response: RequestsListResponse, fallback: number) {
-  if (response.results?.length) return response.results.length
-  return fallback
-}
-
 export default function RequestsTrackingPage() {
   const { toast } = useToast()
   const [authorized, setAuthorized] = useState<boolean | null>(null)
@@ -51,12 +46,7 @@ export default function RequestsTrackingPage() {
   const [selectedTeamId, setSelectedTeamId] = useState<string>("")
   const [searchTerm, setSearchTerm] = useState("")
 
-  const [requestsPage, setRequestsPage] = useState(1)
   const [requests, setRequests] = useState<RequestData[]>([])
-  const [requestsMeta, setRequestsMeta] = useState<{ count: number; next: string | null; previous: string | null }>(
-    { count: 0, next: null, previous: null },
-  )
-  const [pageSize, setPageSize] = useState(10)
   const [requestsLoading, setRequestsLoading] = useState(false)
   const [requestsError, setRequestsError] = useState<string | null>(null)
 
@@ -85,10 +75,9 @@ export default function RequestsTrackingPage() {
   }, [toast])
 
   const loadRequests = useCallback(
-    async (teamId: string, page = 1, search = "") => {
+    async (teamId: string, search = "") => {
       if (!teamId) {
         setRequests([])
-        setRequestsMeta({ count: 0, next: null, previous: null })
         return
       }
 
@@ -96,13 +85,10 @@ export default function RequestsTrackingPage() {
       setRequestsError(null)
       try {
         const response = await requestsService.listTeamRequests(teamId, {
-          page,
           ordering: REQUESTS_ORDERING,
           search: search.trim() ? search.trim() : undefined,
         })
         setRequests(response.results)
-        setRequestsMeta({ count: response.count, next: response.next, previous: response.previous })
-        setPageSize((prev) => derivePageSize(response, prev))
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unable to load requests."
         setRequestsError(message)
@@ -119,12 +105,10 @@ export default function RequestsTrackingPage() {
   }, [loadTeams])
 
   useEffect(() => {
-    setRequestsPage(1)
     if (selectedTeamId) {
-      void loadRequests(selectedTeamId, 1, searchTerm)
+      void loadRequests(selectedTeamId, searchTerm)
     } else {
       setRequests([])
-      setRequestsMeta({ count: 0, next: null, previous: null })
     }
   }, [selectedTeamId, loadRequests, searchTerm])
 
@@ -138,27 +122,7 @@ export default function RequestsTrackingPage() {
     [selectedTeamId, teams],
   )
 
-  const totalPages = useMemo(() => {
-    if (!requestsMeta.count) return 1
-    return Math.max(1, Math.ceil(requestsMeta.count / Math.max(pageSize, 1)))
-  }, [pageSize, requestsMeta.count])
-
-  const handlePagination = useCallback(
-    (direction: "previous" | "next") => {
-      setRequestsPage((previous) => {
-        const next = direction === "previous" ? previous - 1 : previous + 1
-        const clamped = Math.min(Math.max(next, 1), totalPages)
-        if (clamped !== previous && selectedTeamId) {
-          void loadRequests(selectedTeamId, clamped, searchTerm)
-        }
-        return clamped
-      })
-    },
-    [loadRequests, selectedTeamId, totalPages, searchTerm],
-  )
-
   const resetFilters = useCallback(() => {
-    setRequestsPage(1)
     setSearchTerm("")
   }, [])
 
@@ -177,14 +141,14 @@ export default function RequestsTrackingPage() {
           size="sm"
           variant="outline"
           className="gap-2"
-          onClick={() => selectedTeamId && void loadRequests(selectedTeamId, requestsPage, searchTerm)}
+          onClick={() => selectedTeamId && void loadRequests(selectedTeamId, searchTerm)}
           disabled={!selectedTeamId || requestsLoading}
         >
           {requestsLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw className="h-4 w-4" />} Refresh
         </Button>
         <p className="text-xs text-muted-foreground">
-          {requestsMeta.count
-            ? `${requestsMeta.count} request${requestsMeta.count === 1 ? "" : "s"} tracked`
+          {requests.length
+            ? `${requests.length} request${requests.length === 1 ? "" : "s"} tracked`
             : "No requests yet"}
         </p>
       </div>
@@ -386,25 +350,10 @@ export default function RequestsTrackingPage() {
             </Table>
             <div className="flex flex-col gap-2 border-t border-gray-200 p-4 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
               <div>
-                Page {requestsPage} of {totalPages}
+                Showing {requests.length} request{requests.length === 1 ? "" : "s"}
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePagination("previous")}
-                  disabled={requestsPage <= 1 || requestsLoading}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePagination("next")}
-                  disabled={requestsPage >= totalPages || requestsLoading}
-                >
-                  Next
-                </Button>
+              <div className="text-xs text-muted-foreground">
+                Ordered by most recent submissions first.
               </div>
             </div>
           </Card>

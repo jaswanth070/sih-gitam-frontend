@@ -60,7 +60,6 @@ export interface ListRequestsParams {
   team_id?: string
   search?: string
   ordering?: string
-  page?: number
 }
 
 export interface TeamRequestsParams {
@@ -69,8 +68,6 @@ export interface TeamRequestsParams {
   fab_type?: "3D" | "LASER" | "OTHER"
   search?: string
   ordering?: string
-  page?: number
-  page_size?: number
 }
 
 export interface RequestsListResponse {
@@ -80,25 +77,25 @@ export interface RequestsListResponse {
   results: RequestData[]
 }
 
-// Queue snapshot response (includes explicit paging metadata and optional positions)
-export interface QueueSnapshotResponse {
-  count: number
-  page: number
-  page_size: number
-  results: RequestData[]
-}
-
 export interface QueueSnapshotParams {
   category?: "BOM" | "ADDITIONAL" | "FABRICATION"
   status?: "Submitted" | "Processing" | "Issued" | "Cannot be Processed"
   fab_type?: "3D" | "LASER" | "OTHER"
   include_positions?: boolean
-  page?: number
-  page_size?: number
+}
+
+function resolveEndpoint(endpoint: string): string {
+  if (/^https?:\/\//i.test(endpoint)) {
+    return endpoint
+  }
+  if (endpoint.startsWith("/")) {
+    return `${BASE_URL}${endpoint}`
+  }
+  return `${BASE_URL}/${endpoint}`
 }
 
 async function apiCall<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const url = `${BASE_URL}${endpoint}`
+  const url = resolveEndpoint(endpoint)
   const headers = new Headers(options.headers || {})
 
   const accessToken = authService.getAccessToken()
@@ -142,6 +139,29 @@ async function apiCall<T>(endpoint: string, options: RequestInit = {}): Promise<
   return response.json()
 }
 
+async function fetchFullList(endpoint: string): Promise<RequestsListResponse> {
+  const first = await apiCall<RequestsListResponse>(endpoint)
+  const collected: RequestData[] = Array.isArray(first.results) ? [...first.results] : []
+  const visited = new Set<string>()
+  let cursor = first.next || null
+
+  while (cursor && !visited.has(cursor)) {
+    visited.add(cursor)
+    const page = await apiCall<RequestsListResponse>(cursor)
+    if (Array.isArray(page.results)) {
+      collected.push(...page.results)
+    }
+    cursor = page.next || null
+  }
+
+  return {
+    count: collected.length,
+    next: null,
+    previous: null,
+    results: collected,
+  }
+}
+
 export const requestsService = {
   // List requests with filters
   async listRequests(params?: ListRequestsParams): Promise<RequestsListResponse> {
@@ -152,29 +172,28 @@ export const requestsService = {
     if (params?.team_id) queryParams.append("team_id", params.team_id)
     if (params?.search) queryParams.append("search", params.search)
     if (params?.ordering) queryParams.append("ordering", params.ordering)
-    if (params?.page) queryParams.append("page", params.page.toString())
 
-    const endpoint = `/requests/?${queryParams.toString()}`
-    return apiCall<RequestsListResponse>(endpoint)
+    const query = queryParams.toString()
+    const endpoint = `/requests/${query ? `?${query}` : ""}`
+    return fetchFullList(endpoint)
   },
 
   // Get queue snapshot
   async getQueueSnapshot(includePositions = true): Promise<RequestsListResponse> {
     const endpoint = `/requests/queue/?include_positions=${includePositions}`
-    return apiCall<RequestsListResponse>(endpoint)
+    return fetchFullList(endpoint)
   },
 
   // Filtered queue snapshot (canonical ordering, optional positions, pagination)
-  async getFilteredQueueSnapshot(params: QueueSnapshotParams): Promise<QueueSnapshotResponse> {
+  async getFilteredQueueSnapshot(params: QueueSnapshotParams): Promise<RequestsListResponse> {
     const qp = new URLSearchParams()
     if (params.category) qp.append("category", params.category)
     if (params.status) qp.append("status", params.status)
     if (params.fab_type) qp.append("fab_type", params.fab_type)
     if (params.include_positions !== undefined) qp.append("include_positions", params.include_positions ? "true" : "false")
-    if (params.page) qp.append("page", params.page.toString())
-    if (params.page_size) qp.append("page_size", params.page_size.toString())
-    const endpoint = `/requests/queue/?${qp.toString()}`
-    return apiCall<QueueSnapshotResponse>(endpoint)
+    const query = qp.toString()
+    const endpoint = `/requests/queue/${query ? `?${query}` : ""}`
+    return fetchFullList(endpoint)
   },
 
   // Get single request
@@ -285,9 +304,8 @@ export const requestsService = {
     if (params?.fab_type) qp.append("fab_type", params.fab_type)
     if (params?.search) qp.append("search", params.search)
     if (params?.ordering) qp.append("ordering", params.ordering)
-    if (params?.page) qp.append("page", params.page.toString())
-    if (params?.page_size) qp.append("page_size", params.page_size.toString())
-    const endpoint = `/teams/${teamId}/requests/${qp.toString() ? `?${qp.toString()}` : ""}`
-    return apiCall<RequestsListResponse>(endpoint)
+    const query = qp.toString()
+    const endpoint = `/teams/${teamId}/requests/${query ? `?${query}` : ""}`
+    return fetchFullList(endpoint)
   },
 }

@@ -1,12 +1,13 @@
 {
-  "/confirm-team/page": "app/confirm-team/page.js",
   "/dashboard/check-in/page": "app/dashboard/check-in/page.js",
   "/dashboard/contacts-directory/page": "app/dashboard/contacts-directory/page.js",
   "/dashboard/jury-forms/page": "app/dashboard/jury-forms/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/enroute-gitam/page": "app/enroute-gitam/page.js",
+  "/dashboard/requests-tracking/page": "app/dashboard/requests-tracking/page.js",
   "/login/page": "app/login/page.js",
+  "/my-requests/[id]/page": "app/my-requests/[id]/page.js",
+  "/my-requests/new/page": "app/my-requests/new/page.js",
   "/my-requests/page": "app/my-requests/page.js",
-  "/page": "app/page.js",
-  "/poc/ta-form/page": "app/poc/ta-form/page.js"
+  "/poc/teams/[id]/page": "app/poc/teams/[id]/page.js",
+  "/queue/page": "app/queue/page.js"
 }

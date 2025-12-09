@@ -709,8 +709,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$
 ;
 const BASE_URL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["buildRequestsBaseUrl"])();
 const ACCESS_TOKEN_KEY = "sih_access_token";
+function resolveEndpoint(endpoint) {
+    if (/^https?:\/\//i.test(endpoint)) {
+        return endpoint;
+    }
+    if (endpoint.startsWith("/")) {
+        return `${BASE_URL}${endpoint}`;
+    }
+    return `${BASE_URL}/${endpoint}`;
+}
 async function apiCall(endpoint, options = {}) {
-    const url = `${BASE_URL}${endpoint}`;
+    const url = resolveEndpoint(endpoint);
     const headers = new Headers(options.headers || {});
     const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
     if (accessToken && !headers.has("Authorization")) {
@@ -754,6 +763,28 @@ async function apiCall(endpoint, options = {}) {
     }
     return response.json();
 }
+async function fetchFullList(endpoint) {
+    const first = await apiCall(endpoint);
+    const collected = Array.isArray(first.results) ? [
+        ...first.results
+    ] : [];
+    const visited = new Set();
+    let cursor = first.next || null;
+    while(cursor && !visited.has(cursor)){
+        visited.add(cursor);
+        const page = await apiCall(cursor);
+        if (Array.isArray(page.results)) {
+            collected.push(...page.results);
+        }
+        cursor = page.next || null;
+    }
+    return {
+        count: collected.length,
+        next: null,
+        previous: null,
+        results: collected
+    };
+}
 const requestsService = {
     // List requests with filters
     async listRequests (params) {
@@ -764,14 +795,14 @@ const requestsService = {
         if (params?.team_id) queryParams.append("team_id", params.team_id);
         if (params?.search) queryParams.append("search", params.search);
         if (params?.ordering) queryParams.append("ordering", params.ordering);
-        if (params?.page) queryParams.append("page", params.page.toString());
-        const endpoint = `/requests/?${queryParams.toString()}`;
-        return apiCall(endpoint);
+        const query = queryParams.toString();
+        const endpoint = `/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get queue snapshot
     async getQueueSnapshot (includePositions = true) {
         const endpoint = `/requests/queue/?include_positions=${includePositions}`;
-        return apiCall(endpoint);
+        return fetchFullList(endpoint);
     },
     // Filtered queue snapshot (canonical ordering, optional positions, pagination)
     async getFilteredQueueSnapshot (params) {
@@ -780,10 +811,9 @@ const requestsService = {
         if (params.status) qp.append("status", params.status);
         if (params.fab_type) qp.append("fab_type", params.fab_type);
         if (params.include_positions !== undefined) qp.append("include_positions", params.include_positions ? "true" : "false");
-        if (params.page) qp.append("page", params.page.toString());
-        if (params.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/requests/queue/?${qp.toString()}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/requests/queue/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get single request
     async getRequest (id) {
@@ -885,10 +915,9 @@ const requestsService = {
         if (params?.fab_type) qp.append("fab_type", params.fab_type);
         if (params?.search) qp.append("search", params.search);
         if (params?.ordering) qp.append("ordering", params.ordering);
-        if (params?.page) qp.append("page", params.page.toString());
-        if (params?.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/teams/${teamId}/requests/${qp.toString() ? `?${qp.toString()}` : ""}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/teams/${teamId}/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     }
 };
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
@@ -3321,16 +3350,39 @@ function MyRequestsPage() {
                 setLoading(true);
                 setError("");
                 if (!teamIds.length) {
-                    setRequests([]);
+                    if (user?.is_admin || user?.is_poc) {
+                        const response = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].listRequests({
+                            ordering: "-created_at"
+                        });
+                        setRequests(response.results);
+                    } else {
+                        setRequests([]);
+                    }
                     return;
                 }
-                const response = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].listRequests({
-                    ordering: "-created_at"
-                });
-                const filtered = response.results.filter({
-                    "MyRequestsPage.useCallback[fetchOnce].filtered": (r)=>teamIds.includes(r.team_id)
-                }["MyRequestsPage.useCallback[fetchOnce].filtered"]);
-                setRequests(filtered);
+                const settled = await Promise.allSettled(teamIds.map({
+                    "MyRequestsPage.useCallback[fetchOnce]": (teamId)=>__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["requestsService"].listTeamRequests(teamId, {
+                            ordering: "-created_at"
+                        })
+                }["MyRequestsPage.useCallback[fetchOnce]"]));
+                const aggregated = [];
+                const failures = [];
+                settled.forEach({
+                    "MyRequestsPage.useCallback[fetchOnce]": (result, index)=>{
+                        if (result.status === "fulfilled") {
+                            aggregated.push(...result.value.results);
+                        } else {
+                            failures.push(teamIds[index]);
+                        }
+                    }
+                }["MyRequestsPage.useCallback[fetchOnce]"]);
+                aggregated.sort({
+                    "MyRequestsPage.useCallback[fetchOnce]": (a, b)=>new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+                }["MyRequestsPage.useCallback[fetchOnce]"]);
+                setRequests(aggregated);
+                if (failures.length) {
+                    setError(failures.length === teamIds.length ? "Failed to load requests for your team. Please try again." : "Some team requests could not be loaded. Refresh to retry.");
+                }
             } catch (err) {
                 console.error("[requests] single fetch error", err);
                 setError(err instanceof Error ? err.message : "Failed to fetch requests");
@@ -3340,7 +3392,9 @@ function MyRequestsPage() {
         }
     }["MyRequestsPage.useCallback[fetchOnce]"], [
         router,
-        teamIds
+        teamIds,
+        user?.is_admin,
+        user?.is_poc
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "MyRequestsPage.useEffect": ()=>{
@@ -3355,7 +3409,10 @@ function MyRequestsPage() {
                 "MyRequestsPage.useMemo[filtered]": (r)=>{
                     if (statusFilter && r.status !== statusFilter) return false;
                     if (categoryFilter && r.category !== categoryFilter) return false;
-                    if (searchQuery && !(r.notes || "Untitled").toLowerCase().includes(searchQuery.toLowerCase())) return false;
+                    if (searchQuery) {
+                        const haystack = `${r.notes ?? ""} ${r.description ?? ""}`.toLowerCase();
+                        if (!haystack.includes(searchQuery.toLowerCase())) return false;
+                    }
                     return true;
                 }
             }["MyRequestsPage.useMemo[filtered]"]);
@@ -3419,7 +3476,7 @@ function MyRequestsPage() {
                                 children: "My Requests"
                             }, void 0, false, {
                                 fileName: "[project]/app/my-requests/page.tsx",
-                                lineNumber: 96,
+                                lineNumber: 126,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3431,7 +3488,7 @@ function MyRequestsPage() {
                                         children: "Refresh"
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 100,
+                                        lineNumber: 130,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -3445,19 +3502,19 @@ function MyRequestsPage() {
                                         children: "New Request"
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 106,
+                                        lineNumber: 136,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/my-requests/page.tsx",
-                                lineNumber: 99,
+                                lineNumber: 129,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/my-requests/page.tsx",
-                        lineNumber: 95,
+                        lineNumber: 125,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3471,7 +3528,7 @@ function MyRequestsPage() {
                                         children: "Submitted"
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 119,
+                                        lineNumber: 149,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3482,13 +3539,13 @@ function MyRequestsPage() {
                                         children: counts.Submitted
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 120,
+                                        lineNumber: 150,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/my-requests/page.tsx",
-                                lineNumber: 118,
+                                lineNumber: 148,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3499,7 +3556,7 @@ function MyRequestsPage() {
                                         children: "Processing"
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 123,
+                                        lineNumber: 153,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3510,13 +3567,13 @@ function MyRequestsPage() {
                                         children: counts.Processing
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 124,
+                                        lineNumber: 154,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/my-requests/page.tsx",
-                                lineNumber: 122,
+                                lineNumber: 152,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3527,7 +3584,7 @@ function MyRequestsPage() {
                                         children: "Issued"
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 127,
+                                        lineNumber: 157,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3538,13 +3595,13 @@ function MyRequestsPage() {
                                         children: counts.Issued
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 128,
+                                        lineNumber: 158,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/my-requests/page.tsx",
-                                lineNumber: 126,
+                                lineNumber: 156,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3555,7 +3612,7 @@ function MyRequestsPage() {
                                         children: "Cannot"
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 131,
+                                        lineNumber: 161,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3566,19 +3623,19 @@ function MyRequestsPage() {
                                         children: counts.Cannot
                                     }, void 0, false, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 132,
+                                        lineNumber: 162,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/my-requests/page.tsx",
-                                lineNumber: 130,
+                                lineNumber: 160,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/my-requests/page.tsx",
-                        lineNumber: 117,
+                        lineNumber: 147,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$requests$2f$request$2d$filters$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RequestFilters"], {
@@ -3590,13 +3647,13 @@ function MyRequestsPage() {
                         onCategoryChange: setCategoryFilter
                     }, void 0, false, {
                         fileName: "[project]/app/my-requests/page.tsx",
-                        lineNumber: 135,
+                        lineNumber: 165,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/my-requests/page.tsx",
-                lineNumber: 94,
+                lineNumber: 124,
                 columnNumber: 7
             }, this),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3606,12 +3663,12 @@ function MyRequestsPage() {
                     children: error
                 }, void 0, false, {
                     fileName: "[project]/app/my-requests/page.tsx",
-                    lineNumber: 146,
+                    lineNumber: 176,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/my-requests/page.tsx",
-                lineNumber: 145,
+                lineNumber: 175,
                 columnNumber: 9
             }, this),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3621,12 +3678,12 @@ function MyRequestsPage() {
                     children: "Loading requests..."
                 }, void 0, false, {
                     fileName: "[project]/app/my-requests/page.tsx",
-                    lineNumber: 151,
+                    lineNumber: 181,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/my-requests/page.tsx",
-                lineNumber: 150,
+                lineNumber: 180,
                 columnNumber: 9
             }, this) : filtered.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "text-center py-12",
@@ -3636,7 +3693,7 @@ function MyRequestsPage() {
                         children: "No requests yet"
                     }, void 0, false, {
                         fileName: "[project]/app/my-requests/page.tsx",
-                        lineNumber: 155,
+                        lineNumber: 185,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -3648,18 +3705,19 @@ function MyRequestsPage() {
                         children: "Create Your First Request"
                     }, void 0, false, {
                         fileName: "[project]/app/my-requests/page.tsx",
-                        lineNumber: 156,
+                        lineNumber: 186,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/my-requests/page.tsx",
-                lineNumber: 154,
+                lineNumber: 184,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
                 children: filtered.map((request)=>{
                     const accent = statusAccent(request.status);
+                    const title = request.notes?.trim() ? request.notes : request.description?.trim() ? request.description : "Untitled";
                     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                         href: `/my-requests/${request.id}`,
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3675,7 +3733,7 @@ function MyRequestsPage() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/app/my-requests/page.tsx",
-                                    lineNumber: 174,
+                                    lineNumber: 209,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3689,28 +3747,28 @@ function MyRequestsPage() {
                                             children: request.category
                                         }, void 0, false, {
                                             fileName: "[project]/app/my-requests/page.tsx",
-                                            lineNumber: 176,
+                                            lineNumber: 211,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$requests$2f$request$2d$progress$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RequestProgress"], {
                                             status: request.status
                                         }, void 0, false, {
                                             fileName: "[project]/app/my-requests/page.tsx",
-                                            lineNumber: 187,
+                                            lineNumber: 222,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/my-requests/page.tsx",
-                                    lineNumber: 175,
+                                    lineNumber: 210,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                     className: "text-sm font-semibold text-gray-900 line-clamp-2 mb-2",
-                                    children: request.notes || "Untitled"
+                                    children: title
                                 }, void 0, false, {
                                     fileName: "[project]/app/my-requests/page.tsx",
-                                    lineNumber: 189,
+                                    lineNumber: 224,
                                     columnNumber: 19
                                 }, this),
                                 (()=>{
@@ -3724,7 +3782,7 @@ function MyRequestsPage() {
                                                 children: fab.secondary ? `${fab.base} • ${fab.secondary}` : fab.base
                                             }, void 0, false, {
                                                 fileName: "[project]/app/my-requests/page.tsx",
-                                                lineNumber: 196,
+                                                lineNumber: 231,
                                                 columnNumber: 25
                                             }, this),
                                             fab.filename && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3735,13 +3793,13 @@ function MyRequestsPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/my-requests/page.tsx",
-                                                lineNumber: 200,
+                                                lineNumber: 235,
                                                 columnNumber: 27
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/my-requests/page.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 230,
                                         columnNumber: 23
                                     }, this);
                                 })(),
@@ -3755,7 +3813,7 @@ function MyRequestsPage() {
                                                     children: i.item_name
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 209,
+                                                    lineNumber: 244,
                                                     columnNumber: 27
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3766,18 +3824,18 @@ function MyRequestsPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 210,
+                                                    lineNumber: 245,
                                                     columnNumber: 27
                                                 }, this)
                                             ]
                                         }, i.id || i.item_name, true, {
                                             fileName: "[project]/app/my-requests/page.tsx",
-                                            lineNumber: 208,
+                                            lineNumber: 243,
                                             columnNumber: 25
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/app/my-requests/page.tsx",
-                                    lineNumber: 206,
+                                    lineNumber: 241,
                                     columnNumber: 21
                                 }, this),
                                 (request.additional_items?.length || 0) > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3790,7 +3848,7 @@ function MyRequestsPage() {
                                                     children: i.item_name
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 219,
+                                                    lineNumber: 254,
                                                     columnNumber: 27
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3801,18 +3859,18 @@ function MyRequestsPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 220,
+                                                    lineNumber: 255,
                                                     columnNumber: 27
                                                 }, this)
                                             ]
                                         }, i.id || i.item_name, true, {
                                             fileName: "[project]/app/my-requests/page.tsx",
-                                            lineNumber: 218,
+                                            lineNumber: 253,
                                             columnNumber: 25
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/app/my-requests/page.tsx",
-                                    lineNumber: 216,
+                                    lineNumber: 251,
                                     columnNumber: 21
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3826,7 +3884,7 @@ function MyRequestsPage() {
                                                     children: "Submitted"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 227,
+                                                    lineNumber: 262,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("time", {
@@ -3834,13 +3892,13 @@ function MyRequestsPage() {
                                                     children: formatTS(request.created_at)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 228,
+                                                    lineNumber: 263,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/my-requests/page.tsx",
-                                            lineNumber: 226,
+                                            lineNumber: 261,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3851,7 +3909,7 @@ function MyRequestsPage() {
                                                     children: "Updated"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 231,
+                                                    lineNumber: 266,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("time", {
@@ -3859,42 +3917,42 @@ function MyRequestsPage() {
                                                     children: formatTS(request.updated_at)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/my-requests/page.tsx",
-                                                    lineNumber: 232,
+                                                    lineNumber: 267,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/my-requests/page.tsx",
-                                            lineNumber: 230,
+                                            lineNumber: 265,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/my-requests/page.tsx",
-                                    lineNumber: 225,
+                                    lineNumber: 260,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/my-requests/page.tsx",
-                            lineNumber: 170,
+                            lineNumber: 205,
                             columnNumber: 17
                         }, this)
                     }, request.id, false, {
                         fileName: "[project]/app/my-requests/page.tsx",
-                        lineNumber: 169,
+                        lineNumber: 204,
                         columnNumber: 15
                     }, this);
                 })
             }, void 0, false, {
                 fileName: "[project]/app/my-requests/page.tsx",
-                lineNumber: 165,
+                lineNumber: 195,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/my-requests/page.tsx",
-        lineNumber: 93,
+        lineNumber: 123,
         columnNumber: 5
     }, this);
 }

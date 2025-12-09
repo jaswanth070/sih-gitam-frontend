@@ -1,828 +1,1438 @@
-[00:00:02.098] Server  LOG      ✓ Ready in 1489ms
-[00:00:10.822] Server  LOG        Reload env: .env.local
-[00:00:13.293] Server  LOG        Reload env: .env.local
-[00:00:34.118] Server  LOG      ○ Compiling / ...
-[00:00:35.387] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:35.586] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:35.586] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:35.586] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765040543918}
-[00:00:40.912] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765040549240}
-[00:00:47.099] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:00:02.154] Server  LOG      ✓ Ready in 1420ms
+[00:00:02.169] Browser ERROR   [queue-hook] snapshot error {}
+[00:00:02.169] Browser ERROR   [queue-hook] snapshot error {}
+[00:00:05.204] Server  LOG      ○ Compiling /queue ...
+[00:00:50.857] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
+[00:01:10.211] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/dashboard. Falling back to browser navigation. {}
+[00:01:10.211] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/dashboard. Falling back to browser navigation. {}
+[00:01:10.211] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/dashboard. Falling back to browser navigation. {}
+[00:01:21.023] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
+[00:01:42.090] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
+[00:01:49.676] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:49.676] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:49.677] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:49.677] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:49.960] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:49.961] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:49.962] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:49.962] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:49.988] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:49.989] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:49.990] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:49.990] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.012] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.012] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.013] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.013] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.242] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.243] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.244] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.244] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.295] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.295] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.296] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.296] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.315] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.316] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.316] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.317] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.334] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.334] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.334] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.335] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.548] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.550] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:50.550] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:50.565] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:50.754] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="queue/page...">
+            <SegmentTrieNode>
+            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
+              <QueuePage params={Promise} searchParams={Promise}>
+                <DashboardShell>
+                  <SidebarProvider className="bg-white">
+                    <TooltipProvider delayDuration={0}>
+                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
+                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
++                         <div
++                           data-slot="sidebar-wrapper"
++                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
++                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
++                         >
+-                         <Suspense>
+          ...
+        ...
+
+[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
+[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287068082}
+[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287068082}
+[00:01:56.390] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:56.391] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:56.392] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:56.392] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:56.625] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287073947}
+[00:01:58.916] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:58.916] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:58.917] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:01:58.917] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:01:59.767] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287077099}
+[00:02:12.653] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:12.654] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:12.654] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:12.654] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:12.878] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287090196}
+[00:02:14.293] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:14.294] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:14.294] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:14.295] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:14.523] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/check-in color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/check-in","o":"http://localhost:3000/dashboard/check-in","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287091843}
+[00:02:16.409] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:16.410] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:16.410] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:16.411] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:16.673] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287093946}
+[00:02:18.392] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:18.393] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:18.393] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:18.393] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:18.559] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287095867}
+[00:02:26.146] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:26.147] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:26.147] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:26.147] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:26.361] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287103685}
+[00:02:36.629] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:00:47.099] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:00:47.099] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:02:36.630] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:36.630] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:00:47.099] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:00:49.537] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765040557866}
-[00:00:52.426] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765040560697}
-[00:10:51.502] Server  LOG      ✓ Compiled in 452ms
-[00:10:51.634] Browser ERROR   uncaughtError: ReferenceError: ShieldCheck is not defined
-[00:11:03.773] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:11:04.247] Server  ERROR   D:\Jaswanth\Downloads\smart-india-hackathon-app\.next\dev\server\chunks\ssr\_c2a172ed._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:11:04.369] Server  ERROR   D:\Jaswanth\Downloads\smart-india-hackathon-app\node_modules\.pnpm\next@16.0.3_react-dom@19.2.0_react@19.2.0__react@19.2.0\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:11:04.373] Server  ERROR    ⨯ ReferenceError: JURY_CONTACTS is not defined
-[00:11:04.458] Server  LOG      ✓ Compiled in 440ms
-[00:11:04.460] Browser ERROR   uncaughtError: ReferenceError: JURY_CONTACTS is not defined
-[00:11:04.751] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:11:04.932] Browser ERROR   uncaughtError: ReferenceError: JURY_CONTACTS is not defined
-[00:11:22.325] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:11:22.635] Server  ERROR   D:\Jaswanth\Downloads\smart-india-hackathon-app\.next\dev\server\chunks\ssr\_c2a172ed._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:11:22.641] Server  ERROR   D:\Jaswanth\Downloads\smart-india-hackathon-app\node_modules\.pnpm\next@16.0.3_react-dom@19.2.0_react@19.2.0__react@19.2.0\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:11:22.643] Server  ERROR    ⨯ ReferenceError: JURY_CONTACTS is not defined
-[00:11:22.676] Server  LOG      ✓ Compiled in 384ms
-[00:11:22.886] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:11:23.048] Browser ERROR   uncaughtError: ReferenceError: JURY_CONTACTS is not defined
-[00:11:33.704] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:11:34.114] Server  LOG      ✓ Compiled in 428ms
-[00:11:34.314] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:11:34.556] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="dashboard/...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function ContactsDirectoryPage} serverProvidedParams={{...}}>
-              <ContactsDirectoryPage params={Promise} searchParams={Promise}>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
--                         <Suspense>
-          ...
-        ...
-
-[00:11:34.556] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:11:34.556] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:11:34.556] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:11:34.556] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041202869}
-[00:11:34.556] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041202869}
-[00:11:34.556] Browser ERROR   uncaughtError: ReferenceError: filteredJuryContacts is not defined
-[00:11:42.992] Server  LOG      ✓ Compiled in 429ms
-[00:11:43.001] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:11:43.579] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:11:43.845] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="dashboard/...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function ContactsDirectoryPage} serverProvidedParams={{...}}>
-              <ContactsDirectoryPage params={Promise} searchParams={Promise}>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
--                         <Suspense>
-          ...
-        ...
-
-[00:11:43.845] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:11:43.845] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:11:43.845] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:11:43.845] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041212125}
-[00:11:43.845] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041212125}
-[00:11:43.845] Browser ERROR   uncaughtError: ReferenceError: ShieldCheck is not defined
-[00:11:55.427] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:11:55.804] Server  LOG      ✓ Compiled in 783ms
-[00:11:55.818] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:11:56.075] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:11:56.391] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="dashboard/...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function ContactsDirectoryPage} serverProvidedParams={{...}}>
-              <ContactsDirectoryPage params={Promise} searchParams={Promise}>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
--                         <Suspense>
-          ...
-        ...
-
-[00:11:56.391] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:11:56.391] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:11:56.391] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:11:56.391] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041224637}
-[00:11:56.391] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041224637}
-[00:12:04.549] Server  LOG      ✓ Compiled in 431ms
-[00:12:31.304] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/check-in color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/check-in","o":"http://localhost:3000/dashboard/check-in","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041259626}
-[00:12:33.140] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041261428}
-[00:15:23.622] Server  LOG      ✓ Compiled in 363ms
-[00:15:31.018] Server  LOG      ✓ Compiled in 461ms
-[00:15:51.166] Server  LOG      ✓ Compiled in 507ms
-[00:15:58.804] Server  LOG      ✓ Compiled in 412ms
-[00:16:21.315] Server  LOG      ✓ Compiled in 305ms
-[00:18:10.296] Server  LOG      ✓ Compiled in 478ms
-[00:18:18.853] Server  LOG      ✓ Compiled in 395ms
-[00:18:26.727] Server  LOG      ✓ Compiled in 405ms
-[00:18:26.900] Browser ERROR   uncaughtError: ReferenceError: VolunteerSection is not defined
-[00:18:35.299] Server  LOG      ✓ Compiled in 600ms
-[00:18:35.313] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:18:36.031] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:18:36.896] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="dashboard/...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function ContactsDirectoryPage} serverProvidedParams={{...}}>
-              <ContactsDirectoryPage params={Promise} searchParams={Promise}>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
--                         <Suspense>
-          ...
-        ...
-
-[00:18:36.896] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:18:36.896] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:18:36.896] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:18:36.896] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041624729}
-[00:18:36.896] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765041624729}
-[00:21:23.031] Server  LOG      ✓ Compiled in 644ms
-[00:25:56.756] Server  LOG      ✓ Compiled in 1236ms
-[00:25:57.891] Browser ERROR   ./app/dashboard/contacts-directory/page.tsx:49:15
-Parsing ecmascript source code failed
-  47 |   phone: string
-  48 |             <CollapsibleCard
-> 49 |               title="Team members"
-     |               ^^^^^
-  50 |               description={
-  51 |                 role === "admin"
-  52 |                   ? "Search across every registered team."
-
-Expected ',', got 'title'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component Browser]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component SSR]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-[00:26:48.897] Browser ERROR   ./app/dashboard/contacts-directory/page.tsx:49:15
-Parsing ecmascript source code failed
-  47 |   phone: string
-  48 |             <CollapsibleCard
-> 49 |               title="Team members"
-     |               ^^^^^
-  50 |               description={
-  51 |                 role === "admin"
-  52 |                   ? "Search across every registered team."
-
-Expected ',', got 'title'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component Browser]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component SSR]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-[00:27:04.894] Browser ERROR   ./app/dashboard/contacts-directory/page.tsx:49:15
-Parsing ecmascript source code failed
-  47 |   phone: string
-  48 |             <CollapsibleCard
-> 49 |               title="Team members"
-     |               ^^^^^
-  50 |               description={
-  51 |                 role === "admin"
-  52 |                   ? "Search across every registered team."
-
-Expected ',', got 'title'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component Browser]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component SSR]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-[00:27:14.895] Browser ERROR   ./app/dashboard/contacts-directory/page.tsx:50:15
-Parsing ecmascript source code failed
-  48 |   teamName: string
-  49 |             <CollapsibleCard
-> 50 |               title="Team members"
-     |               ^^^^^
-  51 |               description={
-  52 |                 role === "admin"
-  53 |                   ? "Search across every registered team."
-
-Expected ',', got 'title'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component Browser]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component SSR]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-[00:28:19.179] Server  LOG      ✓ Compiled in 467ms
-[00:28:19.902] Browser ERROR   uncaughtError: ReferenceError: ADMIN_CONTACTS is not defined
-[00:28:39.437] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:28:39.759] Server  LOG      ✓ Compiled in 412ms
-[00:28:40.021] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:28:40.893] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-https://react.dev/link/hydration-mismatch
-
-  ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
-          <SegmentViewNode type="page" pagePath="dashboard/...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function ContactsDirectoryPage} serverProvidedParams={{...}}>
-              <ContactsDirectoryPage params={Promise} searchParams={Promise}>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
--                         <Suspense>
-          ...
-        ...
-
-[00:28:40.893] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:28:40.893] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:28:40.893] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/contacts-directory","route":"/dashboard/contacts-directory"}
-[00:28:40.893] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765042228790}
-[00:28:40.893] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765042228790}
-[00:31:02.300] Server  LOG      ✓ Compiled in 385ms
-[00:31:09.943] Server  LOG      ✓ Compiled in 376ms
-[00:31:19.354] Server  LOG      ✓ Compiled in 346ms
-[00:45:03.879] Server  LOG      ✓ Compiled in 326ms
-[00:45:40.400] Server  LOG      ✓ Compiled in 345ms
-[00:45:44.140] Server  LOG      ✓ Compiled in 333ms
-[00:45:47.330] Server  LOG      ✓ Compiled in 331ms
-[00:45:52.908] Server  LOG      ✓ Compiled in 373ms
-[00:45:54.706] Server  LOG      ✓ Compiled in 307ms
-[00:45:54.910] Browser ERROR   ./app/dashboard/contacts-directory/page.tsx:113:65
-Parsing ecmascript source code failed
-  111 | const CO_POC_CONTACTS: DirectoryContact[] = [
-  112 |   { name: "Srikar", email: "", phone: "9550399584", undertaking: "Co-POC for SIH25211" },
-> 113 |   { name: "Rohan", email: "", phone: "7569377646", undertaking: "Co-POC for SIH25211\" },
-      |                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
-  114 |   { name: "Koushik", email: "", phone: "9248674444", undertaking: "Co-POC" },
-  115 |   { name: "W Taruntej", email: "", phone: "6305815354", undertaking: "Co-POC" },
-  116 |   { name: "Madiya Charan Teja", email: "", phone: "9515462671", undertaking: "Co-POC" },
-
-Unterminated string constant
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component Browser]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/contacts-directory/page.tsx [Client Component SSR]
-    ./app/dashboard/contacts-directory/page.tsx [Server Component]
-[00:46:05.976] Server  LOG      ✓ Compiled in 296ms
-[00:46:31.288] Server  LOG      ✓ Compiled in 362ms
-[00:46:33.605] Server  LOG      ✓ Compiled in 345ms
-[00:46:39.247] Server  LOG      ✓ Compiled in 347ms
-[00:46:43.889] Server  LOG      ✓ Compiled in 346ms
-[00:46:46.084] Server  LOG      ✓ Compiled in 302ms
-[00:46:48.022] Server  LOG      ✓ Compiled in 306ms
-[00:46:49.175] Server  LOG      ✓ Compiled in 331ms
-[00:49:17.131] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765043465296}
-[00:52:54.410] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765043682668}
-[00:53:40.865] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765043728989}
-[00:53:54.256] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765043742578}
-[01:04:44.387] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:04:44.603] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:04:44.603] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[01:04:44.603] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044392932}
-[01:06:13.959] Browser ERROR   uncaughtError: Error: ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-
-
-[01:06:14.144] Browser ERROR   ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:06:14.144] Browser ERROR   ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:06:20.316] Browser ERROR   uncaughtError: Error: ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-
-
-[01:06:20.460] Browser ERROR   ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:06:20.460] Browser ERROR   ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:06:21.840] Browser ERROR   uncaughtError: Error: ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-
-
-[01:06:22.015] Browser ERROR   ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:06:22.015] Browser ERROR   ./app/dashboard/team-leader.tsx:406:22
-Parsing ecmascript source code failed
-  404 |       )}
-  405 |     </div>
-> 406 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  407 |   )
-  408 | }
-  409 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:06:27.915] Browser ERROR   ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:06:54.511] Browser ERROR   ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:07:20.331] Browser ERROR   uncaughtError: Error: ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-
-
-[01:07:20.479] Browser ERROR   ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:07:20.479] Browser ERROR   ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:07:21.536] Browser ERROR   uncaughtError: Error: ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-
-
-[01:07:21.695] Browser ERROR   ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:07:21.695] Browser ERROR   ./app/dashboard/team-leader.tsx:398:22
-Parsing ecmascript source code failed
-  396 |       )}
-  397 |     </div>
-> 398 |       <DosDontsModal open={guidelinesOpen} onOpenChange={setGuidelinesOpen} />
-      |                      ^^^^
-  399 |   )
-  400 | }
-  401 |
-
-Expected ',', got 'open'
-
-Import traces:
-  Client Component Browser:
-    ./app/dashboard/team-leader.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Client Component Browser]
-    ./app/dashboard/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./app/dashboard/team-leader.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Client Component SSR]
-    ./app/dashboard/page.tsx [Server Component]
-[01:08:11.954] Server  LOG      ✓ Compiled in 446ms
-[01:08:12.228] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:08:12.917] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:08:12.917] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[01:08:12.917] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044600740}
-[01:08:21.437] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044609767}
-[01:08:36.822] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:02:36.630] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:38.021] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:38.021] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:38.021] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:38.022] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:38.206] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287115497}
+[00:02:40.265] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:40.266] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:40.266] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:40.267] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:40.506] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287117832}
+[00:02:44.130] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:44.130] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:44.130] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:02:44.131] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:02:44.369] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287121678}
+[00:03:01.895] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:01.896] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:01.896] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:01.896] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:02.739] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/DDIDC color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/DDIDC","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287140070}
+[00:03:06.240] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:06.241] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:06.241] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:06.241] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:06.407] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287143726}
+[00:03:07.379] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:07.379] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:07.380] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:07.380] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:07.542] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287144870}
+[00:03:15.926] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:15.927] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:15.927] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:15.927] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:16.108] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287153406}
+[00:03:27.670] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:27.671] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:27.671] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:03:27.672] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:03:27.815] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287165138}
+[00:03:37.559] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:08:36.822] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:08:36.822] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+[00:03:37.559] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:37.559] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
 
 If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[01:08:36.822] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[01:08:38.702] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044626994}
-[01:09:19.987] Server  LOG      ✓ Compiled in 332ms
-[01:09:38.849] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:09:39.002] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[01:09:39.002] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/confirm-team","route":"/confirm-team"}
-[01:09:39.002] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044687334}
-[01:09:55.955] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044704251}
-[01:09:58.042] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/confirm-team color: rgb(120, 120, 120) color: inherit {"dp":"/confirm-team","o":"http://localhost:3000/confirm-team","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044706367}
-[01:12:26.617] Server  LOG      ✓ Compiled in 738ms
-[01:12:37.738] Server  LOG      ✓ Compiled in 559ms
-[01:12:54.181] Server  LOG      ✓ Compiled in 606ms
-[01:13:28.323] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044916480}
-[01:13:29.708] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044917928}
-[01:13:29.969] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765044918244}
-[02:11:54.866] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:11:55.026] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:11:55.026] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[02:11:55.026] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048423357}
-[02:12:57.644] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:12:57.864] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:12:57.864] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/my-requests","route":"/my-requests"}
-[02:12:57.864] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[02:12:57.864] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048486184}
-[02:12:57.864] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048486184}
-[02:14:02.922] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048551135}
-[02:14:02.922] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048551251}
-[02:14:06.152] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:14:06.152] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[02:14:06.152] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[02:14:06.152] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048554427}
-[02:14:14.150] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/enroute-gitam color: rgb(120, 120, 120) color: inherit {"dp":"/enroute-gitam","o":"http://localhost:3000/enroute-gitam","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048562436}
-[02:14:19.909] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765048568239}
+[00:03:37.559] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:45.543] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:45.543] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:45.543] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:03:45.543] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:01.052] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:01.052] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:01.052] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:04:01.052] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:04:02.456] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:02.456] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:02.456] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:02.457] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:02.632] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287199932}
+[00:04:06.026] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:06.027] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:06.027] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:06.028] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:06.183] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/check-in color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/check-in","o":"http://localhost:3000/dashboard/check-in","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287203515}
+[00:04:07.482] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:07.482] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:07.483] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:07.483] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:07.738] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287205022}
+[00:04:08.991] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:08.992] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:08.992] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:08.992] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:09.155] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287206471}
+[00:04:39.324] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:39.324] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:39.324] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:04:39.325] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:04:39.503] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287236814}

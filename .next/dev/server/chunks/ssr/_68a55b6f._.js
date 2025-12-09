@@ -3793,6 +3793,7 @@ const GUIDELINES_SECTIONS = [
         }, ("TURBOPACK compile-time value", void 0)),
         bullets: [
             "Teams must abide by all AICTE Guidelines throughout the event.",
+            "",
             "Teams cannot change team members at the Nodal Center without prior MIC approval and the official approval letter.",
             "Teams must not assist or participate in other teams’ work; focus only on your assigned problem statement.",
             "RF-blocking devices may only be used outdoors to prevent interference with other teams."
@@ -3805,7 +3806,7 @@ const GUIDELINES_SECTIONS = [
             "aria-hidden": "true"
         }, void 0, false, {
             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-            lineNumber: 45,
+            lineNumber: 46,
             columnNumber: 11
         }, ("TURBOPACK compile-time value", void 0)),
         bullets: [
@@ -3827,7 +3828,7 @@ const GUIDELINES_SECTIONS = [
             "aria-hidden": "true"
         }, void 0, false, {
             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-            lineNumber: 60,
+            lineNumber: 61,
             columnNumber: 11
         }, ("TURBOPACK compile-time value", void 0)),
         bullets: [
@@ -3843,7 +3844,7 @@ const GUIDELINES_SECTIONS = [
             "aria-hidden": "true"
         }, void 0, false, {
             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-            lineNumber: 69,
+            lineNumber: 70,
             columnNumber: 11
         }, ("TURBOPACK compile-time value", void 0)),
         bullets: [
@@ -3913,14 +3914,14 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                     "aria-hidden": "true"
                                 }, void 0, false, {
                                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                    lineNumber: 145,
+                                    lineNumber: 146,
                                     columnNumber: 13
                                 }, this),
                                 "Do's & Don'ts Guidelines"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                            lineNumber: 144,
+                            lineNumber: 145,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogDescription"], {
@@ -3928,13 +3929,13 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                             children: "Please review the complete list to ensure a safe, disciplined, and smooth hackathon experience."
                         }, void 0, false, {
                             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                            lineNumber: 148,
+                            lineNumber: 149,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                    lineNumber: 143,
+                    lineNumber: 144,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3957,13 +3958,13 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                                 children: section.title
                                             }, void 0, false, {
                                                 fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                                lineNumber: 163,
+                                                lineNumber: 164,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                        lineNumber: 161,
+                                        lineNumber: 162,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -3976,31 +3977,31 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                                         "aria-hidden": "true"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                                        lineNumber: 168,
+                                                        lineNumber: 169,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: bullet
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                                        lineNumber: 169,
+                                                        lineNumber: 170,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, bullet, true, {
                                                 fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                                lineNumber: 167,
+                                                lineNumber: 168,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                        lineNumber: 165,
+                                        lineNumber: 166,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, section.title, true, {
                                 fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                lineNumber: 160,
+                                lineNumber: 161,
                                 columnNumber: 13
                             }, this)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4014,7 +4015,7 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                             "aria-hidden": "true"
                                         }, void 0, false, {
                                             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                            lineNumber: 178,
+                                            lineNumber: 179,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -4022,13 +4023,13 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                             children: "Strict Don'ts"
                                         }, void 0, false, {
                                             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                            lineNumber: 179,
+                                            lineNumber: 180,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                    lineNumber: 177,
+                                    lineNumber: 178,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -4041,37 +4042,37 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                                     "aria-hidden": "true"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                                    lineNumber: 184,
+                                                    lineNumber: 185,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: bullet
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                                    lineNumber: 185,
+                                                    lineNumber: 186,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, bullet, true, {
                                             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                            lineNumber: 183,
+                                            lineNumber: 184,
                                             columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                    lineNumber: 181,
+                                    lineNumber: 182,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                            lineNumber: 176,
+                            lineNumber: 177,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                    lineNumber: 153,
+                    lineNumber: 154,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogFooter"], {
@@ -4085,7 +4086,7 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                 children: "Close"
                             }, void 0, false, {
                                 fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                lineNumber: 195,
+                                lineNumber: 196,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -4095,7 +4096,7 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                                 children: "I Agree"
                             }, void 0, false, {
                                 fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                                lineNumber: 202,
+                                lineNumber: 203,
                                 columnNumber: 15
                             }, this)
                         ]
@@ -4106,28 +4107,28 @@ function DosDontsModal({ open, onOpenChange, requireAcknowledgement = false, onA
                             children: "Close"
                         }, void 0, false, {
                             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                            lineNumber: 212,
+                            lineNumber: 213,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                        lineNumber: 211,
+                        lineNumber: 212,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/modals/dos-donts-modal.tsx",
-                    lineNumber: 192,
+                    lineNumber: 193,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/modals/dos-donts-modal.tsx",
-            lineNumber: 139,
+            lineNumber: 140,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/modals/dos-donts-modal.tsx",
-        lineNumber: 138,
+        lineNumber: 139,
         columnNumber: 5
     }, this);
 }

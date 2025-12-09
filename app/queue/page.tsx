@@ -40,7 +40,6 @@ export default function QueuePage() {
   const token = authService.getAccessToken()
   const { requests, live, loading, error: hookError, refresh, forceReconnect, recentlyChangedIds, upsertById } = useRequestsQueue({
     token: token ?? undefined,
-    pageSize: 50,
     activeOnly: false,
     resyncIntervalMs: 300000,
   })

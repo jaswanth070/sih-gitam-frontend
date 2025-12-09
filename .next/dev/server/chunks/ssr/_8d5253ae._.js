@@ -538,7 +538,7 @@ function deriveRequestsPrefix(pathname) {
     return fullPath.replace(/\/api$/, "") || "/requests";
 }
 function buildRequestsBaseUrl() {
-    const envUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const envUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
     if (envUrl.startsWith("/")) {
@@ -564,7 +564,7 @@ function buildRequestsWsUrl(token) {
             console.warn("[ws-url] invalid NEXT_PUBLIC_REQUESTS_WS_URL, falling back", err);
         }
     }
-    const baseRestUrl = ("TURBOPACK compile-time value", "http://127.0.0.1:8001/");
+    const baseRestUrl = ("TURBOPACK compile-time value", "https://sih.gitam.edu/requests/");
     let origin = "";
     let prefixPath = "/requests";
     if ("TURBOPACK compile-time truthy", 1) {
@@ -606,8 +606,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$
 ;
 const BASE_URL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ws$2d$url$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["buildRequestsBaseUrl"])();
 const ACCESS_TOKEN_KEY = "sih_access_token";
+function resolveEndpoint(endpoint) {
+    if (/^https?:\/\//i.test(endpoint)) {
+        return endpoint;
+    }
+    if (endpoint.startsWith("/")) {
+        return `${BASE_URL}${endpoint}`;
+    }
+    return `${BASE_URL}/${endpoint}`;
+}
 async function apiCall(endpoint, options = {}) {
-    const url = `${BASE_URL}${endpoint}`;
+    const url = resolveEndpoint(endpoint);
     const headers = new Headers(options.headers || {});
     const accessToken = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2d$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authService"].getAccessToken();
     if (accessToken && !headers.has("Authorization")) {
@@ -651,6 +660,28 @@ async function apiCall(endpoint, options = {}) {
     }
     return response.json();
 }
+async function fetchFullList(endpoint) {
+    const first = await apiCall(endpoint);
+    const collected = Array.isArray(first.results) ? [
+        ...first.results
+    ] : [];
+    const visited = new Set();
+    let cursor = first.next || null;
+    while(cursor && !visited.has(cursor)){
+        visited.add(cursor);
+        const page = await apiCall(cursor);
+        if (Array.isArray(page.results)) {
+            collected.push(...page.results);
+        }
+        cursor = page.next || null;
+    }
+    return {
+        count: collected.length,
+        next: null,
+        previous: null,
+        results: collected
+    };
+}
 const requestsService = {
     // List requests with filters
     async listRequests (params) {
@@ -661,14 +692,14 @@ const requestsService = {
         if (params?.team_id) queryParams.append("team_id", params.team_id);
         if (params?.search) queryParams.append("search", params.search);
         if (params?.ordering) queryParams.append("ordering", params.ordering);
-        if (params?.page) queryParams.append("page", params.page.toString());
-        const endpoint = `/requests/?${queryParams.toString()}`;
-        return apiCall(endpoint);
+        const query = queryParams.toString();
+        const endpoint = `/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get queue snapshot
     async getQueueSnapshot (includePositions = true) {
         const endpoint = `/requests/queue/?include_positions=${includePositions}`;
-        return apiCall(endpoint);
+        return fetchFullList(endpoint);
     },
     // Filtered queue snapshot (canonical ordering, optional positions, pagination)
     async getFilteredQueueSnapshot (params) {
@@ -677,10 +708,9 @@ const requestsService = {
         if (params.status) qp.append("status", params.status);
         if (params.fab_type) qp.append("fab_type", params.fab_type);
         if (params.include_positions !== undefined) qp.append("include_positions", params.include_positions ? "true" : "false");
-        if (params.page) qp.append("page", params.page.toString());
-        if (params.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/requests/queue/?${qp.toString()}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/requests/queue/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     },
     // Get single request
     async getRequest (id) {
@@ -782,10 +812,9 @@ const requestsService = {
         if (params?.fab_type) qp.append("fab_type", params.fab_type);
         if (params?.search) qp.append("search", params.search);
         if (params?.ordering) qp.append("ordering", params.ordering);
-        if (params?.page) qp.append("page", params.page.toString());
-        if (params?.page_size) qp.append("page_size", params.page_size.toString());
-        const endpoint = `/teams/${teamId}/requests/${qp.toString() ? `?${qp.toString()}` : ""}`;
-        return apiCall(endpoint);
+        const query = qp.toString();
+        const endpoint = `/teams/${teamId}/requests/${query ? `?${query}` : ""}`;
+        return fetchFullList(endpoint);
     }
 };
 }),
@@ -3289,8 +3318,7 @@ function POCTeamDetailsPage() {
                 if (!candidate) continue;
                 try {
                     const response = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$requests$2d$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["requestsService"].listTeamRequests(candidate, {
-                        ordering: "created_at",
-                        page_size: 100
+                        ordering: "created_at"
                     });
                     if (cancelled) return;
                     const ordered = [
@@ -3426,19 +3454,19 @@ function POCTeamDetailsPage() {
         className: "h-4 w-4"
     }, void 0, false, {
         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-        lineNumber: 268,
+        lineNumber: 267,
         columnNumber: 37
     }, this) : isCheckedIn ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__["CheckCircle2"], {
         className: "h-4 w-4"
     }, void 0, false, {
         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-        lineNumber: 268,
+        lineNumber: 267,
         columnNumber: 84
     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2d$3$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock3$3e$__["Clock3"], {
         className: "h-4 w-4"
     }, void 0, false, {
         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-        lineNumber: 268,
+        lineNumber: 267,
         columnNumber: 123
     }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -3459,14 +3487,14 @@ function POCTeamDetailsPage() {
                                                 className: "h-4 w-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 278,
+                                                lineNumber: 277,
                                                 columnNumber: 17
                                             }, this),
                                             " Unable to load team details"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 277,
+                                        lineNumber: 276,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -3474,18 +3502,18 @@ function POCTeamDetailsPage() {
                                         children: teamError
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 280,
+                                        lineNumber: 279,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 276,
+                                lineNumber: 275,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                            lineNumber: 275,
+                            lineNumber: 274,
                             columnNumber: 11
                         }, this),
                         loadingTeam ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3497,7 +3525,7 @@ function POCTeamDetailsPage() {
                                         className: "w-12 h-12 border-4 border-muted border-t-[#f75700] rounded-full animate-spin mx-auto"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 288,
+                                        lineNumber: 287,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3505,18 +3533,18 @@ function POCTeamDetailsPage() {
                                         children: "Fetching the latest team profile…"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 289,
+                                        lineNumber: 288,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 287,
+                                lineNumber: 286,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                            lineNumber: 286,
+                            lineNumber: 285,
                             columnNumber: 11
                         }, this) : team ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
@@ -3543,7 +3571,7 @@ function POCTeamDetailsPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 299,
+                                                                        lineNumber: 298,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     team.problem_statement?.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -3555,7 +3583,7 @@ function POCTeamDetailsPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 303,
+                                                                        lineNumber: 302,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -3564,13 +3592,13 @@ function POCTeamDetailsPage() {
                                                                         children: statusLabel
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 307,
+                                                                        lineNumber: 306,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                lineNumber: 298,
+                                                                lineNumber: 297,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3581,7 +3609,7 @@ function POCTeamDetailsPage() {
                                                                         children: team.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 315,
+                                                                        lineNumber: 314,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3591,7 +3619,7 @@ function POCTeamDetailsPage() {
                                                                                 className: "h-4 w-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                                lineNumber: 317,
+                                                                                lineNumber: 316,
                                                                                 columnNumber: 25
                                                                             }, this),
                                                                             " ",
@@ -3599,7 +3627,7 @@ function POCTeamDetailsPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 316,
+                                                                        lineNumber: 315,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3609,7 +3637,7 @@ function POCTeamDetailsPage() {
                                                                                 className: "h-3.5 w-3.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                                lineNumber: 320,
+                                                                                lineNumber: 319,
                                                                                 columnNumber: 25
                                                                             }, this),
                                                                             " ",
@@ -3617,13 +3645,13 @@ function POCTeamDetailsPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 319,
+                                                                        lineNumber: 318,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                lineNumber: 314,
+                                                                lineNumber: 313,
                                                                 columnNumber: 21
                                                             }, this),
                                                             team.problem_statement?.title && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3633,7 +3661,7 @@ function POCTeamDetailsPage() {
                                                                         className: "h-4 w-4 mt-0.5 shrink-0"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 325,
+                                                                        lineNumber: 324,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     " ",
@@ -3641,13 +3669,13 @@ function POCTeamDetailsPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                lineNumber: 324,
+                                                                lineNumber: 323,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 297,
+                                                        lineNumber: 296,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3666,18 +3694,18 @@ function POCTeamDetailsPage() {
                                                                             className: "h-4 w-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 336,
+                                                                            lineNumber: 335,
                                                                             columnNumber: 42
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 335,
+                                                                    lineNumber: 334,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                lineNumber: 330,
+                                                                lineNumber: 329,
                                                                 columnNumber: 21
                                                             }, this),
                                                             leader && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3688,7 +3716,7 @@ function POCTeamDetailsPage() {
                                                                         children: "Team Leader"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 341,
+                                                                        lineNumber: 340,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3696,7 +3724,7 @@ function POCTeamDetailsPage() {
                                                                         children: leader.user?.name || leader.user?.email
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 342,
+                                                                        lineNumber: 341,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3704,25 +3732,25 @@ function POCTeamDetailsPage() {
                                                                         children: leader.user?.email
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                        lineNumber: 343,
+                                                                        lineNumber: 342,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                lineNumber: 340,
+                                                                lineNumber: 339,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 329,
+                                                        lineNumber: 328,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 296,
+                                                lineNumber: 295,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3735,7 +3763,7 @@ function POCTeamDetailsPage() {
                                                         helper: leader ? `${leader.user?.name ?? leader.user?.email} leads the team` : undefined
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 350,
+                                                        lineNumber: 349,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryStat, {
@@ -3745,7 +3773,7 @@ function POCTeamDetailsPage() {
                                                         helper: isCheckedOut ? "Team has completed checkout" : isCheckedIn ? "Volunteers confirmed arrival" : "Awaiting confirmation"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 356,
+                                                        lineNumber: 355,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryStat, {
@@ -3755,7 +3783,7 @@ function POCTeamDetailsPage() {
                                                         helper: activeRequests === 0 ? "Nothing pending" : "Awaiting fulfilment"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 362,
+                                                        lineNumber: 361,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryStat, {
@@ -3765,7 +3793,7 @@ function POCTeamDetailsPage() {
                                                         helper: issuedRequests ? "Completed successfully" : "No issues yet"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 368,
+                                                        lineNumber: 367,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryStat, {
@@ -3775,7 +3803,7 @@ function POCTeamDetailsPage() {
                                                         helper: rejectedRequests ? "Needs attention" : "All good"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 374,
+                                                        lineNumber: 373,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryStat, {
@@ -3785,13 +3813,13 @@ function POCTeamDetailsPage() {
                                                         helper: team.room_allocation ? "Verify hostel allocation" : "Coordinate with admin desk"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 380,
+                                                        lineNumber: 379,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 349,
+                                                lineNumber: 348,
                                                 columnNumber: 17
                                             }, this),
                                             latestUpdate && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3802,18 +3830,18 @@ function POCTeamDetailsPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 389,
+                                                lineNumber: 388,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 295,
+                                        lineNumber: 294,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                    lineNumber: 294,
+                                    lineNumber: 293,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -3835,27 +3863,27 @@ function POCTeamDetailsPage() {
                                                                     className: "h-5 w-5 text-[#002449]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 400,
+                                                                    lineNumber: 399,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 " Primary Contacts"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 399,
+                                                            lineNumber: 398,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                             children: "POC and mentor details for quick coordination."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 402,
+                                                            lineNumber: 401,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 398,
+                                                    lineNumber: 397,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -3868,7 +3896,7 @@ function POCTeamDetailsPage() {
                                                             badgeLabel: team.poc?.is_verified_poc ? "Verified" : undefined
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 405,
+                                                            lineNumber: 404,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ContactCard, {
@@ -3877,13 +3905,13 @@ function POCTeamDetailsPage() {
                                                             fallbackMessage: "Mentor details have not been added."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 411,
+                                                            lineNumber: 410,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 404,
+                                                    lineNumber: 403,
                                                     columnNumber: 17
                                                 }, this),
                                                 mentors.length > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardFooter"], {
@@ -3894,7 +3922,7 @@ function POCTeamDetailsPage() {
                                                             children: "Additional Mentors"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 419,
+                                                            lineNumber: 418,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3907,7 +3935,7 @@ function POCTeamDetailsPage() {
                                                                             className: "h-3.5 w-3.5"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 423,
+                                                                            lineNumber: 422,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         " ",
@@ -3915,24 +3943,24 @@ function POCTeamDetailsPage() {
                                                                     ]
                                                                 }, mentor.id, true, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 422,
+                                                                    lineNumber: 421,
                                                                     columnNumber: 25
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 420,
+                                                            lineNumber: 419,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 418,
+                                                    lineNumber: 417,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                            lineNumber: 397,
+                                            lineNumber: 396,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -3951,27 +3979,27 @@ function POCTeamDetailsPage() {
                                                                     className: "h-5 w-5 text-[#002449]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 434,
+                                                                    lineNumber: 433,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 " Arrival timeline"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 433,
+                                                            lineNumber: 432,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                             children: "Volunteer updates on check-in and checkout actions."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 436,
+                                                            lineNumber: 435,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 432,
+                                                    lineNumber: 431,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -3985,7 +4013,7 @@ function POCTeamDetailsPage() {
                                                                     children: statusIcon
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 440,
+                                                                    lineNumber: 439,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3995,7 +4023,7 @@ function POCTeamDetailsPage() {
                                                                             children: "Current status"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 444,
+                                                                            lineNumber: 443,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4006,19 +4034,19 @@ function POCTeamDetailsPage() {
                                                                             children: statusLabel
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 445,
+                                                                            lineNumber: 444,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 443,
+                                                                    lineNumber: 442,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 439,
+                                                            lineNumber: 438,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4032,7 +4060,7 @@ function POCTeamDetailsPage() {
                                                                             children: "Checked in"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 450,
+                                                                            lineNumber: 449,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4040,7 +4068,7 @@ function POCTeamDetailsPage() {
                                                                             children: formatTimestamp(team.check_in_timestamp) ?? "Not recorded"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 451,
+                                                                            lineNumber: 450,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4050,7 +4078,7 @@ function POCTeamDetailsPage() {
                                                                                     className: "h-3.5 w-3.5"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                                    lineNumber: 455,
+                                                                                    lineNumber: 454,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 " ",
@@ -4058,13 +4086,13 @@ function POCTeamDetailsPage() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 454,
+                                                                            lineNumber: 453,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 449,
+                                                                    lineNumber: 448,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4075,7 +4103,7 @@ function POCTeamDetailsPage() {
                                                                             children: "Checked out"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 459,
+                                                                            lineNumber: 458,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4083,7 +4111,7 @@ function POCTeamDetailsPage() {
                                                                             children: formatTimestamp(team.check_out_timestamp) ?? "Not recorded"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 460,
+                                                                            lineNumber: 459,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4093,7 +4121,7 @@ function POCTeamDetailsPage() {
                                                                                     className: "h-3.5 w-3.5"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                                    lineNumber: 464,
+                                                                                    lineNumber: 463,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 " ",
@@ -4101,31 +4129,31 @@ function POCTeamDetailsPage() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 463,
+                                                                            lineNumber: 462,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 458,
+                                                                    lineNumber: 457,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 448,
+                                                            lineNumber: 447,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 438,
+                                                    lineNumber: 437,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                            lineNumber: 431,
+                                            lineNumber: 430,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -4144,27 +4172,27 @@ function POCTeamDetailsPage() {
                                                                     className: "h-5 w-5 text-[#002449]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 474,
+                                                                    lineNumber: 473,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 " Quick Actions"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 473,
+                                                            lineNumber: 472,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                             children: "Handy shortcuts for POC operations."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 476,
+                                                            lineNumber: 475,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 472,
+                                                    lineNumber: 471,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -4176,7 +4204,7 @@ function POCTeamDetailsPage() {
                                                             description: "Upload and review mandatory documents."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 479,
+                                                            lineNumber: 478,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ActionLink, {
@@ -4185,7 +4213,7 @@ function POCTeamDetailsPage() {
                                                             description: "Open the central request queue filtered to this team."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 480,
+                                                            lineNumber: 479,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ActionLink, {
@@ -4194,7 +4222,7 @@ function POCTeamDetailsPage() {
                                                             description: "Open the combined TA and mandate workflow with this team selected."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 481,
+                                                            lineNumber: 480,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ActionLink, {
@@ -4203,25 +4231,25 @@ function POCTeamDetailsPage() {
                                                             description: "Record arrivals, room allocations, and notes for this team."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 486,
+                                                            lineNumber: 485,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 478,
+                                                    lineNumber: 477,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                            lineNumber: 471,
+                                            lineNumber: 470,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                    lineNumber: 396,
+                                    lineNumber: 395,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4243,27 +4271,27 @@ function POCTeamDetailsPage() {
                                                                     className: "h-5 w-5 text-[#002449]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 499,
+                                                                    lineNumber: 498,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 " Team Members"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 498,
+                                                            lineNumber: 497,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                             children: "Full roster of participants. Highlighted entries denote leadership roles."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 501,
+                                                            lineNumber: 500,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 497,
+                                                    lineNumber: 496,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -4288,7 +4316,7 @@ function POCTeamDetailsPage() {
                                                                                     children: member.user?.name || member.user?.email
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                                    lineNumber: 517,
+                                                                                    lineNumber: 516,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -4297,13 +4325,13 @@ function POCTeamDetailsPage() {
                                                                                     children: member.role?.replace(/_/g, " ") || "Member"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                                    lineNumber: 520,
+                                                                                    lineNumber: 519,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 516,
+                                                                            lineNumber: 515,
                                                                             columnNumber: 31
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4311,7 +4339,7 @@ function POCTeamDetailsPage() {
                                                                             children: member.user?.email
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 527,
+                                                                            lineNumber: 526,
                                                                             columnNumber: 31
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4319,42 +4347,42 @@ function POCTeamDetailsPage() {
                                                                             children: member.phone
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                            lineNumber: 528,
+                                                                            lineNumber: 527,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 515,
+                                                                    lineNumber: 514,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, member.id, false, {
                                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                lineNumber: 511,
+                                                                lineNumber: 510,
                                                                 columnNumber: 27
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 507,
+                                                        lineNumber: 506,
                                                         columnNumber: 21
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "text-sm text-muted-foreground",
                                                         children: "No members have been synced for this team yet."
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                        lineNumber: 535,
+                                                        lineNumber: 534,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 505,
+                                                    lineNumber: 504,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                            lineNumber: 496,
+                                            lineNumber: 495,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -4373,27 +4401,27 @@ function POCTeamDetailsPage() {
                                                                     className: "h-5 w-5 text-[#002449]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 543,
+                                                                    lineNumber: 542,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 " Request Activity"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 542,
+                                                            lineNumber: 541,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                             children: "All submissions made by this team across fabrication, BOM, and additional requests."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 545,
+                                                            lineNumber: 544,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 541,
+                                                    lineNumber: 540,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -4404,7 +4432,7 @@ function POCTeamDetailsPage() {
                                                             children: requestsError
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 551,
+                                                            lineNumber: 550,
                                                             columnNumber: 21
                                                         }, this),
                                                         requests.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4414,7 +4442,7 @@ function POCTeamDetailsPage() {
                                                                     className: "h-6 w-6 text-muted-foreground"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 558,
+                                                                    lineNumber: 557,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4422,13 +4450,13 @@ function POCTeamDetailsPage() {
                                                                     children: "This team has not raised any requests yet."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 559,
+                                                                    lineNumber: 558,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 557,
+                                                            lineNumber: 556,
                                                             columnNumber: 21
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "grid gap-4 sm:grid-cols-2 xl:grid-cols-3",
@@ -4439,30 +4467,30 @@ function POCTeamDetailsPage() {
                                                                     timestampFormatter: timestampFormatter
                                                                 }, request.id, false, {
                                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                                    lineNumber: 564,
+                                                                    lineNumber: 563,
                                                                     columnNumber: 25
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                            lineNumber: 562,
+                                                            lineNumber: 561,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                    lineNumber: 549,
+                                                    lineNumber: 548,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                            lineNumber: 540,
+                                            lineNumber: 539,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                    lineNumber: 495,
+                                    lineNumber: 494,
                                     columnNumber: 13
                                 }, this)
                             ]
@@ -4475,36 +4503,36 @@ function POCTeamDetailsPage() {
                                         children: "Team not found"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 581,
+                                        lineNumber: 580,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                         children: "The selected team could not be located. Please return to the dashboard and try again."
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 582,
+                                        lineNumber: 581,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 580,
+                                lineNumber: 579,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                            lineNumber: 579,
+                            lineNumber: 578,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                    lineNumber: 273,
+                    lineNumber: 272,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 272,
+                lineNumber: 271,
                 columnNumber: 7
             }, this),
             pendingStatusChange && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$modals$2f$status$2d$change$2d$modal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["StatusChangeModal"], {
@@ -4519,7 +4547,7 @@ function POCTeamDetailsPage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 590,
+                lineNumber: 589,
                 columnNumber: 9
             }, this)
         ]
@@ -4537,20 +4565,20 @@ function SummaryStat({ icon: Icon, label, value, helper }) {
                         children: label
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 624,
+                        lineNumber: 623,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                         className: "h-5 w-5 text-white/70"
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 625,
+                        lineNumber: 624,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 623,
+                lineNumber: 622,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4558,7 +4586,7 @@ function SummaryStat({ icon: Icon, label, value, helper }) {
                 children: value
             }, void 0, false, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 627,
+                lineNumber: 626,
                 columnNumber: 7
             }, this),
             helper && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4566,13 +4594,13 @@ function SummaryStat({ icon: Icon, label, value, helper }) {
                 children: helper
             }, void 0, false, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 628,
+                lineNumber: 627,
                 columnNumber: 18
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-        lineNumber: 622,
+        lineNumber: 621,
         columnNumber: 5
     }, this);
 }
@@ -4590,7 +4618,7 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 children: title
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 650,
+                                lineNumber: 649,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4601,13 +4629,13 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 children: contact?.name || contact?.email || "Not assigned"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 651,
+                                lineNumber: 650,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 649,
+                        lineNumber: 648,
                         columnNumber: 9
                     }, this),
                     highlight && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -4618,7 +4646,7 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 className: "mr-1 h-3.5 w-3.5"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 657,
+                                lineNumber: 656,
                                 columnNumber: 13
                             }, this),
                             " ",
@@ -4626,13 +4654,13 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 656,
+                        lineNumber: 655,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 648,
+                lineNumber: 647,
                 columnNumber: 7
             }, this),
             contact ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4645,7 +4673,7 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 className: "mt-0.5 h-3.5 w-3.5"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 666,
+                                lineNumber: 665,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4653,13 +4681,13 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 children: contact.email
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 667,
+                                lineNumber: 666,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 665,
+                        lineNumber: 664,
                         columnNumber: 13
                     }, this),
                     contact.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4669,20 +4697,20 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 className: "mt-0.5 h-3.5 w-3.5"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 672,
+                                lineNumber: 671,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: contact.phone
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 673,
+                                lineNumber: 672,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 671,
+                        lineNumber: 670,
                         columnNumber: 13
                     }, this),
                     contact.designation && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4692,20 +4720,20 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 className: "mt-0.5 h-3.5 w-3.5"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 678,
+                                lineNumber: 677,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: contact.designation
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 679,
+                                lineNumber: 678,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 677,
+                        lineNumber: 676,
                         columnNumber: 13
                     }, this),
                     typeof contact.first_login === "boolean" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4715,39 +4743,39 @@ function ContactCard({ title, contact, highlight, badgeLabel, fallbackMessage = 
                                 className: "mt-0.5 h-3.5 w-3.5"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 684,
+                                lineNumber: 683,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: contact.first_login ? "First login pending" : "Credentials activated"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 685,
+                                lineNumber: 684,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 683,
+                        lineNumber: 682,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 663,
+                lineNumber: 662,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 className: "mt-4 text-xs text-muted-foreground",
                 children: fallbackMessage
             }, void 0, false, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 692,
+                lineNumber: 691,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-        lineNumber: 647,
+        lineNumber: 646,
         columnNumber: 5
     }, this);
 }
@@ -4767,7 +4795,7 @@ function ActionLink({ href, label, description }) {
                         children: label
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 705,
+                        lineNumber: 704,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4775,26 +4803,26 @@ function ActionLink({ href, label, description }) {
                         children: description
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 708,
+                        lineNumber: 707,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 704,
+                lineNumber: 703,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$up$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowUpRight$3e$__["ArrowUpRight"], {
                 className: "mt-1 h-4 w-4 text-muted-foreground"
             }, void 0, false, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 710,
+                lineNumber: 709,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-        lineNumber: 700,
+        lineNumber: 699,
         columnNumber: 5
     }, this);
 }
@@ -4829,20 +4857,20 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                 children: request.category
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 747,
+                                lineNumber: 746,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$requests$2f$request$2d$progress$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RequestProgress"], {
                                 status: request.status
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 753,
+                                lineNumber: 752,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 746,
+                        lineNumber: 745,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
@@ -4853,7 +4881,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                         children: requestTitle
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 755,
+                        lineNumber: 754,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -4861,13 +4889,13 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                         children: request.status.toLowerCase()
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 758,
+                        lineNumber: 757,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 745,
+                lineNumber: 744,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -4880,7 +4908,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                 className: "mt-0.5 h-3.5 w-3.5 text-[#002449]"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 763,
+                                lineNumber: 762,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4891,7 +4919,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                         children: fabricationSummary.secondary ? `${fabricationSummary.base} • ${fabricationSummary.secondary}` : fabricationSummary.base
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 765,
+                                        lineNumber: 764,
                                         columnNumber: 15
                                     }, this),
                                     fabricationSummary.filename && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4902,7 +4930,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 769,
+                                        lineNumber: 768,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4915,7 +4943,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 775,
+                                                lineNumber: 774,
                                                 columnNumber: 49
                                             }, this),
                                             fabricationSummary.uploadedAt && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4925,19 +4953,19 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 777,
+                                                lineNumber: 776,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 774,
+                                        lineNumber: 773,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 764,
+                                lineNumber: 763,
                                 columnNumber: 13
                             }, this),
                             fabricationSummary.fileUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4956,7 +4984,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                         children: "Preview"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 783,
+                                        lineNumber: 782,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -4972,24 +5000,24 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                             children: "Download"
                                         }, void 0, false, {
                                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                            lineNumber: 795,
+                                            lineNumber: 794,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 794,
+                                        lineNumber: 793,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 782,
+                                lineNumber: 781,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 762,
+                        lineNumber: 761,
                         columnNumber: 11
                     }, this),
                     (request.bom_items?.length ?? 0) > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5000,7 +5028,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                 children: "BOM Items"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 809,
+                                lineNumber: 808,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5016,7 +5044,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                                 children: item.item_name
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 816,
+                                                lineNumber: 815,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -5027,24 +5055,24 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 819,
+                                                lineNumber: 818,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, item.id || item.item_name, true, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 812,
+                                        lineNumber: 811,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 810,
+                                lineNumber: 809,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 808,
+                        lineNumber: 807,
                         columnNumber: 11
                     }, this),
                     (request.additional_items?.length ?? 0) > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5055,7 +5083,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                 children: "Additional Items"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 828,
+                                lineNumber: 827,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5071,7 +5099,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                                 children: item.item_name
                                             }, void 0, false, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 835,
+                                                lineNumber: 834,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -5082,24 +5110,24 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                                lineNumber: 838,
+                                                lineNumber: 837,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, item.id || item.item_name, true, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 831,
+                                        lineNumber: 830,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 829,
+                                lineNumber: 828,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 827,
+                        lineNumber: 826,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5113,7 +5141,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                         children: "Submitted"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 847,
+                                        lineNumber: 846,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("time", {
@@ -5121,13 +5149,13 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                         children: timestampFormatter.format(new Date(request.created_at))
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 848,
+                                        lineNumber: 847,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 846,
+                                lineNumber: 845,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5138,7 +5166,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                         children: "Updated"
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 851,
+                                        lineNumber: 850,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("time", {
@@ -5146,19 +5174,19 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                         children: timestampFormatter.format(new Date(request.updated_at))
                                     }, void 0, false, {
                                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                        lineNumber: 852,
+                                        lineNumber: 851,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 850,
+                                lineNumber: 849,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 845,
+                        lineNumber: 844,
                         columnNumber: 9
                     }, this),
                     request.remarks && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5169,7 +5197,7 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                 children: "Remarks"
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 857,
+                                lineNumber: 856,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5177,19 +5205,19 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                 children: request.remarks
                             }, void 0, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 858,
+                                lineNumber: 857,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 856,
+                        lineNumber: 855,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 760,
+                lineNumber: 759,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardFooter"], {
@@ -5205,12 +5233,12 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                             children: "View Details"
                         }, void 0, false, {
                             fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                            lineNumber: 864,
+                            lineNumber: 863,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 863,
+                        lineNumber: 862,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5224,24 +5252,24 @@ function TeamRequestCard({ request, onStatusChange, timestampFormatter, disabled
                                 children: status === "Cannot be Processed" ? "Reject" : status === "Processing" ? "Accept" : "Issue"
                             }, status, false, {
                                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                                lineNumber: 870,
+                                lineNumber: 869,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                        lineNumber: 868,
+                        lineNumber: 867,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/poc/teams/[id]/page.tsx",
-                lineNumber: 862,
+                lineNumber: 861,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/poc/teams/[id]/page.tsx",
-        lineNumber: 744,
+        lineNumber: 743,
         columnNumber: 5
     }, this);
 }
