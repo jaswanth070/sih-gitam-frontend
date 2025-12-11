@@ -7,7 +7,7 @@ import { DashboardShell } from "@/components/navigation/dashboard-shell"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { authService, type TeamBankDetails } from "@/lib/auth-service"
+import { authService, type TeamBankDetails, type TeamBankDetailsInput } from "@/lib/auth-service"
 import { getCachedTeamDetails } from "@/lib/dashboard-cache"
 
 interface BankDetailsFormState {
@@ -152,40 +152,56 @@ export default function TeamLeaderBankDetailsPage() {
     try {
       const targetTeamId = teamUuid ?? undefined
 
-      const computeDiff = () => {
-        const diff: TeamBankDetailsInput = {}
-        const previous = originalDetails
-        const fields: Array<
-          [keyof BankDetailsFormState, keyof TeamBankDetailsInput]
-        > = [
-          ["bankName", "bankName"],
-          ["branchName", "branchName"],
-          ["accountantName", "accountantName"],
-          ["ifsc", "ifsc"],
-          ["pan", "pan"],
-          ["aadhar", "aadhar"],
-          ["accountNumber", "accountNumber"],
-        ]
+      const fieldMatrix: Array<{
+        formKey: keyof BankDetailsFormState
+        payloadKey: keyof TeamBankDetailsInput
+        previousKey: keyof TeamBankDetails
+        locked?: boolean
+      }> = [
+        { formKey: "bankName", payloadKey: "bankName", previousKey: "bankName", locked: true },
+        { formKey: "branchName", payloadKey: "branchName", previousKey: "bankBranch" },
+        {
+          formKey: "accountantName",
+          payloadKey: "accountantName",
+          previousKey: "bankAccountantName",
+        },
+        { formKey: "ifsc", payloadKey: "ifsc", previousKey: "ifsc", locked: true },
+        { formKey: "pan", payloadKey: "pan", previousKey: "pan", locked: true },
+        { formKey: "aadhar", payloadKey: "aadhar", previousKey: "aadhar", locked: true },
+        {
+          formKey: "accountNumber",
+          payloadKey: "accountNumber",
+          previousKey: "accountNumber",
+          locked: true,
+        },
+      ]
 
-        const normalize = (value?: string | null) => (value ?? "").trim()
+      const normalize = (value?: string | null) => (value ?? "").trim()
+      const payload: TeamBankDetailsInput = {}
+      const previous = originalDetails
 
-        fields.forEach(([formKey, payloadKey]) => {
-          const nextValue = normalize(formState[formKey])
-          const prevValue = previous ? normalize((previous as any)[
-              payloadKey === "branchName"
-                ? "bankBranch"
-                : payloadKey === "accountantName"
-                  ? "bankAccountantName"
-                  : payloadKey
-            ]) : ""
-          if (!previous || nextValue !== prevValue) {
-            (diff as any)[payloadKey] = nextValue
+      let lockedChangeAttempted = false
+
+      fieldMatrix.forEach(({ formKey, payloadKey, previousKey, locked }) => {
+        const nextValue = normalize(formState[formKey])
+        const prevValue = previous ? normalize((previous as any)[previousKey]) : ""
+
+        if (!previous && !nextValue) {
+          return
+        }
+
+        if (!previous || nextValue !== prevValue) {
+          ;(payload as any)[payloadKey] = nextValue
+          if (locked && previous && prevValue) {
+            lockedChangeAttempted = true
           }
-        })
-        return diff
-      }
+        }
+      })
 
-      const payload = computeDiff()
+      if (lockedChangeAttempted) {
+        setSaveError("Core bank details are locked. Please contact your POC for updates to these fields.")
+        return
+      }
 
       if (!Object.keys(payload).length) {
         setSaveSuccess(true)
