@@ -9,6 +9,7 @@ import {
   getStoredLeaderTeam,
   getStoredPOCTeamDetail,
   getStoredPOCTeams,
+  getStoredTeamBankDetails,
   getStoredVolunteerTeamDetail,
   getStoredVolunteerTeams,
   storeAdminTeams,
@@ -16,6 +17,7 @@ import {
   storeLeaderTeam,
   storePOCTeamDetail,
   storePOCTeams,
+  storeTeamBankDetails,
   storeVolunteerTeamDetail,
   storeVolunteerTeams,
 } from "./session-store"
@@ -196,6 +198,71 @@ export interface POCTeam {
   check_out_timestamp?: string | null
   check_out_recorded_by?: TeamContact | null
   [key: string]: any
+}
+
+export interface TeamBankDetails {
+  id?: string
+  teamId?: string
+  teamName?: string
+  institution?: string
+  accountHolderName?: string
+  bankName?: string
+  ifsc?: string
+  pan?: string
+  aadhar?: string
+  accountNumber?: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface TeamBankDetailsInput {
+  bankName?: string
+  ifsc?: string
+  pan?: string
+  aadhar?: string
+  accountNumber?: string
+}
+
+function normalizeTeamBankDetails(raw: unknown): TeamBankDetails {
+  if (!raw || typeof raw !== "object") return {}
+  const data = raw as Record<string, any>
+  return {
+    id: data.id ?? data.uuid ?? undefined,
+    teamId: data.team_id ?? data.team ?? data.teamId ?? undefined,
+    teamName: data.name ?? data.team_name ?? undefined,
+    institution: data.institution ?? undefined,
+    accountHolderName: data.account_holder_name ?? data.accountHolderName ?? undefined,
+    bankName: data.bank ?? data.bank_name ?? data.bankName ?? undefined,
+    ifsc: data.ifsc ?? data.ifsc_code ?? data.ifscCode ?? undefined,
+    pan: data.pan ?? data.pan_number ?? data.panNumber ?? undefined,
+    aadhar: data.aadhar_number ?? data.aadhar ?? data.aadhaar ?? undefined,
+    accountNumber: data.account_number ?? data.accountNumber ?? undefined,
+    createdAt: data.created_at ?? data.createdAt ?? undefined,
+    updatedAt: data.updated_at ?? data.updatedAt ?? undefined,
+  }
+}
+
+function serializeTeamBankDetails(payload: TeamBankDetailsInput): Record<string, unknown> {
+  const body: Record<string, unknown> = {}
+  const maybeTrim = (value?: string): string | undefined => {
+    if (typeof value !== "string") return undefined
+    const trimmed = value.trim()
+    return trimmed.length ? trimmed : ""
+  }
+
+  const bankName = maybeTrim(payload.bankName)
+  const ifsc = maybeTrim(payload.ifsc)
+  const pan = maybeTrim(payload.pan)
+  const aadhar = maybeTrim(payload.aadhar)
+  const accountNumber = maybeTrim(payload.accountNumber)
+
+  if (bankName !== undefined) body.bank = bankName
+  if (ifsc !== undefined) body.ifsc = ifsc
+  if (pan !== undefined) body.pan = pan
+  if (aadhar !== undefined) body.aadhar_number = aadhar
+  if (accountNumber !== undefined) body.account_number = accountNumber
+
+  return body
 }
 
 export interface CheckInUpdatePayload {
@@ -416,6 +483,68 @@ class AuthService {
     const data = await this.request<TeamDetails>(`/poc/teams/${teamId}/`)
     storePOCTeamDetail(data)
     return data
+  }
+
+  async getTeamBankDetails(teamId?: string): Promise<TeamBankDetails | null> {
+    const cached = getStoredTeamBankDetails(teamId)
+    if (cached !== undefined) {
+      return cached ?? null
+    }
+
+    const query = teamId ? `?team_id=${encodeURIComponent(teamId)}` : ""
+
+    try {
+      const response = await this.request<unknown>(`/accounts/leader/team/bank-details/${query}`)
+      const normalized = normalizeTeamBankDetails(response)
+
+      const cacheKeys = new Set<string | null>()
+      if (normalized.id) cacheKeys.add(normalized.id)
+      if (teamId) cacheKeys.add(teamId)
+      if (normalized.teamId) cacheKeys.add(normalized.teamId)
+      if (!teamId) cacheKeys.add(null)
+
+      cacheKeys.forEach((key) => {
+        storeTeamBankDetails(key, normalized)
+      })
+
+      return normalized
+    } catch (error) {
+      const message = error instanceof Error ? error.message.toLowerCase() : ""
+      if (message.includes("404") || message.includes("not found")) {
+        const cacheKeys = new Set<string | null>()
+        if (teamId) cacheKeys.add(teamId)
+        else cacheKeys.add(null)
+        cacheKeys.forEach((key) => storeTeamBankDetails(key, null))
+        return null
+      }
+      throw error
+    }
+  }
+
+  async upsertTeamBankDetails(teamId: string | null | undefined, payload: TeamBankDetailsInput): Promise<TeamBankDetails> {
+    const body = {
+      ...serializeTeamBankDetails(payload),
+      ...(teamId ? { team_id: teamId } : {}),
+    }
+    const query = teamId ? `?team_id=${encodeURIComponent(teamId)}` : ""
+    const response = await this.request<unknown>(`/accounts/leader/team/bank-details/${query}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    })
+    const normalized = normalizeTeamBankDetails(response)
+
+    const cacheKeys = new Set<string | null>()
+    if (normalized.id) cacheKeys.add(normalized.id)
+    if (teamId) cacheKeys.add(teamId)
+    if (normalized.teamId) cacheKeys.add(normalized.teamId)
+    if (!teamId) cacheKeys.add(null)
+
+    cacheKeys.forEach((key) => {
+      storeTeamBankDetails(key, normalized)
+    })
+
+    return normalized
   }
 
   async getAdminTeams(): Promise<AdminTeamSummary[]> {

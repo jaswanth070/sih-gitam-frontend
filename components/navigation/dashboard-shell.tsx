@@ -31,6 +31,7 @@ import {
   Plane,
   Phone,
   ClipboardCheck,
+  Banknote,
 } from "lucide-react"
 
 interface DashboardShellProps {
@@ -72,6 +73,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         { href: "/dashboard", label: "POC Dashboard", icon: <LayoutDashboard /> },
         { href: "/queue", label: "Virtual Queue", icon: <ListTodo /> },
         { href: "/poc/document-submission", label: "Document Submission", icon: <FileText /> },
+        { href: "/poc/bank-details", label: "Collect Bank Details", icon: <Banknote /> },
         { href: "/view-documents", label: "View Documents", icon: <Eye /> },
         { href: "/poc/ta-form", label: "TA & Mandate Form", icon: <FileSignature /> },
         { href: "/dashboard/jury-forms", label: "Jury Forms", icon: <Plane /> },
@@ -85,6 +87,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
     // leader default
     return [
       { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard /> },
+      { href: "/dashboard/bank-details", label: "Bank Details", icon: <Banknote /> },
       { href: "/my-requests", label: "My Requests", icon: <FileText /> },
       { href: "/my-requests/new", label: "New Request", icon: <PlusCircle /> },
     ]

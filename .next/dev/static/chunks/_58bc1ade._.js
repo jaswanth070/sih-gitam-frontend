@@ -673,6 +673,8 @@ __turbopack_context__.s([
     ()=>getStoredPOCTeamDetail,
     "getStoredPOCTeams",
     ()=>getStoredPOCTeams,
+    "getStoredTeamBankDetails",
+    ()=>getStoredTeamBankDetails,
     "getStoredVolunteerTeamDetail",
     ()=>getStoredVolunteerTeamDetail,
     "getStoredVolunteerTeams",
@@ -687,6 +689,8 @@ __turbopack_context__.s([
     ()=>storePOCTeamDetail,
     "storePOCTeams",
     ()=>storePOCTeams,
+    "storeTeamBankDetails",
+    ()=>storeTeamBankDetails,
     "storeVolunteerTeamDetail",
     ()=>storeVolunteerTeamDetail,
     "storeVolunteerTeams",
@@ -812,6 +816,26 @@ function getStoredVolunteerTeamDetail(teamId) {
     const lookup = session.volunteerTeamDetails ?? {};
     return lookup[teamId] ?? null;
 }
+function storeTeamBankDetails(teamId, details) {
+    const key = teamId && teamId.trim().length ? teamId : "self";
+    const session = readSession();
+    const nextDetails = {
+        ...session.teamBankDetails ?? {},
+        [key]: details
+    };
+    mergeSession({
+        teamBankDetails: nextDetails
+    });
+}
+function getStoredTeamBankDetails(teamId) {
+    const key = teamId && teamId.trim().length ? teamId : "self";
+    const session = readSession();
+    const lookup = session.teamBankDetails ?? {};
+    if (Object.prototype.hasOwnProperty.call(lookup, key)) {
+        return lookup[key] ?? null;
+    }
+    return undefined;
+}
 function getSessionSnapshot() {
     return readSession();
 }
@@ -892,6 +916,43 @@ function isTokenExpired(token, skewSeconds = 30) {
     if (!Number.isFinite(exp)) return false;
     const now = Math.floor(Date.now() / 1000);
     return exp <= now + skewSeconds;
+}
+function normalizeTeamBankDetails(raw) {
+    if (!raw || typeof raw !== "object") return {};
+    const data = raw;
+    return {
+        id: data.id ?? data.uuid ?? undefined,
+        teamId: data.team_id ?? data.team ?? data.teamId ?? undefined,
+        teamName: data.name ?? data.team_name ?? undefined,
+        institution: data.institution ?? undefined,
+        accountHolderName: data.account_holder_name ?? data.accountHolderName ?? undefined,
+        bankName: data.bank ?? data.bank_name ?? data.bankName ?? undefined,
+        ifsc: data.ifsc ?? data.ifsc_code ?? data.ifscCode ?? undefined,
+        pan: data.pan ?? data.pan_number ?? data.panNumber ?? undefined,
+        aadhar: data.aadhar_number ?? data.aadhar ?? data.aadhaar ?? undefined,
+        accountNumber: data.account_number ?? data.accountNumber ?? undefined,
+        createdAt: data.created_at ?? data.createdAt ?? undefined,
+        updatedAt: data.updated_at ?? data.updatedAt ?? undefined
+    };
+}
+function serializeTeamBankDetails(payload) {
+    const body = {};
+    const maybeTrim = (value)=>{
+        if (typeof value !== "string") return undefined;
+        const trimmed = value.trim();
+        return trimmed.length ? trimmed : "";
+    };
+    const bankName = maybeTrim(payload.bankName);
+    const ifsc = maybeTrim(payload.ifsc);
+    const pan = maybeTrim(payload.pan);
+    const aadhar = maybeTrim(payload.aadhar);
+    const accountNumber = maybeTrim(payload.accountNumber);
+    if (bankName !== undefined) body.bank = bankName;
+    if (ifsc !== undefined) body.ifsc = ifsc;
+    if (pan !== undefined) body.pan = pan;
+    if (aadhar !== undefined) body.aadhar_number = aadhar;
+    if (accountNumber !== undefined) body.account_number = accountNumber;
+    return body;
 }
 class AuthService {
     accessTokenKey = ACCESS_TOKEN_KEY;
@@ -1079,6 +1140,62 @@ class AuthService {
         const data = await this.request(`/poc/teams/${teamId}/`);
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storePOCTeamDetail"])(data);
         return data;
+    }
+    async getTeamBankDetails(teamId) {
+        const cached = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredTeamBankDetails"])(teamId);
+        if (cached !== undefined) {
+            return cached ?? null;
+        }
+        const query = teamId ? `?team_id=${encodeURIComponent(teamId)}` : "";
+        try {
+            const response = await this.request(`/accounts/leader/team/bank-details/${query}`);
+            const normalized = normalizeTeamBankDetails(response);
+            const cacheKeys = new Set();
+            if (normalized.id) cacheKeys.add(normalized.id);
+            if (teamId) cacheKeys.add(teamId);
+            if (normalized.teamId) cacheKeys.add(normalized.teamId);
+            if (!teamId) cacheKeys.add(null);
+            cacheKeys.forEach((key)=>{
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeTeamBankDetails"])(key, normalized);
+            });
+            return normalized;
+        } catch (error) {
+            const message = error instanceof Error ? error.message.toLowerCase() : "";
+            if (message.includes("404") || message.includes("not found")) {
+                const cacheKeys = new Set();
+                if (teamId) cacheKeys.add(teamId);
+                else cacheKeys.add(null);
+                cacheKeys.forEach((key)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeTeamBankDetails"])(key, null));
+                return null;
+            }
+            throw error;
+        }
+    }
+    async upsertTeamBankDetails(teamId, payload) {
+        const body = {
+            ...serializeTeamBankDetails(payload),
+            ...teamId ? {
+                team_id: teamId
+            } : {}
+        };
+        const query = teamId ? `?team_id=${encodeURIComponent(teamId)}` : "";
+        const response = await this.request(`/accounts/leader/team/bank-details/${query}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+        const normalized = normalizeTeamBankDetails(response);
+        const cacheKeys = new Set();
+        if (normalized.id) cacheKeys.add(normalized.id);
+        if (teamId) cacheKeys.add(teamId);
+        if (normalized.teamId) cacheKeys.add(normalized.teamId);
+        if (!teamId) cacheKeys.add(null);
+        cacheKeys.forEach((key)=>{
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["storeTeamBankDetails"])(key, normalized);
+        });
+        return normalized;
     }
     async getAdminTeams() {
         const cached = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$session$2d$store$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStoredAdminTeams"])();

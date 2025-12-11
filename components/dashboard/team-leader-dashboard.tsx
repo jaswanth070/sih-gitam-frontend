@@ -1,7 +1,9 @@
 "use client"
 
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { FileText, TrendingUp, AlertCircle, BadgeCheck, Mail, Phone } from "lucide-react"
 import { getCachedTeamDetails } from "@/lib/dashboard-cache"
 
@@ -45,9 +47,14 @@ export function TeamLeaderDashboard({ user }: LeaderDashboardProps) {
 
   return (
     <div className="space-y-10">
-      <div className="mb-4">
-        <h2 className="text-xl md:text-2xl font-semibold tracking-tight" style={{color:'#002449'}}>Hello {leaderFirst},</h2>
-        <p className="text-sm md:text-base text-muted-foreground">Here is an overview of your team and its members.</p>
+      <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-xl md:text-2xl font-semibold tracking-tight" style={{color:'#002449'}}>Hello {leaderFirst},</h2>
+          <p className="text-sm md:text-base text-muted-foreground">Here is an overview of your team and its members.</p>
+        </div>
+        <Button asChild size="sm" className="bg-[#f75700] hover:bg-[#e35200] text-white">
+          <Link href="/dashboard/bank-details">Manage Bank Details</Link>
+        </Button>
       </div>
 
       {feedback && (

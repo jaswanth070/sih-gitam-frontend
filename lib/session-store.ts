@@ -1,4 +1,4 @@
-import type { AdminTeamSummary, CurrentUser, POCTeam, TeamDetails } from "./auth-service"
+import type { AdminTeamSummary, CurrentUser, POCTeam, TeamBankDetails, TeamDetails } from "./auth-service"
 
 const SESSION_KEY = "sih_session_cache_v1"
 
@@ -10,6 +10,7 @@ type SessionPayload = {
   adminTeams?: AdminTeamSummary[]
   volunteerTeams?: TeamDetails[]
   volunteerTeamDetails?: Record<string, TeamDetails>
+  teamBankDetails?: Record<string, TeamBankDetails | null>
   updatedAt?: number
 }
 
@@ -126,6 +127,23 @@ export function getStoredVolunteerTeamDetail(teamId: string | null | undefined):
   const session = readSession()
   const lookup = session.volunteerTeamDetails ?? {}
   return lookup[teamId] ?? null
+}
+
+export function storeTeamBankDetails(teamId: string | null | undefined, details: TeamBankDetails | null): void {
+  const key = teamId && teamId.trim().length ? teamId : "self"
+  const session = readSession()
+  const nextDetails = { ...(session.teamBankDetails ?? {}), [key]: details }
+  mergeSession({ teamBankDetails: nextDetails })
+}
+
+export function getStoredTeamBankDetails(teamId: string | null | undefined): TeamBankDetails | null | undefined {
+  const key = teamId && teamId.trim().length ? teamId : "self"
+  const session = readSession()
+  const lookup = session.teamBankDetails ?? {}
+  if (Object.prototype.hasOwnProperty.call(lookup, key)) {
+    return lookup[key] ?? null
+  }
+  return undefined
 }
 
 export function getSessionSnapshot(): SessionPayload {

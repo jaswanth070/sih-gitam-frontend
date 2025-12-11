@@ -57,6 +57,7 @@ export function Sidebar() {
             { href: "/dashboard/contacts-directory", label: "Contacts Directory", icon: "📞" },
             { href: "/queue", label: "Virtual Queue", icon: "📋" },
               { href: "/poc/document-submission", label: "Document Submission", icon: "📂" },
+              { href: "/poc/bank-details", label: "Collect Bank Details", icon: "🏦" },
               { href: "/poc/ta-form", label: "TA & Mandate Form", icon: "🧾" },
             { href: "/dashboard/jury-forms", label: "Jury Forms", icon: "⚖️" },
             { href: "/dashboard/check-in", label: "Check-In Center", icon: "✅" },

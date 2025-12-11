@@ -1,14 +1,6 @@
-[00:00:02.154] Server  LOG      ✓ Ready in 1420ms
-[00:00:02.169] Browser ERROR   [queue-hook] snapshot error {}
-[00:00:02.169] Browser ERROR   [queue-hook] snapshot error {}
-[00:00:05.204] Server  LOG      ○ Compiling /queue ...
-[00:00:50.857] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[00:01:10.211] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/dashboard. Falling back to browser navigation. {}
-[00:01:10.211] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/dashboard. Falling back to browser navigation. {}
-[00:01:10.211] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/dashboard. Falling back to browser navigation. {}
-[00:01:21.023] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[00:01:42.090] Browser ERROR   [queue-hook] ws error {"isTrusted":true}
-[00:01:49.676] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:18.622] Server  LOG      ✓ Ready in 12.5s
+[00:00:23.942] Server  LOG      ○ Compiling / ...
+[00:00:37.231] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -19,7 +11,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.676] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:37.232] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -30,7 +22,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.677] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:37.232] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -41,7 +33,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.677] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:37.232] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -52,7 +44,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.960] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:38.105] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -63,7 +55,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.961] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:38.106] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -74,7 +66,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.962] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:38.106] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -85,7 +77,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.962] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:38.107] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -96,7 +88,11 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.988] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:38.195] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:38.370] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:38.370] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:38.370] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765414564303}
+[00:00:40.574] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -107,7 +103,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.989] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:40.575] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -118,7 +114,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.990] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:40.575] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -129,7 +125,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:49.990] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:40.575] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -140,7 +136,20 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.012] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:40.805] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765414566737}
+[00:00:51.007] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:00:51.007] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:51.007] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+[00:00:51.007] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:53.542] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -151,7 +160,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.012] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:53.543] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -162,7 +171,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.013] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:53.543] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -173,7 +182,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.013] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:53.543] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -184,7 +193,8 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.242] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:53.834] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765414579754}
+[00:00:58.780] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -195,7 +205,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.243] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:58.780] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -206,7 +216,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.244] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:58.781] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -217,7 +227,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.244] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:00:58.781] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -228,7 +238,8 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.295] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:00:59.045] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/view-documents color: rgb(120, 120, 120) color: inherit {"dp":"/view-documents","o":"http://localhost:3000/view-documents","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765414584957}
+[00:01:01.696] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -239,7 +250,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.295] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:01:01.697] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -250,7 +261,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.296] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:01:01.697] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -261,7 +272,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.296] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:01:01.697] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -272,7 +283,8 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.315] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:01:01.957] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765414587875}
+[00:01:07.986] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -283,7 +295,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.316] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:01:07.986] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -294,7 +306,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.316] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:01:07.987] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -305,7 +317,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.317] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:01:07.987] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -316,7 +328,8 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.334] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:01:08.270] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765414594185}
+[00:01:11.168] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -327,7 +340,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.334] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:01:11.168] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -338,7 +351,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.334] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:01:11.169] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -349,7 +362,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.335] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:01:11.169] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -360,7 +373,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.548] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:23:30.899] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -371,7 +384,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:23:30.900] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -382,7 +395,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:23:30.903] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -393,7 +406,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:23:30.904] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -404,7 +417,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:23:31.409] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
 
@@ -415,7 +428,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.549] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:23:31.409] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 Error while requesting resource
 There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
 
@@ -426,7 +439,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.550] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+[00:23:31.409] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
 next/font: warning:
 Failed to download `Geist` from Google Fonts. Using fallback font instead.
 
@@ -437,7 +450,7 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.550] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+[00:23:31.410] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
 next/font: warning:
 Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
 
@@ -448,8 +461,228 @@ Import trace:
     ./app/layout.tsx
 
 
-[00:01:50.565] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:50.754] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[00:23:31.410] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.410] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.410] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.410] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.411] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.411] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.411] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.411] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.411] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.412] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.412] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.412] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.412] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.412] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.413] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.413] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.413] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.413] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.413] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
+next/font: warning:
+Failed to download `Geist` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_a7695b8e.module.css
+    [next]/internal/font/google/geist_a7695b8e.js
+    ./app/layout.tsx
+
+
+[00:23:31.414] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
+next/font: warning:
+Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/geist_mono_354fc78.module.css
+    [next]/internal/font/google/geist_mono_354fc78.js
+    ./app/layout.tsx
+
+
+[00:23:31.437] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:23:31.908] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -462,977 +695,24 @@ It can also happen if the client has a browser extension installed which messes 
 https://react.dev/link/hydration-mismatch
 
   ...
-    <RedirectBoundary>
-      <RedirectErrorBoundary router={{...}}>
-        <InnerLayoutRouter url="/queue" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
-          <SegmentViewNode type="page" pagePath="queue/page...">
-            <SegmentTrieNode>
-            <ClientPageRoot Component={function QueuePage} serverProvidedParams={{...}}>
-              <QueuePage params={Promise} searchParams={Promise}>
-                <DashboardShell>
-                  <SidebarProvider className="bg-white">
-                    <TooltipProvider delayDuration={0}>
-                      <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
-                        <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
-+                         <div
-+                           data-slot="sidebar-wrapper"
-+                           style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
-+                           className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full..."
-+                         >
--                         <Suspense>
-          ...
-        ...
-
-[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
-[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/queue","route":"/queue"}
-[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287068082}
-[00:01:50.754] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287068082}
-[00:01:56.390] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:01:56.391] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:01:56.392] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:01:56.392] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:01:56.625] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287073947}
-[00:01:58.916] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:01:58.916] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:01:58.917] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:01:58.917] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:01:59.767] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/teams/[id]","o":"http://localhost:3000/poc/teams/35bb3e28-c509-429e-b8d4-a6042246bdc7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287077099}
-[00:02:12.653] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:12.654] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:12.654] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:12.654] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:12.878] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/jury-forms color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/jury-forms","o":"http://localhost:3000/dashboard/jury-forms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287090196}
-[00:02:14.293] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:14.294] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:14.294] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:14.295] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:14.523] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/check-in color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/check-in","o":"http://localhost:3000/dashboard/check-in","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287091843}
-[00:02:16.409] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:16.410] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:16.410] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:16.411] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:16.673] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/contacts-directory color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/contacts-directory","o":"http://localhost:3000/dashboard/contacts-directory","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287093946}
-[00:02:18.392] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:18.393] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:18.393] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:18.393] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:18.559] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287095867}
-[00:02:26.146] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:26.147] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:26.147] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:26.147] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:26.361] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287103685}
-[00:02:36.629] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:02:36.630] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:02:36.630] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:02:36.630] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:02:38.021] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:38.021] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:38.021] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:38.022] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:38.206] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287115497}
-[00:02:40.265] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:40.266] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:40.266] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:40.267] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:40.506] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287117832}
-[00:02:44.130] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:44.130] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:44.130] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:02:44.131] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:02:44.369] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287121678}
-[00:03:01.895] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:01.896] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:01.896] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:01.896] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:02.739] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/DDIDC color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/[id]","o":"http://localhost:3000/my-requests/DDIDC","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287140070}
-[00:03:06.240] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:06.241] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:06.241] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:06.241] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:06.407] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests/new color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests/new","o":"http://localhost:3000/my-requests/new","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287143726}
-[00:03:07.379] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:07.379] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:07.380] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:07.380] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:07.542] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/my-requests color: rgb(120, 120, 120) color: inherit {"dp":"/my-requests","o":"http://localhost:3000/my-requests","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287144870}
-[00:03:15.926] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:15.927] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:15.927] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:15.927] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:16.108] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287153406}
-[00:03:27.670] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:27.671] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:27.671] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:03:27.672] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:03:27.815] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287165138}
-[00:03:37.559] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:03:37.559] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:03:37.559] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:03:37.559] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:03:45.543] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:03:45.543] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:03:45.543] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:03:45.543] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:04:01.052] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:04:01.052] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:04:01.052] Browser ERROR   `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
-
-If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/dialog
-[00:04:01.052] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:04:02.456] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:02.456] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:02.456] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:02.457] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:02.632] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287199932}
-[00:04:06.026] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:06.027] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:06.027] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:06.028] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:06.183] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/check-in color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/check-in","o":"http://localhost:3000/dashboard/check-in","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287203515}
-[00:04:07.482] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:07.482] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:07.483] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:07.483] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:07.738] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/requests-tracking color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/requests-tracking","o":"http://localhost:3000/dashboard/requests-tracking","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287205022}
-[00:04:08.991] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:08.992] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:08.992] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:08.992] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:09.155] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/queue color: rgb(120, 120, 120) color: inherit {"dp":"/queue","o":"http://localhost:3000/queue","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287206471}
-[00:04:39.324] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:39.324] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-Error while requesting resource
-There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:39.324] Server  WARN     ⚠ [next]/internal/font/google/geist_a7695b8e.module.css
-next/font: warning:
-Failed to download `Geist` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_a7695b8e.module.css
-    [next]/internal/font/google/geist_a7695b8e.js
-    ./app/layout.tsx
-
-
-[00:04:39.325] Server  WARN     ⚠ [next]/internal/font/google/geist_mono_354fc78.module.css
-next/font: warning:
-Failed to download `Geist Mono` from Google Fonts. Using fallback font instead.
-
-Import trace:
-  Server Component:
-    [next]/internal/font/google/geist_mono_354fc78.module.css
-    [next]/internal/font/google/geist_mono_354fc78.js
-    ./app/layout.tsx
-
-
-[00:04:39.503] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765287236814}
+    <SegmentViewNode type="page" pagePath="poc/ta-for...">
+      <SegmentTrieNode>
+      <ClientPageRoot Component={function TAFormPage} serverProvidedParams={{...}}>
+        <TAFormPage params={Promise} searchParams={Promise}>
+          <Suspense fallback={<div>}>
+            <TAFormPageContent>
+              <DashboardShell>
+                <SidebarProvider className="bg-white">
+                  <TooltipProvider delayDuration={0}>
+                    <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
+                      <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
++                       <div
++                         data-slot="sidebar-wrapper"
++                         style={{--sidebar-width:"16rem",--sidebar-width-icon:"3rem"}}
++                         className="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full b..."
++                       >
+    ...
+
+[00:23:32.014] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:23:32.014] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/poc/ta-form","route":"/poc/ta-form"}
+[00:23:32.014] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7 color: rgb(120, 120, 120) color: inherit {"dp":"/poc/ta-form","o":"http://localhost:3000/poc/ta-form?teamId=35bb3e28-c509-429e-b8d4-a6042246bdc7","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1765415937949}

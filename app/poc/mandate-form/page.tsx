@@ -129,16 +129,33 @@ function MandateFormContent() {
       setTeamLoading(true)
       setError(null)
       try {
-        const details = await authService.getPOCTeamDetail(selectedTeamId)
+        const [details, bankDetails] = await Promise.all([
+          authService.getPOCTeamDetail(selectedTeamId),
+          authService
+            .getTeamBankDetails(selectedTeamId)
+            .catch((err: unknown) => {
+              console.warn("[mandate-form] failed to load bank details", err)
+              return null
+            }),
+        ])
         if (!active) return
         setTeamDetails(details)
         const leader = details.members?.find((member) => member.role?.toLowerCase().includes("leader"))
+        const leaderFallback = leader?.user?.name || leader?.user?.email || ""
+        const resolvedLeaderName = bankDetails?.accountHolderName?.trim() || leaderFallback
         const base = createInitialFormState()
         setFormData({
           ...base,
-          teamLeaderName: leader?.user?.name || leader?.user?.email || "",
+          teamLeaderName: resolvedLeaderName,
           instituteName: details.institution || "",
           beneficiaryEmail: leader?.user?.email || "",
+          beneficiaryPhone: leader?.user?.phone || "",
+          panNumber: bankDetails?.pan || "",
+          aadharNumber: bankDetails?.aadhar || "",
+          bankName: bankDetails?.bankName || "",
+          branchName: "",
+          accountNumber: bankDetails?.accountNumber || "",
+          ifsc: bankDetails?.ifsc || "",
         })
       } catch (err: any) {
         if (active) {

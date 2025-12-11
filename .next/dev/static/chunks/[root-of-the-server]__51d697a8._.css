@@ -5628,6 +5628,12 @@
   }
 
   @media (hover: hover) {
+    .hover\:bg-\[\#e35200\]:hover {
+      background-color: #e35200;
+    }
+  }
+
+  @media (hover: hover) {
     .hover\:bg-\[\#f75700\]\/90:hover {
       background-color: #f75700e6;
       background-color: lab(59.4588% 60.3475 70.1684 / .9);

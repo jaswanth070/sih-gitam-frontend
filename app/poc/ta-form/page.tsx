@@ -276,23 +276,43 @@ function TAFormPageContent() {
       setTeamLoading(true)
       setTeamError(null)
       try {
-        const details = await authService.getPOCTeamDetail(selectedTeamId)
+        const [details, bankDetails] = await Promise.all([
+          authService.getPOCTeamDetail(selectedTeamId),
+          authService
+            .getTeamBankDetails(selectedTeamId)
+            .catch((error: unknown) => {
+              console.warn("[ta-form] failed to load bank details", error)
+              return null
+            }),
+        ])
         if (!active) return
+
         const leaderMember = details.members?.find((member) => member.role?.toLowerCase().includes("leader"))
+        const leaderFallback = leaderMember?.user?.name || leaderMember?.user?.email || ""
+        const resolvedLeaderName = bankDetails?.accountHolderName?.trim() || leaderFallback
         const baseBeneficiary = createInitialBeneficiaryState()
+
         setBeneficiaryData({
           ...baseBeneficiary,
-          teamLeaderName: leaderMember?.user?.name || leaderMember?.user?.email || "",
+          teamLeaderName: resolvedLeaderName,
           instituteName: details.institution || "",
           beneficiaryEmail: leaderMember?.user?.email || "",
           beneficiaryPhone: leaderMember?.user?.phone || "",
+          bankName: bankDetails?.bankName || "",
+          branchName: "",
+          ifsc: bankDetails?.ifsc || "",
+          accountNumber: bankDetails?.accountNumber || "",
+          panNumber: bankDetails?.pan || "",
+          aadharNumber: bankDetails?.aadhar || "",
         })
+
         setTaInfo({
-          teamLeaderName: leaderMember?.user?.name || leaderMember?.user?.email || "",
+          teamLeaderName: resolvedLeaderName,
           teamName: details.name || "",
           teamId: details.team_id || "",
           instituteName: details.institution || "",
         })
+
         const populatedMembers = createTravelMembers(details)
         setTravelMembers(syncAll ? syncAllMembersToPrimary(populatedMembers) : populatedMembers)
       } catch (error: any) {
