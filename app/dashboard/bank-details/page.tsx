@@ -12,6 +12,8 @@ import { getCachedTeamDetails } from "@/lib/dashboard-cache"
 
 interface BankDetailsFormState {
   bankName: string
+  branchName: string
+  accountantName: string
   ifsc: string
   pan: string
   aadhar: string
@@ -21,6 +23,8 @@ interface BankDetailsFormState {
 function createEmptyBankForm(): BankDetailsFormState {
   return {
     bankName: "",
+    branchName: "",
+    accountantName: "",
     ifsc: "",
     pan: "",
     aadhar: "",
@@ -32,6 +36,8 @@ function mapDetailsToForm(details: TeamBankDetails | null): BankDetailsFormState
   if (!details) return createEmptyBankForm()
   return {
     bankName: details.bankName || "",
+    branchName: details.bankBranch || "",
+    accountantName: details.bankAccountantName || "",
     ifsc: details.ifsc || "",
     pan: details.pan || "",
     aadhar: details.aadhar || "",
@@ -60,6 +66,7 @@ export default function TeamLeaderBankDetailsPage() {
     institution?: string
     teamCode?: string
   } | null>(null)
+  const [originalDetails, setOriginalDetails] = useState<TeamBankDetails | null>(null)
   const [teamUuid, setTeamUuid] = useState<string | null>(null)
   const [detailsLoading, setDetailsLoading] = useState(true)
   const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null)
@@ -112,6 +119,7 @@ export default function TeamLeaderBankDetailsPage() {
         }
 
         setFormState(mapDetailsToForm(details))
+        setOriginalDetails(details ?? null)
         setLastUpdatedAt(details?.updatedAt || details?.createdAt || null)
         if (loadError) {
           setSaveError(loadError)
@@ -142,16 +150,51 @@ export default function TeamLeaderBankDetailsPage() {
     setSaveError(null)
     setSaveSuccess(false)
     try {
-      const payload = {
-        bankName: formState.bankName,
-        ifsc: formState.ifsc,
-        pan: formState.pan,
-        aadhar: formState.aadhar,
-        accountNumber: formState.accountNumber,
-      }
       const targetTeamId = teamUuid ?? undefined
+
+      const computeDiff = () => {
+        const diff: TeamBankDetailsInput = {}
+        const previous = originalDetails
+        const fields: Array<
+          [keyof BankDetailsFormState, keyof TeamBankDetailsInput]
+        > = [
+          ["bankName", "bankName"],
+          ["branchName", "branchName"],
+          ["accountantName", "accountantName"],
+          ["ifsc", "ifsc"],
+          ["pan", "pan"],
+          ["aadhar", "aadhar"],
+          ["accountNumber", "accountNumber"],
+        ]
+
+        const normalize = (value?: string | null) => (value ?? "").trim()
+
+        fields.forEach(([formKey, payloadKey]) => {
+          const nextValue = normalize(formState[formKey])
+          const prevValue = previous ? normalize((previous as any)[
+              payloadKey === "branchName"
+                ? "bankBranch"
+                : payloadKey === "accountantName"
+                  ? "bankAccountantName"
+                  : payloadKey
+            ]) : ""
+          if (!previous || nextValue !== prevValue) {
+            (diff as any)[payloadKey] = nextValue
+          }
+        })
+        return diff
+      }
+
+      const payload = computeDiff()
+
+      if (!Object.keys(payload).length) {
+        setSaveSuccess(true)
+        return
+      }
+
       const saved = await authService.upsertTeamBankDetails(targetTeamId, payload)
       setFormState(mapDetailsToForm(saved))
+      setOriginalDetails(saved)
       setLastUpdatedAt(saved.updatedAt || new Date().toISOString())
       setSaveSuccess(true)
       setTeamSummary((prev) => ({
@@ -236,6 +279,16 @@ export default function TeamLeaderBankDetailsPage() {
                 />
               </fieldset>
               <fieldset className="space-y-2">
+                <label className="text-xs font-semibold uppercase tracking-wide text-[#002449]">Bank Branch</label>
+                <Input
+                  value={formState.branchName}
+                  onChange={(event) => updateField("branchName", event.target.value)}
+                  disabled={detailsLoading || saving}
+                  placeholder="Branch name"
+                  className="bg-[#f5f8ff] border-[#9bb1d4] focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/40"
+                />
+              </fieldset>
+              <fieldset className="space-y-2">
                 <label className="text-xs font-semibold uppercase tracking-wide text-[#002449]">IFSC Code</label>
                 <Input
                   value={formState.ifsc}
@@ -272,6 +325,16 @@ export default function TeamLeaderBankDetailsPage() {
                   onChange={(event) => updateField("accountNumber", event.target.value)}
                   disabled={detailsLoading || saving}
                   placeholder="Enter the beneficiary account number"
+                  className="bg-[#f5f8ff] border-[#9bb1d4] focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/40"
+                />
+              </fieldset>
+              <fieldset className="space-y-2 md:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-wide text-[#002449]">Bank Accountant Name</label>
+                <Input
+                  value={formState.accountantName}
+                  onChange={(event) => updateField("accountantName", event.target.value)}
+                  disabled={detailsLoading || saving}
+                  placeholder="Name of bank representative"
                   className="bg-[#f5f8ff] border-[#9bb1d4] focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/40"
                 />
               </fieldset>

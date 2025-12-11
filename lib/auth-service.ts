@@ -207,6 +207,8 @@ export interface TeamBankDetails {
   institution?: string
   accountHolderName?: string
   bankName?: string
+  bankBranch?: string
+  bankAccountantName?: string
   ifsc?: string
   pan?: string
   aadhar?: string
@@ -217,6 +219,8 @@ export interface TeamBankDetails {
 
 export interface TeamBankDetailsInput {
   bankName?: string
+  branchName?: string
+  accountantName?: string
   ifsc?: string
   pan?: string
   aadhar?: string
@@ -233,6 +237,8 @@ function normalizeTeamBankDetails(raw: unknown): TeamBankDetails {
     institution: data.institution ?? undefined,
     accountHolderName: data.account_holder_name ?? data.accountHolderName ?? undefined,
     bankName: data.bank ?? data.bank_name ?? data.bankName ?? undefined,
+    bankBranch: data.bank_branch ?? data.bankBranch ?? data.branch ?? undefined,
+    bankAccountantName: data.bank_accountant_name ?? data.bankAccountantName ?? undefined,
     ifsc: data.ifsc ?? data.ifsc_code ?? data.ifscCode ?? undefined,
     pan: data.pan ?? data.pan_number ?? data.panNumber ?? undefined,
     aadhar: data.aadhar_number ?? data.aadhar ?? data.aadhaar ?? undefined,
@@ -251,12 +257,16 @@ function serializeTeamBankDetails(payload: TeamBankDetailsInput): Record<string,
   }
 
   const bankName = maybeTrim(payload.bankName)
+  const branchName = maybeTrim(payload.branchName)
+  const accountantName = maybeTrim(payload.accountantName)
   const ifsc = maybeTrim(payload.ifsc)
   const pan = maybeTrim(payload.pan)
   const aadhar = maybeTrim(payload.aadhar)
   const accountNumber = maybeTrim(payload.accountNumber)
 
   if (bankName !== undefined) body.bank = bankName
+  if (branchName !== undefined) body.bank_branch = branchName
+  if (accountantName !== undefined) body.bank_accountant_name = accountantName
   if (ifsc !== undefined) body.ifsc = ifsc
   if (pan !== undefined) body.pan = pan
   if (aadhar !== undefined) body.aadhar_number = aadhar

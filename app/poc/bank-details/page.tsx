@@ -14,6 +14,8 @@ import { authService, type POCTeam, type TeamBankDetails } from "@/lib/auth-serv
 
 interface BankDetailsFormState {
   bankName: string
+  branchName: string
+  accountantName: string
   ifsc: string
   pan: string
   aadhar: string
@@ -23,6 +25,8 @@ interface BankDetailsFormState {
 function createEmptyBankForm(): BankDetailsFormState {
   return {
     bankName: "",
+    branchName: "",
+    accountantName: "",
     ifsc: "",
     pan: "",
     aadhar: "",
@@ -34,6 +38,8 @@ function mapDetailsToForm(details: TeamBankDetails | null): BankDetailsFormState
   if (!details) return createEmptyBankForm()
   return {
     bankName: details.bankName || "",
+    branchName: details.bankBranch || "",
+    accountantName: details.bankAccountantName || "",
     ifsc: details.ifsc || "",
     pan: details.pan || "",
     aadhar: details.aadhar || "",
@@ -199,6 +205,8 @@ function CollectBankDetailsContent() {
     try {
       const payload = {
         bankName: formState.bankName,
+        branchName: formState.branchName,
+        accountantName: formState.accountantName,
         ifsc: formState.ifsc,
         pan: formState.pan,
         aadhar: formState.aadhar,
@@ -315,6 +323,18 @@ function CollectBankDetailsContent() {
                 </fieldset>
                 <fieldset className="space-y-2">
                   <label className="text-xs font-semibold uppercase tracking-wide text-[#002449]">
+                    Bank Branch
+                  </label>
+                  <Input
+                    value={formState.branchName}
+                    onChange={(event) => updateField("branchName", event.target.value)}
+                    disabled={detailsLoading || saving}
+                    placeholder="Branch name"
+                    className="bg-[#f5f8ff] border-[#9bb1d4] focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/40"
+                  />
+                </fieldset>
+                <fieldset className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-[#002449]">
                     IFSC Code
                   </label>
                   <Input
@@ -358,6 +378,18 @@ function CollectBankDetailsContent() {
                     onChange={(event) => updateField("accountNumber", event.target.value)}
                     disabled={detailsLoading || saving}
                     placeholder="Enter the beneficiary account number"
+                    className="bg-[#f5f8ff] border-[#9bb1d4] focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/40"
+                  />
+                </fieldset>
+                <fieldset className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-[#002449]">
+                    Bank Accountant Name
+                  </label>
+                  <Input
+                    value={formState.accountantName}
+                    onChange={(event) => updateField("accountantName", event.target.value)}
+                    disabled={detailsLoading || saving}
+                    placeholder="Name of bank representative"
                     className="bg-[#f5f8ff] border-[#9bb1d4] focus-visible:border-[#f75700] focus-visible:ring-[#f75700]/40"
                   />
                 </fieldset>
