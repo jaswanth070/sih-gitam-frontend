@@ -159,11 +159,12 @@ export default function TeamLeaderBankDetailsPage() {
         locked?: boolean
       }> = [
         { formKey: "bankName", payloadKey: "bankName", previousKey: "bankName", locked: true },
-        { formKey: "branchName", payloadKey: "branchName", previousKey: "bankBranch" },
+        { formKey: "branchName", payloadKey: "branchName", previousKey: "bankBranch", locked: true },
         {
           formKey: "accountantName",
           payloadKey: "accountantName",
           previousKey: "bankAccountantName",
+          locked: true,
         },
         { formKey: "ifsc", payloadKey: "ifsc", previousKey: "ifsc", locked: true },
         { formKey: "pan", payloadKey: "pan", previousKey: "pan", locked: true },
