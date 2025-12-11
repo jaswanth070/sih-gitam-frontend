@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState, type FormEvent } from "react"
+import { Suspense, useEffect, useMemo, useState, type FormEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react"
 
@@ -55,7 +55,7 @@ function formatTimestamp(timestamp?: string): string | null {
   }
 }
 
-export default function CollectBankDetailsPage() {
+function CollectBankDetailsContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const initialTeamId = searchParams.get("teamId") || ""
@@ -378,5 +378,23 @@ export default function CollectBankDetailsPage() {
         </Card>
       </div>
     </DashboardShell>
+  )
+}
+
+export default function CollectBankDetailsPage() {
+  return (
+    <Suspense
+      fallback={
+        <DashboardShell>
+          <div className="flex min-h-[40vh] items-center justify-center">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" /> Loading bank details...
+            </div>
+          </div>
+        </DashboardShell>
+      }
+    >
+      <CollectBankDetailsContent />
+    </Suspense>
   )
 }
